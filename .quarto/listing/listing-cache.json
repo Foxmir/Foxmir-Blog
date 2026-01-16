@@ -5,6 +5,9 @@
     ],
     "index.qmd": [
       "publish"
+    ],
+    "publish\\Hello_world.md": [
+      "../publish"
     ]
   }
 }
