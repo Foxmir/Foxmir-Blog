@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>t1-02-cartpole-dqn – Foxmir Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Foxmir Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#t1当前探索" id="toc-t1当前探索" class="nav-link active" data-scroll-target="#t1当前探索">T1当前探索</a></li>
+  <li><a href="#学习模块-l2234h" id="toc-学习模块-l2234h" class="nav-link" data-scroll-target="#学习模块-l2234h">【学习模块 L2】(234h)</a></li>
+  <li><a href="#实践项目-p2-cartpole-gym---dqn-实现与调优381h" id="toc-实践项目-p2-cartpole-gym---dqn-实现与调优381h" class="nav-link" data-scroll-target="#实践项目-p2-cartpole-gym---dqn-实现与调优381h">【实践项目 P2】 CartPole (Gym) - DQN 实现与调优（381h）</a></li>
+  <li><a href="#批量数据统计分析step1-report详细任务流" id="toc-批量数据统计分析step1-report详细任务流" class="nav-link" data-scroll-target="#批量数据统计分析step1-report详细任务流">批量数据统计分析step1-report详细任务流</a>
+  <ul class="collapse">
+  <li><a href="#step1" id="toc-step1" class="nav-link" data-scroll-target="#step1">step1</a></li>
+  <li><a href="#step2" id="toc-step2" class="nav-link" data-scroll-target="#step2">step2</a></li>
+  <li><a href="#step3" id="toc-step3" class="nav-link" data-scroll-target="#step3">step3</a></li>
+  <li><a href="#step4" id="toc-step4" class="nav-link" data-scroll-target="#step4">step4</a></li>
+  <li><a href="#report" id="toc-report" class="nav-link" data-scroll-target="#report">report</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<p>[CartPole 平衡杆](https://gymnasium.farama.org/environments/classic_control/cart_pole/)(Gym) - DQN：【25-04-15至2026-01-16】累计用时615h</p>
+<p>[[../../../../../🎯TASK_ALL|🎯TASK_ALL]]</p>
+<pre class="dataviewjs"><code>// 获取当前页面的所有任务
+let allTasks = dv.current().file.tasks;
+let totalTasks = allTasks.length;
+let completedTasks = allTasks.filter(task =&gt; task.completed).length;
+
+// 计算任务完成百分比
+let percentCompleted = totalTasks &gt; 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+// 创建进度条显示
+const container = dv.container;
+container.createEl("h3", { text: "当前项目的计划进度" });
+
+// 自定义进度条
+const createProgressBar = (percent, color) =&gt; {
+    const progressContainer = document.createElement('div');
+    progressContainer.style.width = '100%';
+    progressContainer.style.backgroundColor = '#eee';
+    progressContainer.style.borderRadius = '10px';
+    progressContainer.style.overflow = 'hidden';
+    progressContainer.style.margin = '5px 0';
+
+    const progressBar = document.createElement('div');
+    progressBar.style.width = percent + '%';
+    progressBar.style.height = '20px';
+    progressBar.style.backgroundColor = color;
+    progressBar.style.textAlign = 'right';
+    progressBar.style.lineHeight = '20px';
+    progressBar.style.color = 'white';
+    progressBar.style.paddingRight = '5px';
+    progressBar.innerText = percent + '%';
+
+    progressContainer.appendChild(progressBar);
+    return progressContainer;
+};
+
+// 指定颜色（蓝色）
+const progressColor = '#2196F3';
+
+// 添加进度条到容器中
+container.appendChild(createProgressBar(percentCompleted, progressColor));
+</code></pre>
+<section id="t1当前探索" class="level2">
+<h2 class="anchored" data-anchor-id="t1当前探索">T1当前探索</h2>
+<pre class="tasks"><code>not done
+filename includes T1-02-CartPole-DQN
+hide recurrence rule
+hide due date
+hide priority
+hide edit button
+hide postpone button
+hide id
+hide backlink
+short mode
+limit 3</code></pre>
+<hr>
+</section>
+<section id="学习模块-l2234h" class="level2">
+<h2 class="anchored" data-anchor-id="学习模块-l2234h">【学习模块 L2】(234h)</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked=""><strong>1.</strong>（51h） 理解表格方法的局限性+函数逼近 (概念引入) ✅ 2025-04-20</label>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">《强化学习》 9.1 (价值函数逼近) ✅ 2025-04-15</label></li>
+<li><label><input type="checkbox" checked="">《强化学习》 9.2 (预测目标 VE) ✅ 2025-04-15</label></li>
+<li><label><input type="checkbox" checked="">《强化学习》 9.3 (随机梯度和半梯度方法) ✅ 2025-04-15</label></li>
+<li><label><input type="checkbox" checked="">《强化学习》 9.4 (线性方法) ✅ 2025-04-18</label></li>
+<li><label><input type="checkbox" checked="">《强化学习》 9.5 (线性方法的特征构造） ✅ 2025-04-18</label></li>
+<li><label><input type="checkbox" checked="">《强化学习》 9.7 (非线性函数逼近：人工神经网络) ✅ 2025-04-20</label></li>
+</ul></li>
+<li><label><input type="checkbox" checked=""><strong>2.</strong>（35h） DQN 核心机制 (Experience Replay, Target Network) ✅ 2025-04-25</label>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">《强化学习》10.1 (分幕式半梯度控制) ✅ 2025-04-21</label></li>
+<li><label><input type="checkbox" checked="">《强化学习》11.1 (半梯度方法)】 ✅ 2025-04-22</label></li>
+<li><label><input type="checkbox" checked="">《强化学习》11.2 (离轨策略发散的例子) ✅ 2025-04-23</label></li>
+<li><label><input type="checkbox" checked="">《强化学习》11.3 (致命三要素)&nbsp; ✅ 2025-04-24</label></li>
+<li><label><input type="checkbox" checked="">《Ai辅助》学习经验回放的原理和实现 ✅ 2025-04-24</label></li>
+<li><label><input type="checkbox" checked="">《Ai辅助》学习目标网络的原理和实现 ✅ 2025-04-25</label></li>
+</ul></li>
+<li><label><input type="checkbox" checked=""><strong>3.</strong>（1h） ε-greedy 探索策略 ✅ 2025-04-26</label>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">《强化学习》2.2（动作-价值方法） ✅ 2025-04-26</label></li>
+</ul></li>
+<li><label><input type="checkbox" checked="">（147h）强化学习超参数调优项目数据分析相关图表学习 ✅ 2025-09-30</label>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">（7h）描述性统计 ✅ 2025-06-05</label></li>
+<li><label><input type="checkbox" checked="">（140h）推断统计 ✅ 2025-09-30</label></li>
+</ul></li>
+</ul>
+</section>
+<section id="实践项目-p2-cartpole-gym---dqn-实现与调优381h" class="level2">
+<h2 class="anchored" data-anchor-id="实践项目-p2-cartpole-gym---dqn-实现与调优381h">【实践项目 P2】 CartPole (Gym) - DQN 实现与调优（381h）</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">（4h）配置基于 Remote Tunnels 方式连接VSC和Colab工作流 ✅ 2025-04-26</label></li>
+<li><label><input type="checkbox" checked="">（13h）制定长期模型训练的代码和笔记标准书写架构（src模块化，git仓库版本控制，W&amp;B数据监控） ✅ 2025-04-28</label></li>
+<li><label><input type="checkbox" checked="">（2h）<strong>P2.1.</strong> 理解环境: 阅读 CartPole 文档，明确状态空间、动作空间、奖励机制和终止条件 ✅ 2025-04-28</label></li>
+<li><label><input type="checkbox" checked="">（2h）txt库管理+yaml超参数管理（暂时搁置Hybra配置）+命令行参数语法学习 ✅ 2025-05-04</label></li>
+<li><label><input type="checkbox" checked="">（34h）<strong>P2.2.</strong> 代码实现: 基于L2知识从零实现基础 DQN 算法 ✅ 2025-05-05</label></li>
+<li><label><input type="checkbox" checked="">（18h）调试库语法+随机种子配置+wandb日志语法 ✅ 2025-05-09</label></li>
+<li><label><input type="checkbox" checked="">（3h）W&amp;B-report用法 ✅ 2025-05-10</label></li>
+<li><label><input type="checkbox" checked="">（52h）<strong>P2.3.</strong> 初步训练与评估: 训练模型，初始目标是连续100回合达到平均奖励 195+ (Gymnasium v1 的解决标准+W&amp;B每个运行版本的工作日志）(实际调试10个版本的超参数，完成了基本150回合均分495+的结果，并书写了报告日志） ✅ 2025-05-18</label></li>
+<li><label><input type="checkbox" checked="">（18h）优化RL的调参流程（贝叶斯优化的WB使用方法+自动多参数运行的WB方法+多随机种子单参数多值的代码修改+添加Q值和梯度相对于Q值归一化后的参数） ✅ 2025-05-25</label></li>
+<li><label><input type="checkbox" checked="">（10h）贝叶斯优化相关代码处理 ✅ 2025-05-28</label></li>
+<li><label><input type="checkbox" checked="">（12h）[[../../../../Z-0-Cards/Z-Tools_Cards/Net_servers_谷歌服务器迁移与工作台实例创建|服务器迁移]]（迁移到付费云服务器以获得稳定的训练效果，保持数据传输W&amp;B不变） ✅ 2025-10-03</label></li>
+<li><label><input type="checkbox" checked="">（5h）明确后续[[../../../../Z-0-Cards/Z-Computer_Cards/system_批量数据统计分析框架|RL_CartPole_DQN_批量数据统计分析框架]] 大纲 ✅ 2025-10-06</label></li>
+<li><label><input type="checkbox" checked="">（12h）代码效率优化（减少不必要开销，增加时间桶监控，构建计算图：最终成本减小到了原来的8%） ✅ 2025-10-09</label></li>
+<li><label><input type="checkbox" checked="">（9h）明确 [[../../../../Z-0-Cards/Z-Computer_Cards/system_批量数据统计分析框架]] 逻辑细节 ✅ 2025-12-08</label></li>
+<li><label><input type="checkbox" checked="">（58h）Step1-精度分析（确定评估器和随机种子数量） ✅ 2025-12-19</label></li>
+<li><label><input type="checkbox" checked="">（14h）通过SSH配置SurfacePro4平板为远程训练服务节点 ✅ 2025-12-22</label></li>
+<li><label><input type="checkbox" checked="">（7h）Ste2-模型选择（确定候选超参数组合） ✅ 2025-12-24</label></li>
+<li><label><input type="checkbox" checked="">（24h）Step3-模型选择（确定冠军超参数组合） ✅ 2025-12-29</label></li>
+<li><label><input type="checkbox" checked="">（11h）Step4-敏感性分析（确定关键超参数组合周围的地形） ✅ 2026-01-01</label></li>
+<li><label><input type="checkbox" checked="">（62h）英文版Report书写 ✅ 2026-01-15</label></li>
+<li><label><input type="checkbox" checked="">（3h）拿到该项反馈：代码及报告的反馈 + 人物画像 + 职业建议 + 下阶段学习建议 ✅ 2026-01-15</label></li>
+<li><label><input type="checkbox" checked="">（8h）报告整理与发布(因WB权限问题失败，等后期githubpage搭建好后再上传) + 代码清晰与发布 ✅ 2026-01-16</label></li>
+</ul>
+<hr>
+</section>
+<section id="批量数据统计分析step1-report详细任务流" class="level1">
+<h1>批量数据统计分析step1-report详细任务流</h1>
+<ul>
+<li>基于[[../../../../Z-0-Cards/Z-Computer_Cards/system_批量数据统计分析框架]]</li>
+<li><h2 id="代码效率优化" class="anchored" data-anchor-id="批量数据统计分析step1-report详细任务流">代码效率优化</h2></li>
+<li><label><input type="checkbox" checked="">设定基线回合数500 ✅ 2025-10-07</label></li>
+<li><label><input type="checkbox" checked="">关闭环境初始化时的渲染设置（即便没有主动渲染也会很耗费资源） ✅ 2025-10-07</label></li>
+<li><label><input type="checkbox" checked="">关掉wandb的系统指标+网络请求统计的数据采集 ✅ 2025-10-07</label></li>
+<li><label><input type="checkbox" checked="">优化wandb的数据采集时机和频次 ✅ 2025-10-07</label></li>
+<li><label><input type="checkbox" checked="">关注最可能耗时的三个时间桶的总时间占比，并只打印本地，不上传wandb ✅ 2025-10-07</label></li>
+<li><label><input type="checkbox" checked="">考虑wandb数据的离线在线传输模式的效率对比（在优化过wandb的数据采集后最终选了在线） ✅ 2025-10-07</label></li>
+<li><label><input type="checkbox" checked="">优化控制台输出的时机和频次（取消回合内每时间步输出，减少完整回合的输出为起始时机+整50倍数输出） ✅ 2025-10-08</label></li>
+<li><label><input type="checkbox" checked="">构建计算图 ✅ 2025-10-08</label></li>
+</ul>
+<section id="step1" class="level2">
+<h2 class="anchored" data-anchor-id="step1">step1</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">确认W&amp;B的旧数据标注清楚，以便于和新数据有区分 ✅ 2025-12-10</label></li>
+<li><label><input type="checkbox" checked="">确认目前的代码版本，并进行初部审查 ✅ 2025-12-10</label></li>
+<li><label><input type="checkbox" checked="">删除现有代码内无效的配置文件+W&amp;B数据文件，避免混淆和空间浪费 ✅ 2025-12-10</label></li>
+<li><label><input type="checkbox" checked="">显示隐藏文件（云端实例奔溃，转为本地后处理本地dll缺失） ✅ 2025-12-11</label></li>
+<li><label><input type="checkbox" checked="">精度分析的理论逻辑讨论 ✅ 2025-12-12</label></li>
+<li><label><input type="checkbox" checked="">代码添加与优化：</label>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">在智能体模块添加权重本地保存和加载方法 ✅ 2025-12-12</label></li>
+<li><label><input type="checkbox" checked="">增加WB运行对象标签变量，添加WB工件功能的上传加载逻辑 + 工件模块化处理 ✅ 2025-12-14</label></li>
+<li><label><input type="checkbox" checked="">将创建run对象，获取配置文件，传参，实例创建等逻辑共同模块化以减轻主函数负担，增强复用 ✅ 2025-12-14</label></li>
+<li><label><input type="checkbox" checked="">重构默认主函数代码 ✅ 2025-12-14</label></li>
+<li><label><input type="checkbox" checked="">构建通用评估器 ✅ 2025-12-14</label></li>
+<li><label><input type="checkbox" checked="">构建step1A精度分析主函数 ✅ 2025-12-14</label></li>
+<li><label><input type="checkbox" checked="">查漏补缺：确认“好超参数组合”+代码逻辑优化+ import检查+logger检查+命名和逻辑冲突审查+github版本推送 ✅ 2025-12-15</label></li>
+<li><label><input type="checkbox" checked="">debug + 基于好参数配置运行默认主函数用以产生好权重 ✅ 2025-12-15</label></li>
+<li><label><input type="checkbox" checked="">debug + 修复严重逻辑问题（两个网络初始化权重不一致） ✅ 2025-12-17</label></li>
+<li><label><input type="checkbox" checked="">Step1A 运行（确定评估数量为70）+ 实践讨论 ✅ 2025-12-18</label></li>
+<li><label><input type="checkbox" checked="">构建step1B精度分析主函数 + Step1B 运行 + 实践讨论（确定后续步骤的精度分层策略）+ github版本推送 ✅ 2025-12-19</label></li>
+</ul></li>
+</ul>
+</section>
+<section id="step2" class="level2">
+<h2 class="anchored" data-anchor-id="step2">step2</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">通过SSH配置Surface Pro4平板为远程训练服务节点 ✅ 2025-12-22</label></li>
+<li><label><input type="checkbox" checked="">构建step2候选参数搜索主函数 + Step2运行 + 实践讨论 + github版本推送 ✅ 2025-12-24</label></li>
+</ul>
+</section>
+<section id="step3" class="level2">
+<h2 class="anchored" data-anchor-id="step3">step3</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">构建step3候选参数搜索主函数 + Step3运行 + 实践讨论 + github版本推送 ✅ 2025-12-29</label></li>
+</ul>
+</section>
+<section id="step4" class="level2">
+<h2 class="anchored" data-anchor-id="step4">step4</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">构建step4候选参数搜索主函数 + Step4运行 + 统计学及实践讨论 + github版本推送 ✅ 2026-01-01</label></li>
+</ul>
+</section>
+<section id="report" class="level2">
+<h2 class="anchored" data-anchor-id="report">report</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">12-2： 学习如何 ✅ 2026-01-02</label></li>
+<li><label><input type="checkbox" checked="">12-4：完成初部写作和探索 ✅ 2026-01-04</label></li>
+<li><label><input type="checkbox" checked="">12-5：draft-methods,conclusion1 ✅ 2026-01-05</label></li>
+<li><label><input type="checkbox" checked="">12-6：draft-conclusion2,disscusion ✅ 2026-01-12</label></li>
+<li><label><input type="checkbox" checked="">12-7：逻辑大修-1 ✅ 2026-01-12</label></li>
+<li><label><input type="checkbox" checked="">12-9：英文大修-1 ✅ 2026-01-12</label></li>
+<li><label><input type="checkbox" checked="">12-10：step4-conclusion,disscusion ✅ 2026-01-14</label></li>
+<li><label><input type="checkbox" checked="">12-11：摘要和引言 ✅ 2026-01-14</label></li>
+<li><label><input type="checkbox" checked="">12-11：精修-1 ✅ 2026-01-15</label></li>
+<li><label><input type="checkbox" checked="">12-12：格式，图片，附录，发布，提交 ✅ 2026-01-15</label></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

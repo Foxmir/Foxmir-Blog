@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>t1_02_cartpole_dqn_report_feedback – Foxmir Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Foxmir Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#提示词来源" id="toc-提示词来源" class="nav-link active" data-scroll-target="#提示词来源">提示词来源</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<p>本报告的核心价值应明确为：<strong>在 CartPole-v1/DQN 这一“可控且有上限（ceiling）”的经典场景下，用一套分阶段协议把“统计严谨性 ↔︎ 预算/效率”的矛盾量化到可见、可讨论、可复核</strong>（而不是追求更大任务的泛化或 SOTA）。</p>
+<p>基于你给出的 4 份审稿意见综合后，以下是<strong>值得保留、与核心价值强相关、且一致性/置信度最高</strong>的修改建议（仅列需要反馈给你的项，按重要性从高到低）：</p>
+<ol type="1">
+<li><strong>Step 1B：把训练种子样本量估算写成“可复核的公式 + 数值代入”，并确保逻辑自洽</strong>
+<ul>
+<li>你当前核心论断之一是“要达到 ±10 精度需要 (N_{train})”（Methods/Step 1B；Discussion“Non-Gaussian… computational cost”；Figure 3）。</li>
+<li>建议在 Step 1B 明确给出你用的样本量/误差半宽公式、置信水平（95%）、以及代入 SD≈150、d=10 的计算过程；同时把它定位为<strong>基于正态近似的粗估/下界</strong>，并解释为何在非高斯/双峰（Figure 3）下你仍用它来“证明不可行性”（而非声称严格精确）。</li>
+<li>这一步是整篇“预算 vs 严谨”的定量支柱，必须做到读者一眼可复算。 （证据位置：Methods/Step 1B；Results/Step 1B；Figure 3；Discussion“Non-Gaussian… N_train≈1000”）</li>
+</ul></li>
+<li><strong>Step 4：修正/强化对 ANOVA 中“Residual≈95%”的解释，并补一个“seed 阻塞/分层”的稳健性检查（不需要重跑）</strong>
+<ul>
+<li>你把 Residual≈95% 作为“噪声主导、局部调参收益极低”的关键证据（Results/Step 4；Table 1；<code>step4_anova_report.csv</code>；Figure 5；Discussion“Residual…95%”）。</li>
+<li>必须把表述从“Residual=seed randomness”改为更严格：Residual 是<strong>未被当前模型解释的方差</strong>（可包含 seed 引起的训练随机性、非线性、以及你模型未显式分离的成分）。</li>
+<li>为了让“噪声主导”更可辩护，建议补一个<strong>无需重跑</strong>的稳健性分析：例如把 seed 当作 block 做去均值/中心化后再看主效应，或等价地给一个“按 seed 分层后的效应大小/结论是否保持”的对照结论。 （证据位置：Methods/Step 4 Statistical Analysis Protocol；Results/Step 4；Table 1；<code>step4_anova_report.csv</code>；Figure 5；Discussion“Residual 95%”）</li>
+</ul></li>
+<li><strong>Step 3：把 “paired-difference bootstrap CI” 的对象、计算式、与决策规则写成严格定义，并避免引发术语歧义</strong>
+<ul>
+<li>当前读者最容易卡住的是：你说“paired-difference CI”，但需要更清晰地说明“配对”的具体含义（按 seed 对齐的差值）以及 CI 的构造方式（bootstrap percentile 的哪两个分位数）（Methods/Step 3；Figure 4 caption；Discussion“Rigor statistic rule”）。</li>
+<li>建议在 Methods/Step 3 增补一个最小数学定义：对每个训练 seed (s)，差值 (d_s = R_{leader,s}-R_{comp,s})（其中 (R) 是该 seed 下训练后、用固定 (N_{eval}=70) 得到的评估均值），对 ({d_s}) 做 bootstrap 重采样得到 mean-difference 的 percentile CI；并明确你用的是<strong>双侧 99%（0.5%/99.5%）还是单侧下界</strong>，以及 LB&gt;10 的判据。</li>
+<li>同时把“顺序检查/多次窥视”的统计定位写清：你可以把它明确为<strong>保守启发式规则</strong>，并强调本实验的关键观察是“在该规则与预算下 early stop 未触发、pruning 罕见”（Results/Step 3；Figure 4），从而服务于“严谨→效率损失”的核心价值，而不是声称该规则具备严格的错误率保证。</li>
+<li>图表层面：Figure 4 的图注里建议更醒目地强调“n=30 时 c02 被 prune，因此 n=40 不再出现”，避免读者误读。 （证据位置：Methods/Step 3；Figure 4；Results/Step 3；Discussion“Rigor statistic rule/Trade-off”）</li>
+</ul></li>
+<li><strong>Step 1A：把 Figure 1/2 的叙事改成“反例 vs 正式校准”的强对照，并补齐 non-saturated checkpoint 的来源信息</strong>
+<ul>
+<li>你要传达的是“饱和策略导致评估方差坍缩，从而误导 (N_{eval})”（Methods/Step 1A；Discussion“pseudo-high-precision trap”；Figure 1-2）。现在最需要的是让读者不把 Figure 1 当成“正确结论”。</li>
+<li>建议：在 Figure 1 图注中明确它是<strong>误导性反例</strong>，并把 Figure 1+2 做成更直观的对照叙事（哪怕只改 caption/段落也可）。</li>
+<li>同时补齐 non-saturated checkpoint 的可追溯来源（来自哪个训练配置/seed/大致训练到第多少 episode 或何种保存条件），否则 Step 1A 的可复核性会被质疑。 （证据位置：Methods/Step 1A；Figure 1-2；Discussion“pseudo-high-precision trap”；Appendix seeds 对 Step1A 的描述）</li>
+</ul></li>
+<li><strong>Step 2：明确它是“粗筛”而非证据主体，并加入对小样本筛选的选择偏差声明 + seed 隔离设计意图说明</strong>
+<ul>
+<li>你在 Step2 用 (N_{train}=5) 做 Bayes 粗筛、取 top-10（Methods/Step 2；Results/Step 2），同时 Step1B 强调跨 seed 方差巨大（Figure 3）。因此需要一句话把 Step2 的角色边界写死：<strong>它用于淘汰明显差者，不用于证明最优</strong>。</li>
+<li>建议在 Methods 或 Discussion 中增加一段非常短的声明：小样本粗筛不可避免有“幸存者偏差/幸运配置混入”的风险；你通过 Step3 使用完全不重叠 seeds（Appendix seeds 隔离）来降低“用筛选集选冠军”的风险。 （证据位置：Methods/Step 2；Results/Step 2；Appendix seeds；Figure 3）</li>
+</ul></li>
+<li><strong>补一张“预算对账表”，用最少信息把‘严谨的代价’量化出来</strong>
+<ul>
+<li>你的主题是成本—严谨冲突，但目前读者需要在文字里自己拼预算（Step1-4 分散在 Methods/Results）。</li>
+<li>建议加一个表：每个 Step 的 configs 数量、每个 config 的 (N_{train})、训练 episodes、每次评估 (N_{eval}=70)、以及由此得到的总训练/评估 episode 规模（不需要硬件信息也能成立）。这会显著增强“工程洞察”的说服力。 （证据位置：Methods/Protocol-Pre Budget；Methods/Step 1-4；Results 各 Step）</li>
+</ul></li>
+<li><strong>对冠军的“高方差/双峰失败模式”补一个分布视角（成功率/分位数），让“噪声主导”更直观</strong>
+<ul>
+<li>你已经报告冠军在独立 10 seeds 上 Mean=329.63、SD=190.51（Results/Step 3），但仅用均值+SD不足以表达“到底是普遍中等、还是强双峰（成功/崩溃）”。</li>
+<li>建议补：直方图或分位数（P10/P50/P90）+ 一个简单阈值成功率（例如达到 ≥475 的比例，阈值可自定但要在文中固定）。这与 Step1B 的双峰现象（Figure 3）形成闭环，也更贴合你“随机性吞没信号”的核心主张。 （证据位置：Results/Step 3 独立验证；Figure 3；Discussion“high seed sensitivity/flat landscape”）</li>
+</ul></li>
+<li><strong>术语与关键表述做一次“防误解校正”</strong>
+<ul>
+<li>重点是你在 Protocol-Pre/Learning Benchmark 对 truncation 的处理：建议把“future value”明确改写为“Q target 的 bootstrap term / next-state value term”，避免被理解成环境奖励的“未来奖励”（Protocol-Pre 第 3 点；Methods 相关段落）。</li>
+<li>统一全文对 “evaluation episodes / training seeds / N_eval / N_train” 的称呼，减少读者在概念层面的摩擦。 （证据位置：Protocol-Pre/Learning Benchmark；Methods 多处；Results 表述）</li>
+</ul></li>
+<li><strong>在 Abstract/Conclusion 明确“case study 边界”，避免把 (N_{train}) 写成普适定律</strong>
+<ul>
+<li>这不是要求你做其他环境，而是要求你把 claim 边界写清：这是 CartPole-v1/DQN/本评估协议/本阈值下的量化结论；更一般的结论是“即使在该简单场景中，也能看到严谨成本很高”。 （证据位置：Abstract；Introduction；Discussion 结论段）</li>
+</ul></li>
+</ol>
+<p>以上 9 条是综合后最“高一致性 + 高收益 + 不超出你报告目标范围”的修改清单；按顺序完成后，你这份报告的核心价值（用经典小环境严肃讨论统计-预算矛盾）会更难被同行挑出“逻辑断点/术语歧义/核心数值不可复核”。</p>
+<hr>
+<section id="提示词来源" class="level2">
+<h2 class="anchored" data-anchor-id="提示词来源">提示词来源</h2>
+<ol type="1">
+<li>先拿到多个独立审稿人意见：[[../../../../Z-0-Cards/Z-Tools_Cards/Ai_prompt_论文审稿人]]</li>
+<li>再统一拿到汇总意见：[[../../../../Z-0-Cards/Z-Tools_Cards/Ai_prompt_RL_期刊审稿人]]</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,10 @@
+---
+title: "Foxmir Blog"
+listing:
+  contents: publish
+  sort: "date desc"
+  type: default
+  categories: true
+---
+
+Welcome to my blog! Click the posts below to read more.

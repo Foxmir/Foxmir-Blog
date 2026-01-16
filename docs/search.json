@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "publish/Hello_world.html",
+    "href": "publish/Hello_world.html",
+    "title": "我的第一篇测试文章",
+    "section": "",
+    "text": "这是行内公式：我们在讨论 \\(E = mc^2\\) 的物理意义。\n这是行间公式（应该居中显示）： \\[\nf(x) = \\int_{-\\infty}^\\infty \\hat f(\\xi)\\,e^{2\\pi i \\xi x} \\,d\\xi\n\\]"
+  },
+  {
+    "objectID": "publish/Hello_world.html#测试-latex-公式",
+    "href": "publish/Hello_world.html#测试-latex-公式",
+    "title": "我的第一篇测试文章",
+    "section": "",
+    "text": "这是行内公式：我们在讨论 \\(E = mc^2\\) 的物理意义。\n这是行间公式（应该居中显示）： \\[\nf(x) = \\int_{-\\infty}^\\infty \\hat f(\\xi)\\,e^{2\\pi i \\xi x} \\,d\\xi\n\\]"
+  },
+  {
+    "objectID": "publish/Hello_world.html#测试-python-代码高亮",
+    "href": "publish/Hello_world.html#测试-python-代码高亮",
+    "title": "我的第一篇测试文章",
+    "section": "2. 测试 Python 代码高亮",
+    "text": "2. 测试 Python 代码高亮\n下面是一段 Python 代码：\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndef plot_wave(freq):\n    x = np.linspace(0, 10, 100)\n    y = np.sin(freq * x)\n    return x, y\n\nprint(\"Hello Quarto!\")"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n我的第一篇测试文章\n\n\n\n\n\n\n\n\nJan 16, 2024\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Foxmir Blog",
+    "section": "",
+    "text": "Welcome to my blog! Click the posts below to read more.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n我的第一篇测试文章\n\n\n\n\n\n\n\n\nJan 16, 2024\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+  }
+]
