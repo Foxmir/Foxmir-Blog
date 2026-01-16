@@ -1,3 +1,5 @@
+# The first title
+
 ## 1. 测试 LaTeX 公式
 
 这是行内公式：我们在讨论 $E = mc^2$ 的物理意义。
