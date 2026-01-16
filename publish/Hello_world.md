@@ -1,3 +1,9 @@
+---
+title: "The First Title"   <-- 这里控制网页显示的大标题
+author: "Foxmir"
+date: "2026-01-16"
+---
+
 # The first title
 
 ## 1. 测试 LaTeX 公式
