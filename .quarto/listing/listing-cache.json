@@ -1,13 +1,10 @@
 {
   "listingMap": {
-    "index.qmd": [
-      "publish"
-    ],
     "about.qmd": [
       "publish"
     ],
-    "publish\\Hello_world.md": [
-      "../publish"
+    "index.qmd": [
+      "publish"
     ]
   }
 }
