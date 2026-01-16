@@ -1,0 +1,7 @@
+---
+title: "Tech"
+listing:
+  contents: publish/Tech  # <--- 指挥它只去抓 Tech 文件夹
+  sort: "date desc"
+  type: default
+---

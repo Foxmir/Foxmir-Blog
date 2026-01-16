@@ -9,10 +9,14 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      - tech.qmd
+        text: Technology
+      - life.qmd
+        text: Life
 
 format:
   html:
-    theme: cosmo
+    theme: darkly # journal (报纸风格，很适合博客，推荐！) sketchy (手绘草稿风，很有趣) litera (干净的学术风)
     css: styles.css
     toc: true
 
