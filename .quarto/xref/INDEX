@@ -22,5 +22,17 @@
   },
   "publish/Hello_world.md": {
     "Hello_world.html": "08628d5e"
+  },
+  "life.qmd": {
+    "life.html": "436ceb0e"
+  },
+  "publish/Life/First_Life.md": {
+    "First_Life.html": "a618973c"
+  },
+  "publish/Tech/First_Tech.md": {
+    "First_Tech.html": "01cf6bff"
+  },
+  "tech.qmd": {
+    "tech.html": "d7629b02"
   }
 }

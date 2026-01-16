@@ -8,15 +8,16 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
-      - tech.qmd
+      - href: about.qmd   # 这里我也帮你改成规范写法了
+        text: About
+      - href: tech.qmd    # 修复点 1
         text: Technology
-      - life.qmd
+      - href: life.qmd    # 修复点 2
         text: Life
 
 format:
   html:
-    theme: darkly # journal (报纸风格，很适合博客，推荐！) sketchy (手绘草稿风，很有趣) litera (干净的学术风)
+    theme: Superhero
     css: styles.css
     toc: true
 

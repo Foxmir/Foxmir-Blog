@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "tech.html",
+    "href": "tech.html",
+    "title": "Tech",
+    "section": "",
+    "text": "The First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "publish/Life/First_Life.html",
+    "href": "publish/Life/First_Life.html",
+    "title": "The First Life",
+    "section": "",
+    "text": "I love my life! I love myself! I love the world! And……I miss you!\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "life.html",
+    "href": "life.html",
+    "title": "Life",
+    "section": "",
+    "text": "The First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Title\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Foxmir Blog",
+    "section": "",
+    "text": "Welcome to my blog! Click the posts below to read more.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Title\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "publish/Hello_world.html",
+    "href": "publish/Hello_world.html",
+    "title": "The First Title",
+    "section": "",
+    "text": "这是行内公式：我们在讨论 \\(E = mc^2\\) 的物理意义。\n这是行间公式（应该居中显示）： \\[\nf(x) = \\int_{-\\infty}^\\infty \\hat f(\\xi)\\,e^{2\\pi i \\xi x} \\,d\\xi\n\\]\n\n\n\n下面是一段 Python 代码：\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndef plot_wave(freq):\n    x = np.linspace(0, 10, 100)\n    y = np.sin(freq * x)\n    return x, y\n\nprint(\"Hello Quarto!\")"
+  },
+  {
+    "objectID": "publish/Hello_world.html#测试-latex-公式",
+    "href": "publish/Hello_world.html#测试-latex-公式",
+    "title": "The First Title",
+    "section": "",
+    "text": "这是行内公式：我们在讨论 \\(E = mc^2\\) 的物理意义。\n这是行间公式（应该居中显示）： \\[\nf(x) = \\int_{-\\infty}^\\infty \\hat f(\\xi)\\,e^{2\\pi i \\xi x} \\,d\\xi\n\\]"
+  },
+  {
+    "objectID": "publish/Hello_world.html#测试-python-代码高亮",
+    "href": "publish/Hello_world.html#测试-python-代码高亮",
+    "title": "The First Title",
+    "section": "",
+    "text": "下面是一段 Python 代码：\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndef plot_wave(freq):\n    x = np.linspace(0, 10, 100)\n    y = np.sin(freq * x)\n    return x, y\n\nprint(\"Hello Quarto!\")"
+  },
+  {
+    "objectID": "publish/Tech/First_Tech.html",
+    "href": "publish/Tech/First_Tech.html",
+    "title": "The First Tech",
+    "section": "",
+    "text": "I’m so excited!\n\n\n\n\n\n\n\n\nNo matching items"
+  }
+]
