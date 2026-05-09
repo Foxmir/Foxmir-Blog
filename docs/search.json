@@ -4,14 +4,7 @@
     "href": "test4folder.html",
     "title": "test4Folder",
     "section": "",
-    "text": "test3md\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "publish/test4Folder/test3md.html",
-    "href": "publish/test4Folder/test3md.html",
-    "title": "test3md",
-    "section": "",
-    "text": "测试4"
+    "text": "test4file\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "publish/Life/First_Life.html",
@@ -39,7 +32,7 @@
     "href": "index.html",
     "title": "Foxmir Blog",
     "section": "",
-    "text": "Welcome to my blog! Click the posts below to read more.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntest3md\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Title\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to my blog! Click the posts below to read more.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntest4file\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Title\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "publish/Hello_world.html",
@@ -63,17 +56,10 @@
     "text": "下面是一段 Python 代码：\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndef plot_wave(freq):\n    x = np.linspace(0, 10, 100)\n    y = np.sin(freq * x)\n    return x, y\n\nprint(\"Hello Quarto!\")"
   },
   {
-    "objectID": "publish/Tech/First_Tech.html",
-    "href": "publish/Tech/First_Tech.html",
-    "title": "The First Tech",
+    "objectID": "publish/test4Folder/test4file.html",
+    "href": "publish/test4Folder/test4file.html",
+    "title": "test4file",
     "section": "",
-    "text": "I’m so excited!"
-  },
-  {
-    "objectID": "tech.html",
-    "href": "tech.html",
-    "title": "Tech",
-    "section": "",
-    "text": "The First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+    "text": "测试4的文本"
   }
 ]

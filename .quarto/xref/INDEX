@@ -49,5 +49,8 @@
   },
   "test4folder.qmd": {
     "test4folder.html": "7d886f81"
+  },
+  "publish/test4Folder/test4file.md": {
+    "test4file.html": "6a4319c5"
   }
 }

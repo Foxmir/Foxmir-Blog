@@ -12,8 +12,6 @@ website:
         text: About
       - href: life.qmd
         text: 'Life'
-      - href: tech.qmd
-        text: 'Tech'
       - href: test4folder.qmd
         text: 'test4Folder'
 
