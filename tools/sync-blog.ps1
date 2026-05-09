@@ -179,7 +179,10 @@ $config += @(
     ''
     'format:'
     '  html:'
-    '    theme: Superhero'
+    '    theme:'
+    '      light: flatly'
+    '      dark: darkly'
+    '    respect-user-color-scheme: true'
     '    css: styles.css'
     '    toc: true'
 )
