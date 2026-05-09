@@ -142,7 +142,7 @@ foreach ($dir in $dirs) {
         '  contents: ' + $contentsPath
         '  sort: "date desc"'
         '  type: default'
-        '  categories: true'
+        '  categories: false'
         '---'
         ''
         '<!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->'
@@ -164,8 +164,6 @@ $config = @(
     '  google-analytics: ' + (ConvertTo-YamlSingleQuoted $googleAnalyticsId)
     '  navbar:'
     '    left:'
-    '      - href: index.qmd'
-    '        text: Home'
     '      - href: about.qmd'
     '        text: About'
 )

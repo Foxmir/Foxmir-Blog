@@ -8,8 +8,6 @@ website:
   google-analytics: 'G-VQW94RHSBY'
   navbar:
     left:
-      - href: index.qmd
-        text: Home
       - href: about.qmd
         text: About
       - href: life.qmd
