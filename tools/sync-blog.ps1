@@ -137,6 +137,7 @@ foreach ($dir in $dirs) {
     $page = @(
         '---'
         'title: ' + (ConvertTo-YamlSingleQuoted $dir.Name)
+        'page-layout: full'
         'listing:'
         '  id: category-listing'
         '  contents: ' + $contentsPath
@@ -163,7 +164,7 @@ $config = @(
     '  site-url: ' + (ConvertTo-YamlSingleQuoted $siteUrl)
     '  google-analytics: ' + (ConvertTo-YamlSingleQuoted $googleAnalyticsId)
     '  navbar:'
-    '    left:'
+    '    right:'
     '      - href: about.qmd'
     '        text: About'
 )
@@ -182,7 +183,7 @@ $config += @(
     '      dark: darkly'
     '    respect-user-color-scheme: false'
     '    css: styles.css'
-    '    toc: true'
+        '    toc: false'
 )
 
 Write-Utf8File -Path (Join-Path $project '_quarto.yml') -Lines $config

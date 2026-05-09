@@ -1,5 +1,6 @@
 ---
 title: 'test4Folder'
+page-layout: full
 listing:
   id: category-listing
   contents: publish/test4Folder

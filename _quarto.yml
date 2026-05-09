@@ -7,7 +7,7 @@ website:
   site-url: 'https://foxmir.github.io/Foxmir-Blog/'
   google-analytics: 'G-VQW94RHSBY'
   navbar:
-    left:
+    right:
       - href: about.qmd
         text: About
       - href: life.qmd
@@ -22,4 +22,4 @@ format:
       dark: darkly
     respect-user-color-scheme: false
     css: styles.css
-    toc: true
+    toc: false

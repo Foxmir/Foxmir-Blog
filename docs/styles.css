@@ -142,21 +142,9 @@ blockquote {
 }
 
 #quarto-content {
-	max-width: calc(var(--site-max-width) + 2rem);
+	max-width: calc(var(--site-reading-width) + 8rem);
 	margin: 0 auto;
 	padding: 4.4rem 1.2rem 5.5rem;
-}
-
-#quarto-margin-sidebar:empty {
-	display: none !important;
-}
-
-#quarto-content:has(#quarto-margin-sidebar:empty) {
-	grid-template-columns: minmax(0, 1fr) !important;
-}
-
-#quarto-content:has(#quarto-margin-sidebar:empty) #quarto-document-content {
-	max-width: 860px;
 }
 
 #title-block-header {
@@ -166,7 +154,7 @@ blockquote {
 }
 
 #quarto-document-content {
-	max-width: var(--site-reading-width);
+	max-width: 100%;
 }
 
 .quarto-title .title {
@@ -291,45 +279,6 @@ h3 {
 	color: var(--site-text-soft);
 }
 
-#quarto-margin-sidebar {
-	background: var(--site-paper);
-	border: 1px solid var(--site-line);
-	border-radius: var(--site-radius);
-	box-shadow: var(--site-shadow);
-	padding: 1.15rem 1.1rem 1rem;
-	position: sticky;
-	top: 6rem;
-}
-
-.quarto-listing-category-title {
-	font-family: 'Avenir Next', Avenir, 'Segoe UI Variable', 'Segoe UI', 'Helvetica Neue', sans-serif;
-	font-size: 0.78rem;
-	font-weight: 750;
-	letter-spacing: 0.11em;
-	text-transform: uppercase;
-	color: var(--site-text-soft);
-	margin-bottom: 0.9rem;
-}
-
-.quarto-listing-category .category {
-	display: inline-flex;
-	align-items: center;
-	padding: 0.4rem 0.72rem;
-	margin: 0 0.35rem 0.45rem 0;
-	border-radius: 999px;
-	background: transparent;
-	border: 1px solid var(--site-line);
-	color: var(--site-text);
-	font-family: 'Avenir Next', Avenir, 'Segoe UI Variable', 'Segoe UI', 'Helvetica Neue', sans-serif;
-	font-size: 0.88rem;
-	font-weight: 600;
-}
-
-.quarto-listing-category .category:hover {
-	background: var(--site-accent-soft);
-	border-color: rgba(162, 79, 36, 0.22);
-}
-
 code,
 pre,
 .sourceCode {
@@ -354,13 +303,6 @@ blockquote {
 .table,
 table {
 	border-color: var(--site-line);
-}
-
-@media (max-width: 1199px) {
-	#quarto-margin-sidebar {
-		position: static;
-		margin-bottom: 2rem;
-	}
 }
 
 @media (max-width: 991px) {

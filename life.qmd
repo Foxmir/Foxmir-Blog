@@ -1,5 +1,6 @@
 ---
 title: 'Life'
+page-layout: full
 listing:
   id: category-listing
   contents: publish/Life

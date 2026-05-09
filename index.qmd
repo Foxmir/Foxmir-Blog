@@ -1,5 +1,6 @@
 ---
 title: "Foxmir Blog"
+page-layout: full
 listing:
   contents: publish
   sort: "file-modified desc"
@@ -7,6 +8,8 @@ listing:
   categories: false
 ---
 
-Notes on tools, code, and everyday life.
+Writing about tools, code, and everyday life.
 
-Short posts, readable pages, and a cleaner archive.
+A small archive of notes, experiments, and everyday observations.
+
+## Latest
