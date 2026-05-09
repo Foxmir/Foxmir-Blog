@@ -14,9 +14,9 @@
   {
     "listing": "/index.html",
     "items": [
-      "/publish/Hello_world.html",
       "/publish/test4Folder/test4file.html",
-      "/publish/Life/First_Life.html"
+      "/publish/Life/First_Life.html",
+      "/publish/Hello_world.html"
     ]
   }
 ]

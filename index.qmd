@@ -2,14 +2,53 @@
 title: "Foxmir Blog"
 page-layout: full
 listing:
-  contents: publish
-  sort: "file-modified desc"
-  type: default
-  categories: false
+  - id: latest-listing
+    contents: publish
+    sort: "date desc"
+    type: default
+    categories: false
+    sort-ui: false
+    filter-ui: false
+    max-items: 5
+  - id: life-listing
+    contents: publish/Life
+    sort: "date desc"
+    type: default
+    categories: false
+    sort-ui: false
+    filter-ui: false
+  - id: test4folder-listing
+    contents: publish/test4Folder
+    sort: "date desc"
+    type: default
+    categories: false
+    sort-ui: false
+    filter-ui: false
 ---
+
+<!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
 
 Writing about tools, code, and everyday life.
 
 A small archive of notes, experiments, and everyday observations.
 
-## Latest
+<section class="home-section">
+<h2 class="home-section-heading">Latest</h2>
+
+:::{#latest-listing}
+:::
+</section>
+
+<section class="home-section">
+<h2 class="home-section-heading">Life</h2>
+
+:::{#life-listing}
+:::
+</section>
+
+<section class="home-section">
+<h2 class="home-section-heading">test4Folder</h2>
+
+:::{#test4folder-listing}
+:::
+</section>

@@ -7,6 +7,8 @@ listing:
   sort: "date desc"
   type: default
   categories: false
+  sort-ui: false
+  filter-ui: false
 ---
 
 <!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->

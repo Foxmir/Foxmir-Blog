@@ -1,5 +1,8 @@
 :root {
 	--site-bg: #f6f0e7;
+	--site-bg-top: #fffaf4;
+	--site-bg-mid: #f6f0e7;
+	--site-bg-bottom: #f4eee6;
 	--site-paper: rgba(255, 252, 246, 0.9);
 	--site-paper-strong: #fffdfa;
 	--site-text: #191715;
@@ -18,6 +21,9 @@
 
 body.quarto-dark {
 	--site-bg: #171514;
+	--site-bg-top: #1d1917;
+	--site-bg-mid: #171514;
+	--site-bg-bottom: #12100f;
 	--site-paper: rgba(28, 25, 24, 0.92);
 	--site-paper-strong: #211d1b;
 	--site-text: #f2eadf;
@@ -35,8 +41,9 @@ html {
 }
 
 body {
+	background-color: var(--site-bg);
 	background:
-		linear-gradient(180deg, rgba(255, 250, 244, 0.96) 0%, rgba(246, 240, 231, 1) 22%, rgba(244, 238, 230, 1) 100%);
+		linear-gradient(180deg, var(--site-bg-top) 0%, var(--site-bg-mid) 22%, var(--site-bg-bottom) 100%);
 	color: var(--site-text);
 	font-family: Charter, 'Bitstream Charter', 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
 	text-rendering: optimizeLegibility;
@@ -150,7 +157,7 @@ blockquote {
 #title-block-header {
 	margin-bottom: 2.6rem;
 	padding-bottom: 1.5rem;
-	border-bottom: 1px solid var(--site-line);
+	border-bottom: 0;
 }
 
 #quarto-document-content {
@@ -182,9 +189,24 @@ h2,
 h3,
 h4,
 h5,
+
+.home-section {
+	margin-top: 4rem;
+}
+
+.home-section-heading {
+	font-family: 'Avenir Next', Avenir, 'Segoe UI Variable', 'Segoe UI', 'Helvetica Neue', sans-serif;
+	font-size: 0.9rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--site-text-soft);
+	margin: 0 0 0.9rem;
+	border-bottom: 0 !important;
+}
 h6 {
 	font-family: 'Avenir Next', Avenir, 'Segoe UI Variable', 'Segoe UI', 'Helvetica Neue', sans-serif;
-	color: var(--site-text);
+	margin-top: 1.2rem;
 	font-weight: 700;
 	letter-spacing: -0.04em;
 }
@@ -215,21 +237,26 @@ h3 {
 .quarto-listing .list {
 	display: flex;
 	flex-direction: column;
-	gap: 0;
+	gap: 1.1rem;
 }
 
 .quarto-listing .quarto-post {
 	display: grid;
-	grid-template-columns: 9rem minmax(0, 1fr);
-	gap: 1.6rem;
+	grid-template-columns: 8rem minmax(0, 1fr);
+	gap: 1.35rem;
 	align-items: start;
-	padding: 1.85rem 0;
-	border-top: 1px solid var(--site-line);
+	padding: 0;
+	border-top: 0;
+	border-bottom: 0 !important;
 }
 
 .quarto-listing .quarto-post:first-child {
-	border-top: 2px solid var(--site-line-strong);
 	padding-top: 0;
+}
+
+.quarto-listing .quarto-post + .quarto-post {
+	padding-top: 1.05rem;
+	border-top: 0 !important;
 }
 
 .quarto-listing .metadata {
@@ -259,7 +286,7 @@ h3 {
 
 .listing-title {
 	margin-bottom: 0.45rem;
-	font-size: clamp(1.65rem, 2.3vw, 2.2rem);
+	font-size: clamp(1.45rem, 2.1vw, 1.95rem);
 	line-height: 1.08;
 }
 
@@ -274,9 +301,13 @@ h3 {
 
 .listing-description {
 	max-width: 54ch;
-	font-size: 1.03rem;
+	font-size: 0.99rem;
 	line-height: 1.72;
 	color: var(--site-text-soft);
+}
+
+.anchorjs-link {
+	display: none !important;
 }
 
 code,
@@ -320,6 +351,21 @@ table {
 	}
 }
 
+@media (min-width: 768px) {
+	.navbar-expand-lg .navbar-toggler {
+		display: none;
+	}
+
+	.navbar-expand-lg .navbar-collapse {
+		display: flex !important;
+		flex-basis: auto;
+	}
+
+	.navbar-expand-lg .navbar-nav {
+		flex-direction: row;
+	}
+}
+
 @media (max-width: 767px) {
 	#quarto-content {
 		padding: 2.4rem 1rem 4rem;
@@ -328,6 +374,10 @@ table {
 	.quarto-listing .quarto-post {
 		grid-template-columns: 1fr;
 		gap: 0.8rem;
+	}
+
+	.home-section {
+		margin-top: 3rem;
 	}
 
 	.quarto-listing .metadata {

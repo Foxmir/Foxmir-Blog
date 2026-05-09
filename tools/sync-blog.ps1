@@ -144,6 +144,8 @@ foreach ($dir in $dirs) {
         '  sort: "date desc"'
         '  type: default'
         '  categories: false'
+        '  sort-ui: false'
+        '  filter-ui: false'
         '---'
         ''
         '<!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->'
@@ -154,6 +156,60 @@ foreach ($dir in $dirs) {
     Write-Utf8File -Path (Join-Path $project ($slug + '.qmd')) -Lines $page
 }
 
+$homePage = @(
+    '---'
+    'title: "Foxmir Blog"'
+    'page-layout: full'
+    'listing:'
+    '  - id: latest-listing'
+    '    contents: publish'
+    '    sort: "date desc"'
+    '    type: default'
+    '    categories: false'
+    '    sort-ui: false'
+    '    filter-ui: false'
+    '    max-items: 5'
+)
+
+foreach ($item in $items) {
+    $homePage += '  - id: ' + $item.Slug + '-listing'
+    $homePage += '    contents: ' + (ConvertTo-YamlPlainPath ('publish/' + $item.Name))
+    $homePage += '    sort: "date desc"'
+    $homePage += '    type: default'
+    $homePage += '    categories: false'
+    $homePage += '    sort-ui: false'
+    $homePage += '    filter-ui: false'
+}
+
+$homePage += @(
+    '---'
+    ''
+    '<!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->'
+    ''
+    'Writing about tools, code, and everyday life.'
+    ''
+    'A small archive of notes, experiments, and everyday observations.'
+    ''
+    '<section class="home-section">'
+    '<h2 class="home-section-heading">Latest</h2>'
+    ''
+    ':::{#latest-listing}'
+    ':::'
+    '</section>'
+)
+
+foreach ($item in $items) {
+    $homePage += ''
+    $homePage += '<section class="home-section">'
+    $homePage += '<h2 class="home-section-heading">' + $item.Name + '</h2>'
+    $homePage += ''
+    $homePage += ':::{#' + $item.Slug + '-listing}'
+    $homePage += ':::'
+    $homePage += '</section>'
+}
+
+Write-Utf8File -Path (Join-Path $project 'index.qmd') -Lines $homePage
+
 $config = @(
     'project:'
     '  type: website'
@@ -163,6 +219,7 @@ $config = @(
     '  title: "Foxmir Blog"'
     '  site-url: ' + (ConvertTo-YamlSingleQuoted $siteUrl)
     '  google-analytics: ' + (ConvertTo-YamlSingleQuoted $googleAnalyticsId)
+    '  search: false'
     '  navbar:'
     '    right:'
     '      - href: about.qmd'

@@ -6,6 +6,7 @@ website:
   title: "Foxmir Blog"
   site-url: 'https://foxmir.github.io/Foxmir-Blog/'
   google-analytics: 'G-VQW94RHSBY'
+  search: false
   navbar:
     right:
       - href: about.qmd
