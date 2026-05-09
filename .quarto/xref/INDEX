@@ -40,5 +40,14 @@
   },
   "test3folder.qmd": {
     "test3folder.html": "523f193d"
+  },
+  "publish/copilot_no_yaml_test.md": {
+    "copilot_no_yaml_test.html": "7eaa40fb"
+  },
+  "publish/test4Folder/test3md.md": {
+    "test3md.html": "f4e35ade"
+  },
+  "test4folder.qmd": {
+    "test4folder.html": "7d886f81"
   }
 }

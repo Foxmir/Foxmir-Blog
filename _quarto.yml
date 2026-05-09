@@ -1,4 +1,4 @@
-﻿project:
+project:
   type: website
   output-dir: docs
 
@@ -14,8 +14,8 @@ website:
         text: 'Life'
       - href: tech.qmd
         text: 'Tech'
-      - href: test3folder.qmd
-        text: 'test3Folder'
+      - href: test4folder.qmd
+        text: 'test4Folder'
 
 format:
   html:

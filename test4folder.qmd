@@ -1,8 +1,8 @@
 ---
-title: 'Tech'
+title: 'test4Folder'
 listing:
   id: category-listing
-  contents: publish/Tech
+  contents: publish/test4Folder
   sort: "file-modified desc"
   type: default
   categories: true

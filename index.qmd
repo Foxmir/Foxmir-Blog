@@ -2,7 +2,7 @@
 title: "Foxmir Blog"
 listing:
   contents: publish
-  sort: "date desc"
+  sort: "file-modified desc"
   type: default
   categories: true
 ---

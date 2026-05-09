@@ -1,10 +1,14 @@
-﻿---
+---
 title: 'Life'
 listing:
+  id: category-listing
   contents: publish/Life
-  sort: "date desc"
+  sort: "file-modified desc"
   type: default
   categories: true
 ---
 
 <!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->
+
+:::{#category-listing}
+:::

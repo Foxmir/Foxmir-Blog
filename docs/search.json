@@ -1,10 +1,17 @@
 [
   {
-    "objectID": "publish/test3Folder/test3md.html",
-    "href": "publish/test3Folder/test3md.html",
-    "title": "test3 md",
+    "objectID": "test4folder.html",
+    "href": "test4folder.html",
+    "title": "test4Folder",
     "section": "",
-    "text": "test3"
+    "text": "test3md\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "publish/test4Folder/test3md.html",
+    "href": "publish/test4Folder/test3md.html",
+    "title": "test3md",
+    "section": "",
+    "text": "测试4"
   },
   {
     "objectID": "publish/Life/First_Life.html",
@@ -12,6 +19,13 @@
     "title": "The First Life",
     "section": "",
     "text": "I love my life!\nI love myself!\nI love the world!\nAnd……I miss you!"
+  },
+  {
+    "objectID": "life.html",
+    "href": "life.html",
+    "title": "Life",
+    "section": "",
+    "text": "The First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -25,7 +39,7 @@
     "href": "index.html",
     "title": "Foxmir Blog",
     "section": "",
-    "text": "Welcome to my blog! Click the posts below to read more.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntest3 md\n\n\n\n\n\n\n\n\nMay 9, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Title\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to my blog! Click the posts below to read more.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntest3md\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Title\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "publish/Hello_world.html",
@@ -54,5 +68,12 @@
     "title": "The First Tech",
     "section": "",
     "text": "I’m so excited!"
+  },
+  {
+    "objectID": "tech.html",
+    "href": "tech.html",
+    "title": "Tech",
+    "section": "",
+    "text": "The First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
   }
 ]
