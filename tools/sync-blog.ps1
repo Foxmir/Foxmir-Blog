@@ -179,10 +179,7 @@ $config += @(
     ''
     'format:'
     '  html:'
-    '    theme:'
-    '      light: flatly'
-    '      dark: darkly'
-    '    respect-user-color-scheme: true'
+    '    theme: flatly'
     '    css: styles.css'
     '    toc: true'
 )

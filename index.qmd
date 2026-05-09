@@ -7,4 +7,6 @@ listing:
   categories: true
 ---
 
-Welcome to my blog! Click the posts below to read more.
+Notes on tools, code, and everyday life.
+
+Short posts, readable pages, and a cleaner archive.
