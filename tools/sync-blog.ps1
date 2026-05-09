@@ -177,7 +177,10 @@ $config += @(
     ''
     'format:'
     '  html:'
-    '    theme: flatly'
+    '    theme:'
+    '      light: flatly'
+    '      dark: darkly'
+    '    respect-user-color-scheme: false'
     '    css: styles.css'
     '    toc: true'
 )
