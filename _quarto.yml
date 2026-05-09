@@ -1,4 +1,4 @@
-project:
+﻿project:
   type: website
   output-dir: docs
 
@@ -8,21 +8,17 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: about.qmd   # 这里我也帮你改成规范写法了
+      - href: about.qmd
         text: About
-      - href: tech.qmd    # 修复点 1
-        text: Technology
-      - href: life.qmd    # 修复点 2
-        text: Life
+      - href: life.qmd
+        text: 'Life'
+      - href: tech.qmd
+        text: 'Tech'
+      - href: test3folder.qmd
+        text: 'test3Folder'
 
 format:
   html:
     theme: Superhero
     css: styles.css
     toc: true
-
-listing:
-  contents: publish
-  sort: "date desc"
-  type: default
-  categories: true

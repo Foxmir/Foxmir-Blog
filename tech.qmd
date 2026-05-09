@@ -1,7 +1,10 @@
----
-title: "Tech"
+﻿---
+title: 'Tech'
 listing:
-  contents: publish/Tech  # <--- 指挥它只去抓 Tech 文件夹
+  contents: publish/Tech
   sort: "date desc"
   type: default
+  categories: true
 ---
+
+<!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->

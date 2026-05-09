@@ -34,5 +34,11 @@
   },
   "tech.qmd": {
     "tech.html": "d7629b02"
+  },
+  "publish/test3Folder/test3md.md": {
+    "test3md.html": "9836e395"
+  },
+  "test3folder.qmd": {
+    "test3folder.html": "523f193d"
   }
 }

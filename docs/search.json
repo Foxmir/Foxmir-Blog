@@ -1,38 +1,31 @@
 [
   {
-    "objectID": "tech.html",
-    "href": "tech.html",
-    "title": "Tech",
+    "objectID": "publish/test3Folder/test3md.html",
+    "href": "publish/test3Folder/test3md.html",
+    "title": "test3 md",
     "section": "",
-    "text": "The First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+    "text": "test3"
   },
   {
     "objectID": "publish/Life/First_Life.html",
     "href": "publish/Life/First_Life.html",
     "title": "The First Life",
     "section": "",
-    "text": "I love my life!\nI love myself!\nI love the world!\nAnd……I miss you!\n\n\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "life.html",
-    "href": "life.html",
-    "title": "Life",
-    "section": "",
-    "text": "The First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+    "text": "I love my life!\nI love myself!\nI love the world!\nAnd……I miss you!"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Title\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+    "text": "About this site"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Foxmir Blog",
     "section": "",
-    "text": "Welcome to my blog! Click the posts below to read more.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Title\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to my blog! Click the posts below to read more.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntest3 md\n\n\n\n\n\n\n\n\nMay 9, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Title\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Life\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\n\n\n\n\n\n\n\nThe First Tech\n\n\n\n\n\n\n\n\nJan 16, 2026\n\n\nFoxmir\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "publish/Hello_world.html",
@@ -60,6 +53,6 @@
     "href": "publish/Tech/First_Tech.html",
     "title": "The First Tech",
     "section": "",
-    "text": "I’m so excited!\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "I’m so excited!"
   }
 ]

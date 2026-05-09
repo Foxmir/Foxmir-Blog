@@ -1,7 +1,7 @@
 ﻿---
-title: 'Life'
+title: 'test3Folder'
 listing:
-  contents: publish/Life
+  contents: publish/test3Folder
   sort: "date desc"
   type: default
   categories: true
