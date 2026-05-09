@@ -2,6 +2,8 @@ $ErrorActionPreference = 'Stop'
 
 $project = $env:BLOG_PROJECT
 $publish = $env:BLOG_PUBLISH
+$siteUrl = 'https://foxmir.github.io/Foxmir-Blog/'
+$googleAnalyticsId = 'G-VQW94RHSBY'
 
 if ([string]::IsNullOrWhiteSpace($project)) {
     $project = 'D:\Quarto\Foxmir_blog'
@@ -40,6 +42,12 @@ function Get-YamlTitleLine {
     return ('title: {0}' -f (ConvertTo-YamlSingleQuoted -Value $Title))
 }
 
+function Get-YamlDateLine {
+    param([Parameter(Mandatory = $true)][datetime]$Date)
+
+    return ('date: {0}' -f (ConvertTo-YamlSingleQuoted -Value $Date.ToString('yyyy-MM-dd')))
+}
+
 function Write-Utf8File {
     param(
         [Parameter(Mandatory = $true)][string]$Path,
@@ -72,6 +80,7 @@ function Add-MissingTitleFrontMatter {
     $lines = Get-FileContentLines -Path $Path
     $titleValue = [System.IO.Path]::GetFileNameWithoutExtension($Path)
 
+    $bodyLines = $lines
     if ($lines.Length -ge 1 -and $lines[0] -eq '---') {
         $yamlEnd = -1
         for ($index = 1; $index -lt $lines.Length; $index++) {
@@ -82,25 +91,17 @@ function Add-MissingTitleFrontMatter {
         }
 
         if ($yamlEnd -gt 0) {
-            $frontMatter = @($lines[1..($yamlEnd - 1)])
-            $body = if ($yamlEnd + 1 -lt $lines.Length) { @($lines[($yamlEnd + 1)..($lines.Length - 1)]) } else { @() }
-
-            if ($frontMatter -match '^title\s*:') {
-                return
-            }
-
-            $newLines = @('---', (Get-YamlTitleLine -Title $titleValue)) + $frontMatter + @('---') + $body
-            Write-Utf8File -Path $Path -Lines $newLines
-            return
+            $bodyLines = if ($yamlEnd + 1 -lt $lines.Length) { @($lines[($yamlEnd + 1)..($lines.Length - 1)]) } else { @() }
         }
     }
 
     $newLines = @(
         '---',
         (Get-YamlTitleLine -Title $titleValue),
+        (Get-YamlDateLine -Date (Get-Item -LiteralPath $Path).LastWriteTime),
         '---',
         ''
-    ) + $lines
+    ) + $bodyLines
     Write-Utf8File -Path $Path -Lines $newLines
 }
 
@@ -139,7 +140,7 @@ foreach ($dir in $dirs) {
         'listing:'
         '  id: category-listing'
         '  contents: ' + $contentsPath
-        '  sort: "file-modified desc"'
+        '  sort: "date desc"'
         '  type: default'
         '  categories: true'
         '---'
@@ -159,6 +160,8 @@ $config = @(
     ''
     'website:'
     '  title: "Foxmir Blog"'
+    '  site-url: ' + (ConvertTo-YamlSingleQuoted $siteUrl)
+    '  google-analytics: ' + (ConvertTo-YamlSingleQuoted $googleAnalyticsId)
     '  navbar:'
     '    left:'
     '      - href: index.qmd'

@@ -4,6 +4,8 @@ project:
 
 website:
   title: "Foxmir Blog"
+  site-url: 'https://foxmir.github.io/Foxmir-Blog/'
+  google-analytics: 'G-VQW94RHSBY'
   navbar:
     left:
       - href: index.qmd

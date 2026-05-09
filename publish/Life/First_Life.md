@@ -1,8 +1,8 @@
 ---
-title: The First Life
-author: Foxmir
-date: 2026-01-16
+title: 'First_Life'
+date: '2026-01-17'
 ---
+
 
 I love my life!
 

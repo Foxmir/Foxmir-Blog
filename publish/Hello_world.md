@@ -1,8 +1,8 @@
 ---
-title: "The First Title"   
-author: "Foxmir"
-date: "2026-01-16"
+title: 'Hello_world'
+date: '2026-01-16'
 ---
+
 # The first title
 
 ## 1. 测试 LaTeX 公式

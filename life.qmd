@@ -3,7 +3,7 @@ title: 'Life'
 listing:
   id: category-listing
   contents: publish/Life
-  sort: "file-modified desc"
+  sort: "date desc"
   type: default
   categories: true
 ---

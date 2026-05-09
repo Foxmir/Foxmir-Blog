@@ -3,7 +3,7 @@ title: 'test4Folder'
 listing:
   id: category-listing
   contents: publish/test4Folder
-  sort: "file-modified desc"
+  sort: "date desc"
   type: default
   categories: true
 ---
