@@ -89,34 +89,6 @@ ul.task-list li input[type="checkbox"] {
   
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-articles-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: [],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-articles-listing'] = new List('listing-articles-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
     const listingTargetEl = window.document.querySelector('#listing-bits-listing .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
@@ -131,34 +103,6 @@ ul.task-list li input[type="checkbox"] {
 
     window['quarto-listings'] = window['quarto-listings'] || {};
     window['quarto-listings']['listing-bits-listing'] = new List('listing-bits-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-learn-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: [],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-learn-listing'] = new List('listing-learn-listing', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -455,16 +399,8 @@ window.Quarto = {
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./articles.html"> 
-<span class="menu-text">Articles</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="./bits.html"> 
 <span class="menu-text">Bits</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./learn.html"> 
-<span class="menu-text">Learn</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./notes.html"> 
@@ -511,15 +447,22 @@ window.Quarto = {
 
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260510091253 -->
-<p>this is the HOME page.</p>
-<section class="home-section">
-<h2 class="home-section-heading anchored">
-Latest
-</h2>
+<!-- BUILD-ID: 20260510185434 -->
+<div class="home-stage">
+<div class="home-title">
+<p>FOXMIR</p>
+</div>
+</div>
+<div class="home-content-layer">
+<div class="home-sections-wrap">
+<div class="home-latest-section">
+<div class="home-latest-label">
+<p>Latest</p>
+</div>
+<div class="home-latest-main">
 <div id="listing-latest-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404372358" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778428800000" data-listing-file-modified-sort="1778439273857" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">Deconstructing Reward in RL</a>
@@ -528,12 +471,12 @@ Latest
 <div class="metadata">
 <a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">
 <div class="listing-date">
-May 10, 2026
+May 11, 2026
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404372410" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="165">
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1778428800000" data-listing-file-modified-sort="1778439273888" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="165">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/解构i奖励的含义及常见误解.html" class="no-external">解构i奖励的含义及常见误解</a>
@@ -542,26 +485,12 @@ May 10, 2026
 <div class="metadata">
 <a href="./publish/Bits/解构i奖励的含义及常见误解.html" class="no-external">
 <div class="listing-date">
-May 10, 2026
+May 11, 2026
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404373067" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5082">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
-</h3>
-</div>
-<div class="metadata">
-<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">
-<div class="listing-date">
-May 10, 2026
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778404372464" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1778428800000" data-listing-file-modified-sort="1778439273910" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Notes/First_Life.html" class="no-external">First_Life</a>
@@ -570,7 +499,21 @@ May 10, 2026
 <div class="metadata">
 <a href="./publish/Notes/First_Life.html" class="no-external">
 <div class="listing-date">
-Jan 17, 2026
+May 11, 2026
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1778428800000" data-listing-file-modified-sort="1778439273931" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5082">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
+</h3>
+</div>
+<div class="metadata">
+<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">
+<div class="listing-date">
+May 11, 2026
 </div>
 </a>
 </div>
@@ -578,25 +521,19 @@ Jan 17, 2026
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
-</section>
-<section class="home-section">
-<h2 class="home-section-heading anchored">
-Articles
-</h2>
-<div id="listing-articles-listing" class="quarto-listing quarto-listing-container-default">
-<div class="list quarto-listing-default">
-
 </div>
-<div class="listing-no-matching d-none">No matching items</div>
 </div>
-</section>
-<section class="home-section">
-<h2 class="home-section-heading anchored">
+<div class="home-band">
+<div class="home-band-sticky">
+<div class="home-band-track">
+<section class="home-band-panel" data-panel="bits">
+<div class="hbp-label">
 Bits
-</h2>
+</div>
+<div class="hbp-main">
 <div id="listing-bits-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404372358" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778428800000" data-listing-file-modified-sort="1778439273857" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">Deconstructing Reward in RL</a>
@@ -605,12 +542,12 @@ Bits
 <div class="metadata">
 <a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">
 <div class="listing-date">
-May 10, 2026
+May 11, 2026
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404372410" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="165">
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1778428800000" data-listing-file-modified-sort="1778439273888" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="165">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/解构i奖励的含义及常见误解.html" class="no-external">解构i奖励的含义及常见误解</a>
@@ -619,7 +556,7 @@ May 10, 2026
 <div class="metadata">
 <a href="./publish/Bits/解构i奖励的含义及常见误解.html" class="no-external">
 <div class="listing-date">
-May 10, 2026
+May 11, 2026
 </div>
 </a>
 </div>
@@ -627,25 +564,16 @@ May 10, 2026
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
-</section>
-<section class="home-section">
-<h2 class="home-section-heading anchored">
-Learn
-</h2>
-<div id="listing-learn-listing" class="quarto-listing quarto-listing-container-default">
-<div class="list quarto-listing-default">
-
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
 </div>
 </section>
-<section class="home-section">
-<h2 class="home-section-heading anchored">
+<section class="home-band-panel" data-panel="notes">
+<div class="hbp-label">
 Notes
-</h2>
+</div>
+<div class="hbp-main">
 <div id="listing-notes-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778404372464" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778428800000" data-listing-file-modified-sort="1778439273910" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Notes/First_Life.html" class="no-external">First_Life</a>
@@ -654,7 +582,7 @@ Notes
 <div class="metadata">
 <a href="./publish/Notes/First_Life.html" class="no-external">
 <div class="listing-date">
-Jan 17, 2026
+May 11, 2026
 </div>
 </a>
 </div>
@@ -662,14 +590,16 @@ Jan 17, 2026
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
+</div>
 </section>
-<section class="home-section">
-<h2 class="home-section-heading anchored">
+<section class="home-band-panel" data-panel="reports">
+<div class="hbp-label">
 Reports
-</h2>
+</div>
+<div class="hbp-main">
 <div id="listing-reports-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404373067" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5082">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778428800000" data-listing-file-modified-sort="1778439273931" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5082">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
@@ -678,7 +608,7 @@ Reports
 <div class="metadata">
 <a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">
 <div class="listing-date">
-May 10, 2026
+May 11, 2026
 </div>
 </a>
 </div>
@@ -686,7 +616,209 @@ May 10, 2026
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
+</div>
 </section>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+body:has(.home-stage) #title-block-header { display:none; }
+body:has(.home-stage) #quarto-content { max-width:min(1200px,calc(100vw - 3rem)); padding-top:0; }
+body:has(.home-stage) main.content { padding-top:0; }
+body:has(.home-stage) { overflow-x:hidden; }
+
+.home-stage {
+  position:fixed; inset:0; z-index:1;
+  display:grid; align-content:center; justify-items:center;
+  min-height:100vh;
+  padding:5rem 2rem 14rem;
+  text-align:center;
+  pointer-events:none;
+}
+.home-title {
+  margin:0;
+  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
+  font-size:clamp(5rem,14vw,10rem);
+  font-weight:800;
+  letter-spacing:-0.11em;
+  line-height:0.9;
+  text-transform:uppercase;
+  color:var(--site-text);
+  will-change:transform,filter,opacity;
+}
+.home-title p { margin:0; font-size:inherit; font-weight:inherit; color:inherit; letter-spacing:inherit; }
+
+.home-content-layer {
+  position:relative; z-index:2;
+  width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-top:52vh;
+  padding:3rem 0 0;
+  background:linear-gradient(180deg,transparent 0%,var(--site-bg) 14%,var(--site-bg) 100%);
+  overflow-x:clip;
+}
+body.quarto-dark .home-content-layer {
+  background:linear-gradient(180deg,transparent 0%,#111213 14%,#111213 100%);
+}
+.home-sections-wrap {
+  max-width:1080px;
+  margin:0 auto;
+  padding:0 2rem;
+}
+
+.home-latest-section {
+  display:grid;
+  grid-template-columns:minmax(80px,110px) 1fr;
+  gap:2rem;
+  align-items:start;
+  margin-bottom:4rem;
+}
+.home-latest-label {
+  padding-top:0.25rem;
+  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
+  font-size:0.75rem;
+  font-weight:700;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--site-text-soft);
+}
+.home-latest-main .quarto-listing,
+.home-latest-main .quarto-listing-container,
+.home-latest-main .quarto-listing-container-default,
+.home-latest-main .list,
+.home-latest-main .listing-item,
+.home-latest-main .quarto-post {
+  border:0!important; box-shadow:none!important; background:transparent!important; outline:0!important;
+}
+.home-latest-main .quarto-listing { margin-top:0; }
+.home-latest-main .list { display:grid; gap:1.2rem; }
+.home-latest-main .quarto-post { padding:0; }
+.home-latest-main .listing-title { margin:0; font-size:clamp(1.3rem,2vw,1.75rem); line-height:1.1; letter-spacing:-0.03em; }
+.home-latest-main .listing-title a { color:var(--site-text); text-decoration:none; }
+.home-latest-main .listing-title a:hover { color:var(--site-accent); }
+.home-latest-main .listing-date { margin-top:0.1rem; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--site-text-soft); }
+.home-latest-main .listing-description,.home-latest-main .description { display:none; }
+.home-latest-main .metadata { padding-top:0; }
+
+.home-band {
+  --band-peek:clamp(4rem,8vw,8rem);
+  position:relative;
+  margin-top:1rem;
+}
+.home-band-sticky {
+  position:sticky;
+  top:5rem;
+  overflow:hidden;
+  padding-right:var(--band-peek);
+}
+.home-band-track {
+  display:flex;
+  gap:clamp(1rem,2vw,2rem);
+  will-change:transform;
+}
+.home-band-panel {
+  flex:0 0 calc(100% - var(--band-peek));
+  width:calc(100% - var(--band-peek));
+  display:grid;
+  grid-template-columns:1fr;
+  align-content:start;
+  padding:0 0 2rem;
+}
+.hbp-label {
+  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
+  font-size:clamp(3rem,8vw,6.5rem);
+  font-weight:800;
+  letter-spacing:-0.09em;
+  line-height:0.88;
+  text-transform:uppercase;
+  color:color-mix(in srgb,var(--site-text) 10%,transparent);
+  margin-bottom:1.6rem;
+  pointer-events:none;
+  user-select:none;
+}
+.hbp-main .quarto-listing,
+.hbp-main .quarto-listing-container,
+.hbp-main .quarto-listing-container-default,
+.hbp-main .list,
+.hbp-main .listing-item,
+.hbp-main .quarto-post {
+  border:0!important; box-shadow:none!important; background:transparent!important; outline:0!important;
+}
+.hbp-main .quarto-listing { margin-top:0; }
+.hbp-main .list { display:grid; gap:1.4rem; }
+.hbp-main .quarto-post { padding:0; display:grid; grid-template-columns:minmax(100px,130px) 1fr; gap:1.2rem; align-items:start; }
+.hbp-main .metadata { grid-column:1; grid-row:1; }
+.hbp-main .body { grid-column:2; grid-row:1; margin-bottom:0; }
+.hbp-main .listing-title { margin:0; font-size:clamp(1.6rem,2.4vw,2.3rem); line-height:1.06; letter-spacing:-0.04em; }
+.hbp-main .listing-title a { color:var(--site-text); text-decoration:none; }
+.hbp-main .listing-title a:hover { color:var(--site-accent); }
+.hbp-main .listing-date { font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--site-text-soft); margin-top:0.1rem; }
+
+@media(max-width:640px){
+  .home-stage{padding:3.5rem 1rem 8rem;}
+  .home-latest-section{grid-template-columns:1fr;gap:0.6rem;}
+  .home-band-sticky{position:static;overflow:visible;}
+  .home-band-track{display:grid;transform:none!important;}
+  .home-band-panel{flex:none;width:100%;}
+  .hbp-main .quarto-post{grid-template-columns:1fr;gap:0.3rem;}
+  .hbp-main .metadata,.hbp-main .body{grid-column:auto;grid-row:auto;}
+}
+</style>
+<script>
+(function(){
+  const title = document.querySelector(".home-title");
+  const cl = document.querySelector(".home-content-layer");
+  const band = document.querySelector(".home-band");
+  const sticky = document.querySelector(".home-band-sticky");
+  const track = document.querySelector(".home-band-track");
+  const panels = Array.from(document.querySelectorAll(".home-band-panel"));
+  let ticking = false;
+
+  function setGeometry(){
+    if(!band||!sticky||!track||!panels.length)return;
+    if(window.innerWidth<=640){
+      sticky.style.height="";
+      band.style.height="";
+      panels.forEach(p=>p.style.minHeight="");
+      return;
+    }
+    const ph = Math.max(...panels.map(p=>p.scrollHeight),300);
+    const vh = window.innerHeight;
+    const stickyH = Math.min(ph, Math.floor(vh*0.72));
+    sticky.style.height = stickyH+"px";
+    panels.forEach(p=>p.style.minHeight=stickyH+"px");
+    const dist = Math.max(track.scrollWidth - sticky.clientWidth, 0);
+    const scrollRange = dist>0 ? Math.max(dist*0.72, vh*0.58) : 0;
+    band.style.height = (stickyH + scrollRange)+"px";
+  }
+
+  function draw(){
+    const y = window.scrollY;
+    const fade = Math.min(y/380,1);
+    if(title){
+      title.style.transform=`translate3d(0,${y*0.16}px,0)`;
+      title.style.filter=`blur(${fade*16}px) grayscale(${fade*100}%)`;
+      title.style.opacity=Math.max(1-fade*1.6,0);
+    }
+    if(!band||!sticky||!track||!panels.length||window.innerWidth<=640)return;
+    const stickyTop = parseFloat(getComputedStyle(sticky).top)||0;
+    const start = band.offsetTop - stickyTop;
+    const total = Math.max(band.offsetHeight - sticky.offsetHeight, 1);
+    const prog = Math.min(Math.max((window.scrollY - start)/total,0),1);
+    const dist = Math.max(track.scrollWidth - sticky.clientWidth, 0);
+    track.style.transform=`translate3d(${-prog*dist}px,0,0)`;
+  }
+
+  window.addEventListener("scroll",function(){
+    if(!ticking){requestAnimationFrame(function(){draw();ticking=false;});ticking=true;}
+  },{passive:true});
+
+  window.addEventListener("resize",function(){setGeometry();draw();});
+  setGeometry(); draw();
+})()
+</script>
 
 
 

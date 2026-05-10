@@ -20,20 +20,20 @@
 }
 
 body.quarto-dark {
-	--site-bg: #171514;
-	--site-bg-top: #1d1917;
-	--site-bg-mid: #171514;
-	--site-bg-bottom: #12100f;
-	--site-paper: rgba(28, 25, 24, 0.92);
-	--site-paper-strong: #211d1b;
-	--site-text: #f2eadf;
-	--site-text-soft: #b9ada0;
-	--site-line: rgba(242, 234, 223, 0.12);
-	--site-line-strong: rgba(242, 234, 223, 0.22);
-	--site-accent: #f0a36b;
-	--site-accent-soft: rgba(240, 163, 107, 0.14);
-	--site-header-bg: rgba(23, 21, 20, 0.88);
-	--site-shadow: 0 18px 50px rgba(0, 0, 0, 0.32);
+	--site-bg: #111213;
+	--site-bg-top: #161718;
+	--site-bg-mid: #111213;
+	--site-bg-bottom: #0d0e0f;
+	--site-paper: rgba(22, 23, 25, 0.92);
+	--site-paper-strong: #1c1d1f;
+	--site-text: #e8eaed;
+	--site-text-soft: #9aa0a6;
+	--site-line: rgba(232, 234, 237, 0.1);
+	--site-line-strong: rgba(232, 234, 237, 0.18);
+	--site-accent: #8ab4f8;
+	--site-accent-soft: rgba(138, 180, 248, 0.14);
+	--site-header-bg: rgba(17, 18, 19, 0.88);
+	--site-shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
 }
 
 html {
@@ -187,8 +187,15 @@ body:not(.quarto-dark) .navbar .quarto-color-scheme-toggle {
 }
 
 body.quarto-dark .navbar .quarto-color-scheme-toggle {
-	color: #f2eadf;
-	background: rgba(33, 29, 27, 0.96);
+	color: #e8eaed;
+	background: rgba(28, 29, 31, 0.96);
+}
+
+#quarto-header .quarto-navbar-tools {
+	position: absolute;
+	right: 1.25rem;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
 #quarto-content {

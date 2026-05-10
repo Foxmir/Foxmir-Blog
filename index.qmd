@@ -4,9 +4,7 @@ page-layout: full
 listing:
   - id: latest-listing
     contents:
-      - publish/Articles
       - publish/Bits
-      - publish/Learn
       - publish/Notes
       - publish/Reports
     sort: "date desc"
@@ -16,24 +14,8 @@ listing:
     sort-ui: false
     filter-ui: false
     max-items: 5
-  - id: articles-listing
-    contents: publish/Articles
-    sort: "date desc"
-    type: default
-    fields: [date, title]
-    categories: false
-    sort-ui: false
-    filter-ui: false
   - id: bits-listing
     contents: publish/Bits
-    sort: "date desc"
-    type: default
-    fields: [date, title]
-    categories: false
-    sort-ui: false
-    filter-ui: false
-  - id: learn-listing
-    contents: publish/Learn
     sort: "date desc"
     type: default
     fields: [date, title]
@@ -59,50 +41,253 @@ listing:
 ---
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260510091253 -->
+<!-- BUILD-ID: 20260510185434 -->
 
+::: {.home-stage}
+::: {.home-title}
+FOXMIR
+:::
+:::
 
-this is the HOME page.
+::: {.home-content-layer}
+::: {.home-sections-wrap}
 
-
-<section class="home-section">
-<h2 class="home-section-heading">Latest</h2>
-
+::: {.home-latest-section}
+::: {.home-latest-label}
+Latest
+:::
+::: {.home-latest-main}
 :::{#latest-listing}
 :::
-</section>
-
-<section class="home-section">
-<h2 class="home-section-heading">Articles</h2>
-
-:::{#articles-listing}
 :::
-</section>
+:::
 
-<section class="home-section">
-<h2 class="home-section-heading">Bits</h2>
-
+::: {.home-band}
+::: {.home-band-sticky}
+<div class="home-band-track">
+<section class="home-band-panel" data-panel="bits">
+  <div class="hbp-label">Bits</div>
+  <div class="hbp-main">
 :::{#bits-listing}
 :::
+  </div>
 </section>
-
-<section class="home-section">
-<h2 class="home-section-heading">Learn</h2>
-
-:::{#learn-listing}
-:::
-</section>
-
-<section class="home-section">
-<h2 class="home-section-heading">Notes</h2>
-
+<section class="home-band-panel" data-panel="notes">
+  <div class="hbp-label">Notes</div>
+  <div class="hbp-main">
 :::{#notes-listing}
 :::
+  </div>
 </section>
-
-<section class="home-section">
-<h2 class="home-section-heading">Reports</h2>
-
+<section class="home-band-panel" data-panel="reports">
+  <div class="hbp-label">Reports</div>
+  <div class="hbp-main">
 :::{#reports-listing}
 :::
+  </div>
 </section>
+</div>
+:::
+:::
+
+:::
+:::
+
+```{=html}
+<style>
+body:has(.home-stage) #title-block-header { display:none; }
+body:has(.home-stage) #quarto-content { max-width:min(1200px,calc(100vw - 3rem)); padding-top:0; }
+body:has(.home-stage) main.content { padding-top:0; }
+body:has(.home-stage) { overflow-x:hidden; }
+
+.home-stage {
+  position:fixed; inset:0; z-index:1;
+  display:grid; align-content:center; justify-items:center;
+  min-height:100vh;
+  padding:5rem 2rem 14rem;
+  text-align:center;
+  pointer-events:none;
+}
+.home-title {
+  margin:0;
+  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
+  font-size:clamp(5rem,14vw,10rem);
+  font-weight:800;
+  letter-spacing:-0.11em;
+  line-height:0.9;
+  text-transform:uppercase;
+  color:var(--site-text);
+  will-change:transform,filter,opacity;
+}
+.home-title p { margin:0; font-size:inherit; font-weight:inherit; color:inherit; letter-spacing:inherit; }
+
+.home-content-layer {
+  position:relative; z-index:2;
+  width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-top:52vh;
+  padding:3rem 0 0;
+  background:linear-gradient(180deg,transparent 0%,var(--site-bg) 14%,var(--site-bg) 100%);
+  overflow-x:clip;
+}
+body.quarto-dark .home-content-layer {
+  background:linear-gradient(180deg,transparent 0%,#111213 14%,#111213 100%);
+}
+.home-sections-wrap {
+  max-width:1080px;
+  margin:0 auto;
+  padding:0 2rem;
+}
+
+.home-latest-section {
+  display:grid;
+  grid-template-columns:minmax(80px,110px) 1fr;
+  gap:2rem;
+  align-items:start;
+  margin-bottom:4rem;
+}
+.home-latest-label {
+  padding-top:0.25rem;
+  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
+  font-size:0.75rem;
+  font-weight:700;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--site-text-soft);
+}
+.home-latest-main .quarto-listing,
+.home-latest-main .quarto-listing-container,
+.home-latest-main .quarto-listing-container-default,
+.home-latest-main .list,
+.home-latest-main .listing-item,
+.home-latest-main .quarto-post {
+  border:0!important; box-shadow:none!important; background:transparent!important; outline:0!important;
+}
+.home-latest-main .quarto-listing { margin-top:0; }
+.home-latest-main .list { display:grid; gap:1.2rem; }
+.home-latest-main .quarto-post { padding:0; }
+.home-latest-main .listing-title { margin:0; font-size:clamp(1.3rem,2vw,1.75rem); line-height:1.1; letter-spacing:-0.03em; }
+.home-latest-main .listing-title a { color:var(--site-text); text-decoration:none; }
+.home-latest-main .listing-title a:hover { color:var(--site-accent); }
+.home-latest-main .listing-date { margin-top:0.1rem; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--site-text-soft); }
+.home-latest-main .listing-description,.home-latest-main .description { display:none; }
+.home-latest-main .metadata { padding-top:0; }
+
+.home-band {
+  --band-peek:clamp(4rem,8vw,8rem);
+  position:relative;
+  margin-top:1rem;
+}
+.home-band-sticky {
+  position:sticky;
+  top:5rem;
+  overflow:hidden;
+  padding-right:var(--band-peek);
+}
+.home-band-track {
+  display:flex;
+  gap:clamp(1rem,2vw,2rem);
+  will-change:transform;
+}
+.home-band-panel {
+  flex:0 0 calc(100% - var(--band-peek));
+  width:calc(100% - var(--band-peek));
+  display:grid;
+  grid-template-columns:1fr;
+  align-content:start;
+  padding:0 0 2rem;
+}
+.hbp-label {
+  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
+  font-size:clamp(3rem,8vw,6.5rem);
+  font-weight:800;
+  letter-spacing:-0.09em;
+  line-height:0.88;
+  text-transform:uppercase;
+  color:color-mix(in srgb,var(--site-text) 10%,transparent);
+  margin-bottom:1.6rem;
+  pointer-events:none;
+  user-select:none;
+}
+.hbp-main .quarto-listing,
+.hbp-main .quarto-listing-container,
+.hbp-main .quarto-listing-container-default,
+.hbp-main .list,
+.hbp-main .listing-item,
+.hbp-main .quarto-post {
+  border:0!important; box-shadow:none!important; background:transparent!important; outline:0!important;
+}
+.hbp-main .quarto-listing { margin-top:0; }
+.hbp-main .list { display:grid; gap:1.4rem; }
+.hbp-main .quarto-post { padding:0; display:grid; grid-template-columns:minmax(100px,130px) 1fr; gap:1.2rem; align-items:start; }
+.hbp-main .metadata { grid-column:1; grid-row:1; }
+.hbp-main .body { grid-column:2; grid-row:1; margin-bottom:0; }
+.hbp-main .listing-title { margin:0; font-size:clamp(1.6rem,2.4vw,2.3rem); line-height:1.06; letter-spacing:-0.04em; }
+.hbp-main .listing-title a { color:var(--site-text); text-decoration:none; }
+.hbp-main .listing-title a:hover { color:var(--site-accent); }
+.hbp-main .listing-date { font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--site-text-soft); margin-top:0.1rem; }
+
+@media(max-width:640px){
+  .home-stage{padding:3.5rem 1rem 8rem;}
+  .home-latest-section{grid-template-columns:1fr;gap:0.6rem;}
+  .home-band-sticky{position:static;overflow:visible;}
+  .home-band-track{display:grid;transform:none!important;}
+  .home-band-panel{flex:none;width:100%;}
+  .hbp-main .quarto-post{grid-template-columns:1fr;gap:0.3rem;}
+  .hbp-main .metadata,.hbp-main .body{grid-column:auto;grid-row:auto;}
+}
+</style>
+<script>
+(function(){
+  const title = document.querySelector(".home-title");
+  const cl = document.querySelector(".home-content-layer");
+  const band = document.querySelector(".home-band");
+  const sticky = document.querySelector(".home-band-sticky");
+  const track = document.querySelector(".home-band-track");
+  const panels = Array.from(document.querySelectorAll(".home-band-panel"));
+  let ticking = false;
+
+  function setGeometry(){
+    if(!band||!sticky||!track||!panels.length)return;
+    if(window.innerWidth<=640){
+      sticky.style.height="";
+      band.style.height="";
+      panels.forEach(p=>p.style.minHeight="");
+      return;
+    }
+    const ph = Math.max(...panels.map(p=>p.scrollHeight),300);
+    const vh = window.innerHeight;
+    const stickyH = Math.min(ph, Math.floor(vh*0.72));
+    sticky.style.height = stickyH+"px";
+    panels.forEach(p=>p.style.minHeight=stickyH+"px");
+    const dist = Math.max(track.scrollWidth - sticky.clientWidth, 0);
+    const scrollRange = dist>0 ? Math.max(dist*0.72, vh*0.58) : 0;
+    band.style.height = (stickyH + scrollRange)+"px";
+  }
+
+  function draw(){
+    const y = window.scrollY;
+    const fade = Math.min(y/380,1);
+    if(title){
+      title.style.transform=`translate3d(0,${y*0.16}px,0)`;
+      title.style.filter=`blur(${fade*16}px) grayscale(${fade*100}%)`;
+      title.style.opacity=Math.max(1-fade*1.6,0);
+    }
+    if(!band||!sticky||!track||!panels.length||window.innerWidth<=640)return;
+    const stickyTop = parseFloat(getComputedStyle(sticky).top)||0;
+    const start = band.offsetTop - stickyTop;
+    const total = Math.max(band.offsetHeight - sticky.offsetHeight, 1);
+    const prog = Math.min(Math.max((window.scrollY - start)/total,0),1);
+    const dist = Math.max(track.scrollWidth - sticky.clientWidth, 0);
+    track.style.transform=`translate3d(${-prog*dist}px,0,0)`;
+  }
+
+  window.addEventListener("scroll",function(){
+    if(!ticking){requestAnimationFrame(function(){draw();ticking=false;});ticking=true;}
+  },{passive:true});
+
+  window.addEventListener("resize",function(){setGeometry();draw();});
+  setGeometry(); draw();
+})()
+</script>
+```
