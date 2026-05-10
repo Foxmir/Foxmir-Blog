@@ -23,4 +23,5 @@ format:
       dark: darkly
     respect-user-color-scheme: false
     css: styles.css
+    include-after-body: outline-sidebar.html
     toc: false

@@ -394,6 +394,457 @@ f(x) = \int_{-\infty}^\infty \hat f(\xi)\,e^{2\pi i \xi x} \,d\xi
 </section>
 
 </main> <!-- /main -->
+<script>
+
+(() => {
+
+  const articlePathPattern = /\/publish\/[^/]+\/[^/]+\.html$/i;
+
+  const desktopMedia = window.matchMedia('(min-width: 1200px)');
+
+
+
+  const slugify = (value) => value
+
+    .toLowerCase()
+
+    .trim()
+
+    .replace(/[^a-z0-9\u4e00-\u9fff]+/g, '-')
+
+    .replace(/^-+|-+$/g, '') || 'section';
+
+
+
+  const ensureHeadingIds = (headings) => {
+
+    const used = new Set();
+
+    headings.forEach((heading, index) => {
+
+      let id = heading.id || slugify(heading.textContent || heading.innerText || `section-${index + 1}`);
+
+      while (used.has(id)) {
+
+        id = `${id}-${index + 1}`;
+
+      }
+
+      used.add(id);
+
+      heading.id = id;
+
+    });
+
+  };
+
+
+
+  const buildTree = (headings) => {
+
+    const items = [];
+
+    let currentH2 = null;
+
+    let currentH3 = null;
+
+
+
+    const createItem = (heading) => ({
+
+      id: heading.id,
+
+      level: Number(heading.tagName.slice(1)),
+
+      label: (heading.textContent || '').trim(),
+
+      heading,
+
+      children: [],
+
+      parent: null
+
+    });
+
+
+
+    headings.forEach((heading) => {
+
+      const item = createItem(heading);
+
+      if (item.level === 2) {
+
+        items.push(item);
+
+        currentH2 = item;
+
+        currentH3 = null;
+
+        return;
+
+      }
+
+
+
+      if (item.level === 3) {
+
+        if (!currentH2) {
+
+          items.push(item);
+
+        } else {
+
+          item.parent = currentH2;
+
+          currentH2.children.push(item);
+
+        }
+
+        currentH3 = item;
+
+        return;
+
+      }
+
+
+
+      if (item.level === 4) {
+
+        if (currentH3) {
+
+          item.parent = currentH3;
+
+          currentH3.children.push(item);
+
+        } else if (currentH2) {
+
+          item.parent = currentH2;
+
+          currentH2.children.push(item);
+
+        } else {
+
+          items.push(item);
+
+        }
+
+      }
+
+    });
+
+
+
+    return items;
+
+  };
+
+
+
+  const getAncestors = (item) => {
+
+    const ancestors = new Set();
+
+    let current = item?.parent || null;
+
+    while (current) {
+
+      ancestors.add(current.id);
+
+      current = current.parent;
+
+    }
+
+    return ancestors;
+
+  };
+
+
+
+  const flatten = (items) => {
+
+    const all = [];
+
+    const walk = (node) => {
+
+      all.push(node);
+
+      node.children.forEach(walk);
+
+    };
+
+    items.forEach(walk);
+
+    return all;
+
+  };
+
+
+
+  const getActiveItem = (allItems) => {
+
+    const offset = 160;
+
+    const currentY = window.scrollY + offset;
+
+    let active = allItems[0] || null;
+
+    allItems.forEach((item) => {
+
+      if (item.heading.offsetTop <= currentY) {
+
+        active = item;
+
+      }
+
+    });
+
+    return active;
+
+  };
+
+
+
+  const createLink = (item) => {
+
+    const li = document.createElement('li');
+
+    li.className = `context-outline__item context-outline__item--level-${item.level}`;
+
+    li.dataset.outlineId = item.id;
+
+    const link = document.createElement('a');
+
+    link.href = `#${item.id}`;
+
+    link.textContent = item.label;
+
+    li.appendChild(link);
+
+    return li;
+
+  };
+
+
+
+  const renderNav = (nav, items, activeItem) => {
+
+    const ancestors = getAncestors(activeItem);
+
+    const activeH2 = activeItem?.level === 2 ? activeItem : activeItem?.parent?.level === 2 ? activeItem.parent : activeItem?.parent?.parent || null;
+
+    const activeH3 = activeItem?.level === 3 ? activeItem : activeItem?.parent?.level === 3 ? activeItem.parent : null;
+
+
+
+    const root = document.createElement('ul');
+
+    items.forEach((section) => {
+
+      const sectionItem = createLink(section);
+
+      if (activeItem?.id === section.id) sectionItem.classList.add('is-active');
+
+      if (ancestors.has(section.id)) sectionItem.classList.add('is-ancestor');
+
+
+
+      if (activeH2 && section.id === activeH2.id && section.children.length > 0) {
+
+        const level3List = document.createElement('ul');
+
+        section.children.forEach((child) => {
+
+          const childItem = createLink(child);
+
+          if (activeItem?.id === child.id) childItem.classList.add('is-active');
+
+          if (ancestors.has(child.id)) childItem.classList.add('is-ancestor');
+
+
+
+          if (activeH3 && child.id === activeH3.id && child.children.length > 0) {
+
+            const level4List = document.createElement('ul');
+
+            child.children.forEach((grandchild) => {
+
+              const grandchildItem = createLink(grandchild);
+
+              if (activeItem?.id === grandchild.id) grandchildItem.classList.add('is-active');
+
+              if (ancestors.has(grandchild.id)) grandchildItem.classList.add('is-ancestor');
+
+              level4List.appendChild(grandchildItem);
+
+            });
+
+            childItem.appendChild(level4List);
+
+          }
+
+
+
+          level3List.appendChild(childItem);
+
+        });
+
+        sectionItem.appendChild(level3List);
+
+      }
+
+
+
+      root.appendChild(sectionItem);
+
+    });
+
+
+
+    nav.replaceChildren(root);
+
+  };
+
+
+
+  const initOutline = () => {
+
+    if (!articlePathPattern.test(window.location.pathname)) return;
+
+    const contentRoot = document.querySelector('#quarto-document-content');
+
+    if (!contentRoot) return;
+
+
+
+    const headings = Array.from(contentRoot.querySelectorAll('h2, h3, h4')).filter((heading) => {
+
+      const text = (heading.textContent || '').trim();
+
+      return text.length > 0;
+
+    });
+
+    if (headings.length < 2) return;
+
+
+
+    ensureHeadingIds(headings);
+
+    const items = buildTree(headings);
+
+    const allItems = flatten(items);
+
+    if (allItems.length === 0) return;
+
+
+
+    const aside = document.createElement('aside');
+
+    aside.className = 'context-outline';
+
+    aside.setAttribute('aria-label', 'On this page');
+
+
+
+    const inner = document.createElement('div');
+
+    inner.className = 'context-outline__inner';
+
+    const label = document.createElement('div');
+
+    label.className = 'context-outline__label';
+
+    label.textContent = 'On this page';
+
+    const nav = document.createElement('nav');
+
+    nav.className = 'context-outline__nav';
+
+
+
+    inner.append(label, nav);
+
+    aside.appendChild(inner);
+
+    document.body.appendChild(aside);
+
+    document.body.classList.add('has-context-outline');
+
+
+
+    let activeId = '';
+
+    let ticking = false;
+
+    const update = () => {
+
+      ticking = false;
+
+      const nextActive = getActiveItem(allItems);
+
+      if (!nextActive || nextActive.id === activeId) return;
+
+      activeId = nextActive.id;
+
+      renderNav(nav, items, nextActive);
+
+    };
+
+
+
+    const requestUpdate = () => {
+
+      if (!desktopMedia.matches) return;
+
+      if (!ticking) {
+
+        ticking = true;
+
+        window.requestAnimationFrame(update);
+
+      }
+
+    };
+
+
+
+    desktopMedia.addEventListener('change', () => {
+
+      if (desktopMedia.matches) {
+
+        requestUpdate();
+
+      }
+
+    });
+
+
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+
+    window.addEventListener('resize', requestUpdate);
+
+    renderNav(nav, items, allItems[0]);
+
+    requestUpdate();
+
+  };
+
+
+
+  if (document.readyState === 'loading') {
+
+    document.addEventListener('DOMContentLoaded', initOutline, { once: true });
+
+  } else {
+
+    initOutline();
+
+  }
+
+})();
+
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right

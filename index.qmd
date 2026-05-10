@@ -32,7 +32,7 @@ listing:
 ---
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260510054310 -->
+<!-- BUILD-ID: 20260510082813 -->
 
 
 this is the HOME page.

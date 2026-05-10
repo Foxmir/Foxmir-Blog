@@ -587,7 +587,8 @@ $config += @(
     '      dark: darkly'
     '    respect-user-color-scheme: false'
     '    css: styles.css'
-        '    toc: false'
+    '    include-after-body: outline-sidebar.html'
+    '    toc: false'
 )
 
 Write-Utf8File -Path (Join-Path $project '_quarto.yml') -Lines $config

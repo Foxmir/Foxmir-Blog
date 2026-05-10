@@ -163,6 +163,73 @@ main.content,
 	padding: 3.4rem 1.5rem 5rem;
 }
 
+.context-outline {
+	display: none;
+}
+
+.context-outline__inner {
+	border-left: 1px solid var(--site-line);
+	padding-left: 1rem;
+}
+
+.context-outline__label {
+	font-family: 'Avenir Next', Avenir, 'Segoe UI Variable', 'Segoe UI', 'Helvetica Neue', sans-serif;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--site-text-soft);
+	margin-bottom: 0.9rem;
+	opacity: 0.9;
+}
+
+.context-outline__nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+}
+
+.context-outline__nav ul ul {
+	margin-top: 0.3rem;
+	padding-left: 0.9rem;
+	border-left: 1px solid var(--site-line);
+	gap: 0.28rem;
+}
+
+.context-outline__item--level-2 > a {
+	font-weight: 700;
+	color: var(--site-text);
+	font-size: 0.92rem;
+}
+
+.context-outline__item--level-3 > a,
+.context-outline__item--level-4 > a {
+	font-size: 0.84rem;
+	color: var(--site-text-soft);
+	line-height: 1.45;
+}
+
+.context-outline__nav a {
+	display: block;
+	text-decoration: none;
+	color: inherit;
+	transition: color 0.18s ease;
+	word-break: break-word;
+}
+
+.context-outline__nav a:hover,
+.context-outline__item.is-active > a,
+.context-outline__item.is-ancestor > a {
+	color: var(--site-accent);
+}
+
+.context-outline__item.is-active > a {
+	font-weight: 700;
+}
+
 #title-block-header {
 	margin-bottom: 2.6rem;
 	padding-bottom: 1.5rem;
@@ -361,6 +428,24 @@ table {
 	.navbar-brand-container.mx-auto {
 		margin-left: 0 !important;
 		margin-right: auto !important;
+	}
+}
+
+@media (min-width: 1200px) {
+	body.has-context-outline #quarto-content {
+		max-width: min(calc(var(--site-reading-width) + 24rem), calc(100vw - 3rem));
+		padding-right: clamp(14rem, 18vw, 18rem);
+	}
+
+	body.has-context-outline .context-outline {
+		display: block;
+		position: fixed;
+		top: 8rem;
+		right: max(1.25rem, calc((100vw - var(--site-max-width)) / 2 + 1.25rem));
+		width: clamp(12rem, 15vw, 15rem);
+		max-height: calc(100vh - 10rem);
+		overflow: auto;
+		padding-bottom: 1rem;
 	}
 }
 
