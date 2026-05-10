@@ -106,6 +106,18 @@ main.content,
 	padding: 0 1.25rem;
 }
 
+#quarto-header .navbar .navbar-nav:last-child {
+	padding-right: 8.6rem;
+}
+
+#quarto-header .navbar .navbar-nav.navbar-nav-scroll.ms-auto {
+	margin-right: 7.6rem;
+}
+
+#quarto-header .navbar .navbar-collapse {
+	padding-right: 0.6rem;
+}
+
 .navbar-brand,
 .navbar-nav .nav-link,
 .navbar #quarto-search {
@@ -196,6 +208,20 @@ body.quarto-dark .navbar .quarto-color-scheme-toggle {
 	right: 1.25rem;
 	top: 50%;
 	transform: translateY(-50%);
+}
+
+@media (max-width: 991.98px) {
+	#quarto-header .navbar .navbar-nav:last-child {
+		padding-right: 0;
+	}
+
+	#quarto-header .navbar .navbar-nav.navbar-nav-scroll.ms-auto {
+		margin-right: 0;
+	}
+
+	#quarto-header .navbar .navbar-collapse {
+		padding-right: 0;
+	}
 }
 
 #quarto-content {
