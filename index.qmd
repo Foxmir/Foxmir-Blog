@@ -3,9 +3,12 @@ title: "Foxmir Blog"
 page-layout: full
 listing:
   - id: latest-listing
-    contents: publish
+    contents:
+      - publish/Life
+      - publish/Reports
     sort: "date desc"
     type: default
+    fields: [date, title]
     categories: false
     sort-ui: false
     filter-ui: false
@@ -14,13 +17,15 @@ listing:
     contents: publish/Life
     sort: "date desc"
     type: default
+    fields: [date, title]
     categories: false
     sort-ui: false
     filter-ui: false
-  - id: test4folder-listing
-    contents: publish/test4Folder
+  - id: reports-listing
+    contents: publish/Reports
     sort: "date desc"
     type: default
+    fields: [date, title]
     categories: false
     sort-ui: false
     filter-ui: false
@@ -28,9 +33,9 @@ listing:
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
 
-Writing about tools, code, and everyday life.
 
-A small archive of notes, experiments, and everyday observations.
+this is the HOME page.
+
 
 <section class="home-section">
 <h2 class="home-section-heading">Latest</h2>
@@ -47,8 +52,8 @@ A small archive of notes, experiments, and everyday observations.
 </section>
 
 <section class="home-section">
-<h2 class="home-section-heading">test4Folder</h2>
+<h2 class="home-section-heading">Reports</h2>
 
-:::{#test4folder-listing}
+:::{#reports-listing}
 :::
 </section>

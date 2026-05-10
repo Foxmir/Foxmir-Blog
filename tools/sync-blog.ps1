@@ -74,6 +74,45 @@ function Get-FileContentLines {
     return [regex]::Split($content, "`r`n|`n")
 }
 
+function Get-MarkdownBodyLines {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    $lines = Get-FileContentLines -Path $Path
+    if ($lines.Length -ge 1 -and $lines[0] -eq '---') {
+        for ($index = 1; $index -lt $lines.Length; $index++) {
+            if ($lines[$index] -eq '---') {
+                if ($index + 1 -lt $lines.Length) {
+                    return @($lines[($index + 1)..($lines.Length - 1)])
+                }
+
+                return @()
+            }
+        }
+    }
+
+    return $lines
+}
+
+function Get-RootMarkdownContent {
+    param(
+        [Parameter(Mandatory = $true)][string]$Directory,
+        [Parameter(Mandatory = $true)][string]$BaseName
+    )
+
+    $candidate = Get-ChildItem -LiteralPath $Directory -File |
+        Where-Object {
+            $_.BaseName.Equals($BaseName, [System.StringComparison]::OrdinalIgnoreCase) -and
+            $_.Extension.Equals('.md', [System.StringComparison]::OrdinalIgnoreCase)
+        } |
+        Select-Object -First 1
+
+    if ($null -eq $candidate) {
+        return @()
+    }
+
+    return Get-MarkdownBodyLines -Path $candidate.FullName
+}
+
 function Add-MissingTitleFrontMatter {
     param([Parameter(Mandatory = $true)][string]$Path)
 
@@ -120,6 +159,8 @@ Get-ChildItem $project -Filter '*.qmd' -File |
 $dirs = @(Get-ChildItem $publish -Directory | Where-Object { $_.Name -notmatch '^[._]' } | Sort-Object Name)
 $items = @()
 $used = @{}
+$homeContentLines = Get-RootMarkdownContent -Directory $publish -BaseName 'Home'
+$aboutContentLines = Get-RootMarkdownContent -Directory $publish -BaseName 'About'
 
 foreach ($dir in $dirs) {
     $slug = ConvertTo-Slug $dir.Name
@@ -143,6 +184,7 @@ foreach ($dir in $dirs) {
         '  contents: ' + $contentsPath
         '  sort: "date desc"'
         '  type: default'
+        '  fields: [date, title]'
         '  categories: false'
         '  sort-ui: false'
         '  filter-ui: false'
@@ -162,9 +204,21 @@ $homePage = @(
     'page-layout: full'
     'listing:'
     '  - id: latest-listing'
-    '    contents: publish'
+)
+
+if ($items.Count -gt 0) {
+    $homePage += '    contents:'
+    foreach ($item in $items) {
+        $homePage += '      - ' + (ConvertTo-YamlPlainPath ('publish/' + $item.Name))
+    }
+} else {
+    $homePage += '    contents: []'
+}
+
+$homePage += @(
     '    sort: "date desc"'
     '    type: default'
+    '    fields: [date, title]'
     '    categories: false'
     '    sort-ui: false'
     '    filter-ui: false'
@@ -176,6 +230,7 @@ foreach ($item in $items) {
     $homePage += '    contents: ' + (ConvertTo-YamlPlainPath ('publish/' + $item.Name))
     $homePage += '    sort: "date desc"'
     $homePage += '    type: default'
+    $homePage += '    fields: [date, title]'
     $homePage += '    categories: false'
     $homePage += '    sort-ui: false'
     $homePage += '    filter-ui: false'
@@ -185,10 +240,14 @@ $homePage += @(
     '---'
     ''
     '<!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->'
-    ''
-    'Writing about tools, code, and everyday life.'
-    ''
-    'A small archive of notes, experiments, and everyday observations.'
+)
+
+if ($homeContentLines.Count -gt 0) {
+    $homePage += ''
+    $homePage += $homeContentLines
+}
+
+$homePage += @(
     ''
     '<section class="home-section">'
     '<h2 class="home-section-heading">Latest</h2>'
@@ -209,6 +268,22 @@ foreach ($item in $items) {
 }
 
 Write-Utf8File -Path (Join-Path $project 'index.qmd') -Lines $homePage
+
+$aboutPage = @(
+    '---'
+    'title: "About"'
+    'page-layout: full'
+    '---'
+    ''
+    '<!-- AUTO-GENERATED-ABOUT-PAGE: edit the root About.md in Obsidian, not this file. -->'
+)
+
+if ($aboutContentLines.Count -gt 0) {
+    $aboutPage += ''
+    $aboutPage += $aboutContentLines
+}
+
+Write-Utf8File -Path (Join-Path $project 'about.qmd') -Lines $aboutPage
 
 $config = @(
     'project:'

@@ -13,8 +13,8 @@ website:
         text: About
       - href: life.qmd
         text: 'Life'
-      - href: test4folder.qmd
-        text: 'test4Folder'
+      - href: reports.qmd
+        text: 'Reports'
 
 format:
   html:

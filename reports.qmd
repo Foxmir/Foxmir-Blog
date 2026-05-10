@@ -1,11 +1,12 @@
 ---
-title: 'test4Folder'
+title: 'Reports'
 page-layout: full
 listing:
   id: category-listing
-  contents: publish/test4Folder
+  contents: publish/Reports
   sort: "date desc"
   type: default
+  fields: [date, title]
   categories: false
   sort-ui: false
   filter-ui: false

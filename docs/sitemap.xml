@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/test4folder.html</loc>
-    <lastmod>2026-05-09T16:13:52.740Z</lastmod>
+    <loc>https://foxmir.github.io/Foxmir-Blog/reports.html</loc>
+    <lastmod>2026-05-10T04:30:25.984Z</lastmod>
   </url>
   <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Life/First_Life.html</loc>
-    <lastmod>2026-05-09T16:13:52.459Z</lastmod>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Reports/CartPole DQN Report.html</loc>
+    <lastmod>2026-05-10T04:30:25.626Z</lastmod>
   </url>
   <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/life.html</loc>
-    <lastmod>2026-05-09T16:13:52.727Z</lastmod>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/HOME.html</loc>
+    <lastmod>2026-05-10T04:30:25.726Z</lastmod>
   </url>
   <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/about.html</loc>
-    <lastmod>2026-01-16T13:07:42.275Z</lastmod>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/ABOUT.html</loc>
+    <lastmod>2026-05-10T04:30:25.698Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/index.html</loc>
-    <lastmod>2026-05-09T16:13:52.772Z</lastmod>
+    <lastmod>2026-05-10T04:30:26.023Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/about.html</loc>
+    <lastmod>2026-05-10T04:30:26.033Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/life.html</loc>
+    <lastmod>2026-05-10T04:30:25.977Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/Hello_world.html</loc>
-    <lastmod>2026-05-09T16:13:52.512Z</lastmod>
+    <lastmod>2026-05-10T04:30:25.711Z</lastmod>
   </url>
   <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/test4Folder/test4file.html</loc>
-    <lastmod>2026-05-09T16:13:52.496Z</lastmod>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Life/First_Life.html</loc>
+    <lastmod>2026-05-10T04:30:25.501Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Reports/test4file.html</loc>
+    <lastmod>2026-05-10T04:30:25.662Z</lastmod>
   </url>
 </urlset>

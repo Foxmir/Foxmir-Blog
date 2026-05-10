@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-01-15">
+
+<title>CartPole DQN Report – Foxmir Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-24772959a0e306aba8d7698078628ce7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VQW94RHSBY"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Foxmir Blog</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../life.html"> 
+<span class="menu-text">Life</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../reports.html"> 
+<span class="menu-text">Reports</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">CartPole DQN Report</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 15, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="technical-report-statistical-analysis-of-dqn-on-cartpole-v1" class="level1">
+<h1>Technical Report: Statistical Analysis of DQN on CartPole-v1</h1>
+<p>（Written on January 2, 2026 and completed on January 15, 2026）</p>
+<hr>
+</section>
+<section id="abstract" class="level1">
+<h1>Abstract</h1>
+<p>Under constrained computational budgets, reinforcement learning experiments often face a severe conflict between statistical rigor and resource consumption. Using DQN training on CartPole-v1 as a case study, this report aims to quantify this conflict and explore hyperparameter sensitivity characteristics under strict statistical standards. We adopted a four-stage statistical experimental protocol: evaluation precision calibration, coarse screening via Bayesian optimization, incremental model selection based on bootstrap paired-difference confidence intervals (incorporating statistical pruning and adaptive early termination), and a full-factorial ANOVA local sensitivity analysis centered on the champion configuration. Empirical results reveal the high cost of maintaining statistical reliability in this specific RL project: the training phase exhibits high variance and significant deviation from normality, causing sample size estimates based on normal approximation to yield unrealistic requirements; pursuing equivalent rigor would require a training seed count (<span class="math inline">\(N_{train} \approx 1000\)</span>) far exceeding typical budgets. Model selection within an acceptable training budget (<span class="math inline">\(N_{train} = 40\)</span>) also demonstrated that strict paired-difference CIs prevented adaptive early termination from triggering and triggered statistical pruning only once, reflecting a direct conflict between rigor and efficiency. Local sensitivity analysis based on the champion hyperparameters further indicated that within the champion configuration’s neighborhood, the residual term (stochastic noise) explained 95% of performance variation, with only the learning rate showing weak statistical significance (<span class="math inline">\(\eta_p^2=0.0064\)</span>). These results suggest that under the current experimental budget, the marginal benefit of excessive local hyperparameter fine-tuning is extremely low and highly susceptible to stochastic interference; engineering practice should acknowledge this statistical reality. Increasing the number of training seeds and utilizing statistical aggregation are more reliable means for improving the cost-effectiveness of model selection or the reliability of sensitivity analysis.</p>
+</section>
+<section id="methods" class="level1">
+<h1>Methods</h1>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>The experimental process was structured into four sequential stages, designed to balance computational efficiency with statistical rigor.</p>
+<ul>
+<li><strong>Step 1: Statistical Precision Analysis</strong>: Establishing baseline requirements for evaluation and training seeds.</li>
+<li><strong>Step 2: Coarse Screening</strong>: Identifying top-10 hyperparameter candidates via Bayesian optimization.</li>
+<li><strong>Step 3: Model Selection</strong>: Identifying the optimal configuration through adaptive termination and statistical pruning.</li>
+<li><strong>Step 4: Sensitivity Analysis</strong>: Assessing the robustness of the champion configuration by exploring its local hyperparameter landscape.</li>
+</ul>
+</section>
+<section id="protocol-pre" class="level2">
+<h2 class="anchored" data-anchor-id="protocol-pre">Protocol-Pre</h2>
+<ol type="1">
+<li><strong>Environmental Specification</strong>:
+<ol type="1">
+<li>CartPole-v1</li>
+<li>TimeLimit: 500 steps (corresponding to the full score of 500 points)</li>
+<li>Termination and Truncation Criteria:
+<ol type="1">
+<li>Termination: agent falls down</li>
+<li>Truncation: agent reaches the time limit (500 steps)</li>
+</ol></li>
+</ol></li>
+<li><strong>Training Benchmark</strong>
+<ol type="1">
+<li><span class="math inline">\(\epsilon\)</span>-greedy policy: allow to explore</li>
+<li>every agent must run over the episode budget which is be given in advance</li>
+<li>Step 2 treats the number of episodes as a Bayesian hyperparameter</li>
+</ol></li>
+<li><strong>Learning Benchmark</strong>
+<ol type="1">
+<li>Episode Termination: Within the interaction loop, episodes end upon either natural termination or time truncation.</li>
+<li>Target Value Computation: In Deep Q-Network (DQN) target calculations, the next-state value term (future value) is omitted only upon natural termination. For time truncation, the future value is preserved to avoid biased value estimation.</li>
+<li>Implementation: A binary indicator modulates the next-state value term: it is set to 0 for natural termination and 1 for time truncation.</li>
+</ol></li>
+<li><strong>Evaluation Benchmark</strong>
+<ol type="1">
+<li>Deterministic Policy: <span class="math inline">\(\epsilon = 0\)</span></li>
+<li>Evaluation Schedule:
+<ol type="1">
+<li>A single evaluation phase is conducted post-training (consisting of <span class="math inline">\(N_{eval}\)</span> independent episodes, determined via precision analysis).</li>
+<li>No interim evaluation during the training.</li>
+<li>Step 3 includes an additional validation stage: after selecting the champion, we retrain the champion configuration using an independent set of 10 training seeds (disjoint from those used for model selection) and evaluate it using the same standardized evaluation protocol.</li>
+<li>In this report, <span class="math inline">\(N_{eval}\)</span> denotes the number of independent evaluation episodes, implemented by resetting the environment with a distinct evaluation seed per episode.</li>
+</ol></li>
+<li>Evaluation main metric:
+<ol type="1">
+<li>Step 1A: Load a fixed checkpoint and execute independent evaluation episodes in evaluation mode (<span class="math inline">\(\epsilon=0\)</span>). <span class="math inline">\(N_{eval}\)</span> is derived based on the Standard Deviation (SD) and Confidence Interval (CI) half-width of returns across evaluation episodes.</li>
+<li>Once <span class="math inline">\(N_{eval}\)</span> is determined, the evaluation protocol is finalized; all subsequent evaluations adhere to this standardized procedure.</li>
+</ol></li>
+</ol></li>
+<li><strong>Reproducibility</strong>
+<ol type="1">
+<li>Training–evaluation isolation: Training seeds (and all training-time randomness derived from them, including environment initialization) are disjoint from evaluation seeds.</li>
+<li>Cross-stage training-seed isolation (decision-critical stages): The training seed sets used in Steps 2–4 are mutually disjoint.</li>
+<li>Note on Step 1: Step 1 uses pilot seeds for diagnostic analysis and may overlap with Step 2; Step 1 outcomes do not participate in candidate ranking or champion selection.</li>
+<li>The specific mapping is provided in the Appendix.</li>
+</ol></li>
+<li><strong>Budget Specifications</strong>:
+<ol type="1">
+<li>Step 1: <span class="math inline">\(N_{episodes} = 500\)</span></li>
+<li>Step 2: <span class="math inline">\(N_{episodes} \in \{300, 400, 500\}\)</span> as a discrete hyperparameter.</li>
+</ol></li>
+<li><strong>Primary and Secondary Metrics</strong>:
+<ol type="1">
+<li>Within the specified budget, mean evaluation return is the primary metric, and stability (SD) is the secondary metric.</li>
+<li>Sample efficiency is not prioritized within this specific budget range.</li>
+</ol></li>
+<li><strong>Hyperparameter Configuration</strong>:
+<ol type="1">
+<li><strong>Baseline</strong>:
+<ol type="1">
+<li>gamma: 0.99</li>
+<li>learning_rate 0.0005 (with Adam optimizer)</li>
+<li>epsilon_decay:0.9999</li>
+<li>tau: 0.005 (soft update)</li>
+<li>replay buffer size: 40000</li>
+<li>num_episodes: 500</li>
+<li>batch_size: 128</li>
+</ol></li>
+<li><strong>Bayesian</strong>:
+<ol type="1">
+<li>gamma: <span class="math inline">\([0.95, 0.999]\)</span></li>
+<li>learning_rate: <span class="math inline">\([0.0001, 0.01]\)</span></li>
+<li>epsilon_decay: <span class="math inline">\([0.98, 0.999]\)</span></li>
+<li>tau: <span class="math inline">\([0.001, 0.05]\)</span></li>
+<li>replay buffer size: <span class="math inline">\([10000, 20000, 30000, 40000, 50000]\)</span></li>
+<li>num_episodes: <span class="math inline">\([300, 400, 500]\)</span></li>
+<li>batch_size: <span class="math inline">\([64, 128, 256]\)</span></li>
+</ol></li>
+</ol></li>
+</ol>
+</section>
+<section id="step-1-statistical-precision-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-statistical-precision-analysis">Step 1: Statistical Precision Analysis</h2>
+<section id="step-1a-evaluation-precision-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="step-1a-evaluation-precision-analysis">Step 1A: Evaluation Precision Analysis</h3>
+<p>This stage aims to quantify environmental stochasticity to determine the required number of evaluation seeds.</p>
+<p>Step 1A first utilizes a large-scale pilot run (100 evaluation episodes) to obtain return samples, followed by calculating the CI half-width curve across different <span class="math inline">\(n\)</span> values to determine the minimum <span class="math inline">\(N_{eval}\)</span> that satisfies the <span class="math inline">\(\pm10\)</span> threshold.</p>
+<p>To examine whether evaluation returns still exhibit observable fluctuations in the near-saturated performance region (thereby assessing the necessity of <span class="math inline">\(N_{eval}\)</span>), a high-performance agent was selected for testing.</p>
+<p>Preliminary tests indicated that a near-saturated policy (average train reward ≈470 points) exhibited near-zero variance during evaluation, which prevented reliable estimation of the environment’s stochasticity.</p>
+<p>To mitigate this ceiling effect, a non-saturated policy checkpoint (average train reward ≈250 points) was employed to retain sufficient variability.</p>
+<p>Based on the 95% confidence-interval half-width of ±10 (2 % of the full score of 500 points), the required number of evaluation seeds was determined to be <span class="math inline">\(N_{eval}=70\)</span>.</p>
+</section>
+<section id="step-1b-training-precision-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="step-1b-training-precision-analysis">Step 1B: Training Precision Analysis</h3>
+<p>The evaluation baseline was established as a 95% confidence-interval half-width of ±10 points.</p>
+<p>Empirical pilot studies (<span class="math inline">\(N_{train}=20\)</span>) revealed a Left-skewed characterized by a dominant high-reward peak and a secondary low-reward peak. (SD ≈ 150).</p>
+<p>Given the Non-Gaussian characteristics and the high variance , achieving the target precision would require <span class="math inline">\(N_{train} \approx 1000\)</span>, which is computationally prohibitive.</p>
+<p>A multi-stage resource allocation was adopted to balance statistical rigor with computational constraints: * Step 2 (Coarse Screening): <span class="math inline">\(N_{train}=5\)</span> to eliminate poorly performing configurations * Step 3 (Model Selection): <span class="math inline">\(N_{train} \in [20, 40]\)</span> to identify the optimal configuration via adaptive sampling * Step 4 (Sensitivity Analysis): <span class="math inline">\(N_{train}=20\)</span> to characterize the local hyperparameter landscape</p>
+</section>
+</section>
+<section id="protocol-frozen" class="level2">
+<h2 class="anchored" data-anchor-id="protocol-frozen">Protocol-Frozen</h2>
+<ul>
+<li>deduce the Step 1 outcome:
+<ul>
+<li>Evaluation protocol added: <span class="math inline">\(N_{eval}=70\)</span> (derived from Step 1A)</li>
+<li>Training protocol set as multi-stage strategy</li>
+</ul></li>
+<li>apply to Steps 2, 3, and 4</li>
+</ul>
+</section>
+<section id="step-2-coarse-screening" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-coarse-screening">Step 2: Coarse Screening</h2>
+<p>Preliminary screening’s aim is to eliminate the terrible configurations but not for higher precision evaluation, so setting <span class="math inline">\(N_{train}=5\)</span> had already created the discrimination and the probability of losing the optimal configuration is low.</p>
+<p>The top-10 candidates were selected after Bayesian optimization via a simple sort based on the evaluation outcome ## Step 3: Model Selection</p>
+<p>Step 3 aims at identifying the optimal configuration through adaptive termination and statistical pruning. This allows for efficient resource allocation to high-potential candidate configurations.</p>
+<p>We compared the top-ranked configuration against all other candidate configurations. For each additional training seed (incremented synchronously across all candidates), we computed bootstrap resampling confidence intervals (CIs) for the paired differences based on the cumulative set of training seeds.</p>
+<p>In consideration of the Type I error accumulation ,99% CI can mitigate inflation. In view of the full points = 500 , we chose the 2% of it (=10 points) as standard.</p>
+<ul>
+<li><p>After training all candidate configurations for 20 seeds (under 20 seeds is obviously not a reasonable number to up to enough variance to pick out the champion)</p></li>
+<li><p>Based on the top-ranked configuration compared with the second-ranked configuration, if the 99% paired-difference CI lower bound (LB) &gt; 10, Model Selection terminated. When it occur, the top-ranked configuration is selected as the champion.</p></li>
+<li><p>Based on the top-ranked configuration compared with any other candidate configuration, if the 99% paired-difference CI lower bound (LB) &gt; 10, prune that configuration. This means that it will not be eligible for subsequent champion selection</p></li>
+<li><p>If adaptive termination does not occur, continue training until <span class="math inline">\(N_{train}=40\)</span> seeds. The configuration with the highest mean evaluation return is selected as the champion.</p></li>
+</ul>
+<p>To ensure maximum reliability, following the selection of the champion, we retrain the champion configuration using an independent set of 10 training seeds (disjoint from those used for model selection) and evaluate it using the same standardized evaluation protocol</p>
+<p>We also took the controller-worker framework to run multiple agents at one time to reduce total wall-clock time.</p>
+</section>
+<section id="step-4-sensitivity-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-sensitivity-analysis">Step 4: Sensitivity Analysis</h2>
+<section id="grid-search-specification" class="level3">
+<h3 class="anchored" data-anchor-id="grid-search-specification">Grid Search Specification</h3>
+<p>Centering on the champion configuration, adopting the full-factor design to view the landscape around.</p>
+<p>We conducted a grid search based on 20 seeds with 4 factors at 3 levels. * learning_rate: <span class="math inline">\([0.5x, 1x, 2x]\)</span> * epsilon_decay: <span class="math inline">\([x-1.5a, x, x+a/1.5]\)</span> (<span class="math inline">\(a = 1 - x\)</span>) * tau: <span class="math inline">\([0.5x, 1x, 2x]\)</span> * batch_size: <span class="math inline">\([0.5x, 1x, 2x]\)</span></p>
+<p>Based on reinforcement learning (RL) nonlinearity, the level values are set to 0.5x, 1x, and 2x of the champion value.</p>
+<p>Let <span class="math inline">\(x\)</span> denote the champion’s epsilon decay and <span class="math inline">\(a = 1 - x\)</span> represent the decay intensity. The three levels for epsilon decay are constructed as <span class="math inline">\([x - 1.5a, x, x + a/1.5]\)</span>, with values clipped to the <span class="math inline">\((0, 1)\)</span> interval to prevent out-of-bounds values.</p>
+</section>
+<section id="statistical-analysis-protocol" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-analysis-protocol">Statistical Analysis Protocol</h3>
+<p>After finishing all runs, we will report main effects, interaction effects, and <span class="math inline">\(\eta^2\)</span> via analysis of variance (ANOVA).</p>
+<ul>
+<li><strong>Method</strong>: Four-way ANOVA (Type II Sum of Squares).</li>
+<li><strong>Dependent Variable</strong>: Mean episode reward (averaged over 70 evaluation episodes).</li>
+<li><strong>Factors</strong>: Learning Rate, Batch Size, Epsilon Decay, Tau (Full factorial with interactions).</li>
+<li><strong>Error Term</strong>: Random seed variability is modeled as residual error.</li>
+<li><strong>Metric</strong>: Partial Eta Squared (<span class="math inline">\(\eta_p^2\)</span>) is used to rank factor importance.</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<p>Unless otherwise specified, configuration-level metrics (mean and SD) refer to statistics aggregated across training seeds; metrics in Step 1A specifically refer to statistics across evaluation episodes.</p>
+<section id="step-1" class="level2">
+<h2 class="anchored" data-anchor-id="step-1">Step 1</h2>
+<section id="step-1a" class="level3">
+<h3 class="anchored" data-anchor-id="step-1a">Step 1A</h3>
+<p>![[Figure1_step1A1ceilingeffect.png]]</p>
+<p><strong>Figure 1</strong>: 95% CI half-width as a function of <span class="math inline">\(N_{eval}\)</span> (red line: threshold=10; green line: selected minimum <span class="math inline">\(N_{eval}\)</span>). For the saturated policy (mean=500, variance=0), the analysis yields a misleading requirement of <span class="math inline">\(N_{eval}=5\)</span>.</p>
+<p>![[Figure2_step1A2n=70.png]]</p>
+<p><strong>Figure 2</strong>: The same analysis for the non-saturated policy (mean=281.28, SD=41.76) correctly identifies <span class="math inline">\(N_{eval}=70\)</span>, which was subsequently adopted for the evaluation protocol.</p>
+</section>
+<section id="step-1b" class="level3">
+<h3 class="anchored" data-anchor-id="step-1b">Step 1B</h3>
+<p>![[Figure3_step1B_left_skewed_distribution.png]]</p>
+<p><strong>Figure 3</strong>: Histogram of final returns across <span class="math inline">\(N_{train}=20\)</span> seeds (green line: mean; red line: 500-point ceiling). The performance exhibits a typical left-skewed distribution (mean ≈ 361.2, SD ≈ 159), highlighting significant non-Gaussianity and high variance.</p>
+</section>
+</section>
+<section id="step-2" class="level2">
+<h2 class="anchored" data-anchor-id="step-2">Step 2</h2>
+<p>The Bayesian optimization process evaluated 84 configurations. The top-10 candidates, with mean rewards ranging about <span class="math inline">\([45, 500]\)</span> (<span class="math inline">\(N_{train}=5\)</span>), were selected for subsequent rigorous pruning in Step 3. Detailed hyperparameter sets are provided in Appendix.</p>
+</section>
+<section id="step-3" class="level2">
+<h2 class="anchored" data-anchor-id="step-3">Step 3</h2>
+<p>![[Figure4_step3_forest.png]]</p>
+<p><strong>Figure 4</strong>: Paired-difference forest plots for Step 3 champion selection (dynamic baseline). At each snapshot (<span class="math inline">\(n=30\)</span> and <span class="math inline">\(n=40\)</span>), candidates are ranked by mean return up to that seed count, and the top-ranked candidate is treated as the current leader (difference defined as 0). For each candidate i, we plot the mean of seed-wise paired differences (leader − i) and the 99% bootstrap resampling paired-difference CI computed with 10,000 resamples. The dashed line indicates the decision threshold of 10 points: a candidate meets the pruning/termination criterion if the CI lower bound (LB) &gt; 10. At <span class="math inline">\(n=30\)</span>, the 99% CI lower bound of the paired difference (leader − c02) exceeded 10, so c02 was pruned; hence it is absent at <span class="math inline">\(n=40\)</span>. Under the budget cap (<span class="math inline">\(N_{train}=40\)</span>), adaptive termination was never triggered and the final champion was selected by the highest mean return rather than by meeting the CI separation criterion. * learning_rate: <span class="math inline">\([0.00075, 0.00152, 0.00304]\)</span> * epsilon_decay: <span class="math inline">\([0.975, 0.983, 0.991]\)</span> * tau: <span class="math inline">\([0.015, 0.030, 0.060]\)</span> * batch_size: <span class="math inline">\([64, 128, 256]\)</span> 1. gamma: 0.979669671 2. learning_rate 0.001516538 3. epsilon_decay:0.983003997 4. tau: 0.030475336 (soft update) 5. replay buffer size: 40000 6. num_episodes: 500 7. batch_size: 128</p>
+<p>We further validated the champion configuration by retraining it with 10 additional independent training seeds and evaluating it with the same standardized protocol (<span class="math inline">\(N_{eval}=70\)</span>). Across these training seeds, Mean = 329.63, SD = 190.51.</p>
+</section>
+<section id="step-4" class="level2">
+<h2 class="anchored" data-anchor-id="step-4">Step 4</h2>
+<p>Based on the predefined grid search standard, centering on the champion configuration, we set the configuration as: * learning_rate: <span class="math inline">\([0.00075, 0.00152, 0.00304]\)</span> * epsilon_decay: <span class="math inline">\([0.975, 0.983, 0.991]\)</span> * tau: <span class="math inline">\([0.015, 0.030, 0.060]\)</span> * batch_size: <span class="math inline">\([64, 128, 256]\)</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 15%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>factors</th>
+<th>sum_sq</th>
+<th>df</th>
+<th>F</th>
+<th>PR(&gt;F)</th>
+<th>eta_sq_partial</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>C(learning_rate)</td>
+<td>259730.145</td>
+<td>2</td>
+<td>4.98</td>
+<td>0.007</td>
+<td>0.0064</td>
+</tr>
+<tr class="even">
+<td>C(batch_size)</td>
+<td>140436.5383</td>
+<td>2</td>
+<td>2.7</td>
+<td>0.0679</td>
+<td>0.0035</td>
+</tr>
+<tr class="odd">
+<td>C(learning_rate):C(batch_size)</td>
+<td>161737.5107</td>
+<td>4</td>
+<td>1.55</td>
+<td>0.1848</td>
+<td>0.004</td>
+</tr>
+<tr class="even">
+<td>C(tau)</td>
+<td>54941.59155</td>
+<td>2</td>
+<td>1.05</td>
+<td>0.3487</td>
+<td>0.0014</td>
+</tr>
+<tr class="odd">
+<td>C(epsilon_decay)</td>
+<td>31610.40856</td>
+<td>2</td>
+<td>0.61</td>
+<td>0.5453</td>
+<td>0.0008</td>
+</tr>
+<tr class="even">
+<td>Residual</td>
+<td>40097636.42</td>
+<td>1539</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 1</strong>: ANOVA Results (Top Effects). <span class="math inline">\(df\)</span> = degrees of freedom; <span class="math inline">\(SS\)</span> = sum of squares; <span class="math inline">\(\eta_p^2\)</span> = partial eta-squared. The analysis includes four factors: Learning Rate, Batch Size, Epsilon Decay, and Tau.</p>
+<p>![[Figure5_step4_main_effects.png]]</p>
+<p><strong>Figure 5</strong>: Main Effects of Hyperparameters on Agent Performance. Error bars represent 95% confidence intervals. Only Learning Rate shows a statistically significant non-monotonic effect (<span class="math inline">\(p &lt; 0.05\)</span>), peaking at the intermediate level.</p>
+<p>A four-way ANOVA evaluated the effects of Learning Rate, Batch Size, Epsilon Decay, and Tau on mean episode reward (Table 1). The analysis showed that the <strong>Residual</strong> term accounted for the majority of the variance (<span class="math inline">\(SS_{residual} \approx 4.0 \times 10^7\)</span>), representing approximately <strong>95%</strong> of the total sums of squares(from the full ANOVA table; see Appendix).</p>
+<p>Among the hyperparameters, only <strong>Learning Rate</strong> exhibited a statistically significant main effect (<span class="math inline">\(F(2, 1539) = 4.98, p = 0.007\)</span>), though with a small effect size (<span class="math inline">\(\eta_p^2 = 0.0064\)</span>). As shown in Figure 5, comparisons of means indicated an inverted-V trend, with the highest reward observed at the intermediate level (<span class="math inline">\(1.52 \times 10^{-3}\)</span>).</p>
+<p>Neither <strong>Batch Size</strong>, <strong>Epsilon Decay</strong>, <strong>Tau</strong>, nor any interaction effects reached statistical significance at the <span class="math inline">\(\alpha = 0.05\)</span> level.</p>
+<hr>
+</section>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<section id="the-trade-off-between-statistical-rigor-and-pruning-efficiency" class="level2">
+<h2 class="anchored" data-anchor-id="the-trade-off-between-statistical-rigor-and-pruning-efficiency">The Trade-off between Statistical Rigor and Pruning Efficiency</h2>
+<p>We noticed that during Step 3 (Model Selection), adaptive termination was not triggered, and statistical pruning was triggered only once across 20 opportunities.</p>
+<p>This highlights the inevitable tension between rigorous statistical standards and computational efficiency under the premise of limited budget</p>
+<section id="the-trade-off-between-mean-signals-and-uncertain-noise" class="level3">
+<h3 class="anchored" data-anchor-id="the-trade-off-between-mean-signals-and-uncertain-noise">The trade-off between mean signals and uncertain noise</h3>
+<p>The uncertainty of paired differences outweighed the actual performance advantages among all candidates led to an inability to meet the standard of adaptive termination and the statistical pruning under very limited budget.</p>
+<p>It can be seen from the figure that (seed = 30, for example) all candidates (except for the champion) have mean differences (blue dot) <span class="math inline">\(m\)</span> within approximately <span class="math inline">\([10,100]\)</span>. And the corresponding lower bound penalty <span class="math inline">\(u\)</span> is usually within <span class="math inline">\([90,120]\)</span>.</p>
+<p>The triggered condition of the adaptive termination and the statistical pruning is <span class="math inline">\(LB &gt; 10\)</span>. And <span class="math inline">\(LB &gt; 10 \iff m - u &gt; 10\)</span>. So the relative size of <span class="math inline">\(m\)</span> and <span class="math inline">\(u\)</span> is crucial to the trigger. The wide spread of <span class="math inline">\(m\)</span> minus the sufficiently large <span class="math inline">\(u\)</span> led most paired difference CI lower bounds to fail to reach 10.</p>
+<p>This mismatch stems from the superposition of two mechanisms 1. <strong>One side, the upper bound of <span class="math inline">\(m\)</span> is limited by the ceiling effect and the Bayesian optimization.</strong> 1. ceiling effect (points=500) greatly compressed these agents that should have had a high degree of discrimination. When the agent get to 500 points in one round, whatever its performance potency is just over 500 points or far over 500 points, we all terminated it off and set its points=500.(See the analysis of ceiling effect in the following text:the ceiling effect also induced evaluation variance collapse) 2. Step 2 (coarse screening) is in charge of selecting the top-10 candidates via Bayesian optimization. These high-performing candidates offer very limited discrimination compared to common candidates, which makes Step 3 (model selection) more difficult.</p>
+<ol start="2" type="1">
+<li><strong>On another side, the high degree of uncertainty hinted at by <span class="math inline">\(u\)</span> is due to the limited budget.</strong>
+<ol type="1">
+<li>The <span class="math inline">\(u\)</span> level is inherently sensitive to the sample size. The smaller the sample quantity, the greater the sampling uncertainty of the (<span class="math inline">\(\bar d^{*}\)</span>) mean difference estimation, and the more difficult it is to push up the LB.</li>
+<li>Step 1B precision analysis indicated very high need of the training seeds (approximately 1000), which is beyond practical constraints. With a budget capped at <span class="math inline">\(N_{train}=40\)</span>, the bootstrap distribution of the mean difference remains relatively dispersed. This dispersion forces the robust lower bound (0.5th percentile). And that led the distance from the mean to this 0.5th percentile remains high. So the <span class="math inline">\(u\)</span> is at a high magnitude (around 90–120).</li>
+<li>Had the budget been significantly larger, this distribution would have tightened, reducing uncertainty and potentially allowing pruning/termination to trigger. However, computational constraints made this infeasible.</li>
+</ol></li>
+</ol>
+</section>
+<section id="rigor-statistic-rule" class="level3">
+<h3 class="anchored" data-anchor-id="rigor-statistic-rule">Rigor statistic rule</h3>
+<p>To further reduce computational costs within a limited budget, we performed paired-difference CI calculations and decision interventions on a per-seed basis. The presence of sequential decision-making further increased the penalty stringency, leading to extremely high evaluation criteria, which in turn made adaptive early termination and statistical pruning difficult to trigger.</p>
+<ol type="1">
+<li><p><strong>Paired-difference CIs enhance computational efficiency and fairness.</strong> Since RL agents exhibit high sensitivity to initial conditions (training seeds), comparing hyperparameter configurations requires accounting for seed-specific variance. By calculating paired differences on a per-seed basis rather than traditional cross-seed averages, we isolate the relative performance of candidates from the underlying “difficulty” of specific seeds.</p></li>
+<li><p><strong>A 99% CI was adopted to mitigate the inflation of family-wise error rates.</strong> Sequential decision-making inherently increases the cumulative risk of Type I error. To maintain statistical rigor, we employed a stricter decision threshold compared to the standard 95% CI. In implementation, we used the lower bound of a two-sided 99% CI (0.5th percentile), which is slightly more conservative than a one-sided 99% lower confidence bound (1st percentile). While this high bar protects the accuracy of model selection, it objectively reduces the sensitivity of the pruning mechanism.</p></li>
+<li><p><strong>Bootstrap percentile CIs were used due to unknown distribution characteristics</strong>. Given the non-Gaussian characteristics observed in Step 1B (see Section Step 1B below), we maintained an agnostic stance toward the distribution of paired differences in Step 3. To ensure the robustness of our evaluation criteria, we bypassed traditional <span class="math inline">\(t\)</span>-tests in favor of a bootstrap percentile confidence interval (CI). This method constructs the interval directly from the 0.5th and 99.5th percentiles of the empirical distribution derived from 10,000 resamples, enabling rigorous estimation of performance differences without relying on normality assumptions.</p></li>
+</ol>
+<p>The “high decision threshold” is an inevitable consequence of prioritizing statistical rigor. This “efficiency loss” represents a necessary cost to maintain the reliability of conclusions under a constrained computational budget.</p>
+</section>
+<section id="practical-insights-from-model-selection" class="level3">
+<h3 class="anchored" data-anchor-id="practical-insights-from-model-selection">Practical Insights from Model Selection</h3>
+<ol type="1">
+<li><p><strong>Inherent Randomness and Budgetary Tension:</strong> Randomness is a core characteristic of RL experiments. Under limited budgets, a natural tension exists between computational efficiency and statistical rigor. Experiment designers must explicitly decide on the balance between these two factors beforehand.</p></li>
+<li><p><strong>The Value of Pilot Studies:</strong> Conducting small-scale, rapid pilot experiments is highly beneficial. These preliminary tests provide essential cues for defining the statistical balance and designing the overall experimental architecture.</p></li>
+<li><p><strong>Optimizing Decision Criteria:</strong></p>
+<ol type="1">
+<li><strong>Transition from per-seed checks to interval-based checks:</strong> Instead of checking after every seed (starting at <span class="math inline">\(n=20\)</span>), evaluate only at specific intervals (e.g., <span class="math inline">\(n=20, 30, 40\)</span>). This reduces alpha inflation, allowing for the calibration of relatively conservative decision criteria.</li>
+<li><strong>Utilize one-sided CIs:</strong> Using a one-sided CI instead of a two-sided CI as the decision criterion (with a critical quantile of 1% rather than 0.5%) makes the threshold easier to trigger and enhances statistical power.</li>
+</ol></li>
+<li><p><strong>Optimizing Candidate Samples:</strong> Reducing the number of candidates, such as selecting only the Top-5.</p>
+<ol type="1">
+<li><strong>Multi-stage screening:</strong> Implement an additional simplified screening step following the coarse screening to ensure only an elite group enters the model selection phase.</li>
+<li><strong>Accepting Bayesian randomness:</strong> Accept higher inherent randomness from the Bayesian optimization stage by directly selecting a smaller number of candidates for the final model selection process.</li>
+</ol></li>
+<li><p><strong>Architectural Optimization:</strong> Utilizing a controller-worker framework during the model selection phase—enabling the parallel execution of multiple configurations—can significantly reduce total wall-clock time.</p></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="non-gaussian-characteristics-of-configuration-performance-over-train-seeds-suggest-very-high-computational-cost" class="level2">
+<h2 class="anchored" data-anchor-id="non-gaussian-characteristics-of-configuration-performance-over-train-seeds-suggest-very-high-computational-cost">Non-Gaussian characteristics of configuration performance over train seeds suggest very high computational cost</h2>
+<section id="non-gaussian-characteristics-of-configuration-performance-over-train-seeds" class="level3">
+<h3 class="anchored" data-anchor-id="non-gaussian-characteristics-of-configuration-performance-over-train-seeds">Non-Gaussian characteristics of configuration performance over train seeds</h3>
+<p>Results from Step 1B (Figure 3) reveal that hyperparameter performance across seeds follows a typical left-skewed distribution with significant volatility (SD ≈ 150). This distribution reflects the bifurcation characteristics of DQN on the CartPole task. Due to the distinct dynamical boundary between the target state (balance) and failure (tipping), training typically evolves into two divergent outcomes: agents either enter a stable equilibrium (near 500 points) or collapse early (low scores). This qualitative divergence leads to a sparsity of intermediate samples.</p>
+<p>To capture sufficient performance differences, we set a rigorous precision target of ±10 points (2% of the total score). Given the observed SD ≈ 150, the sample size formula <span class="math inline">\(n \propto (SD/d)^2\)</span> dictates that <span class="math inline">\(N_{train} \approx 1000\)</span> training seeds would be required—a computationally prohibitive cost that necessitated our multi-stage resource allocation strategy. (Note: Since <span class="math inline">\(N_{train} \approx 1000\)</span> was estimated assuming normality, the actual requirement for a heavy-tailed, skewed distribution would be even higher).</p>
+</section>
+<section id="practical-insights-from-step-1b-precision-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="practical-insights-from-step-1b-precision-analysis">Practical Insights from Step 1B Precision Analysis</h3>
+<p>The non-normal distribution revealed in Step 1B motivated our use of bootstrap percentile CIs in Step 3, rather than parametric formulas, ensuring fairness and reliability in champion selection. In RL, raw performance data is frequently non-Gaussian; statistical theory (e.g., Chebyshev’s inequality) suggests that heavy-tailed distributions require significantly larger sample sizes than normal distributions to achieve the same confidence level.</p>
+<p>Relying on Gaussian-based sample size estimates in such cases leads to insufficient statistical power, causing subsequent analyses to fail: 1. <strong>Failure of Confidence Intervals</strong>: In left-skewed distributions, low-score “failures” are sparse, high-risk events. Insufficient sampling often fails to capture these tail events, causing the mean to be dominated by high scores. This results in CIs that shift towards higher values and fail to cover the true mean, which includes the risk of failure. 2. <strong>Failure of Hypothesis Testing</strong>: When sample sizes are inadequate for non-normal data, the estimation error may exceed the actual performance difference between two policies. In this scenario, “good luck” (seed variance) masks “true capability,” significantly increasing the probability of statistical irreproducibility.</p>
+<hr>
+</section>
+</section>
+<section id="the-near-saturated-policies-show-0-evaluation-variance-is-a-pseudo-high-precision-trap" class="level2">
+<h2 class="anchored" data-anchor-id="the-near-saturated-policies-show-0-evaluation-variance-is-a-pseudo-high-precision-trap">the near-saturated policies show ~0 evaluation variance is a pseudo-high-precision trap</h2>
+<section id="the-near-saturated-policies-show-0-evaluation-variance-is-a-pseudo-high-precision-trap-1" class="level3">
+<h3 class="anchored" data-anchor-id="the-near-saturated-policies-show-0-evaluation-variance-is-a-pseudo-high-precision-trap-1">The near-saturated policies show ~0 evaluation variance is a “pseudo-high-precision trap”</h3>
+<p>In Step 1A, evaluating a high-performance agent yielded zero variance (100 episodes at 500 points). Relying on this result to infer that a very small <span class="math inline">\(N_{eval}\)</span> is sufficient is a “pseudo-high-precision trap”:</p>
+<ol type="1">
+<li><strong>Zero variance does not equate to low environmental stochasticity</strong>. We calibrate <span class="math inline">\(N_{eval}\)</span> based on the fluctuation of evaluation returns across seeds. Under a fixed protocol, the observed return distribution is determined by the policy’s interaction with the specific evaluation seeds.
+<ul>
+<li>Since CartPole-v1 dynamics are largely deterministic (stochasticity arises primarily from initial state resets), longer survival does not necessarily accumulate environment-driven noise.</li>
+<li>In a counterfactual setting without a 500-point limit, high-performance agents would show variance far beyond the cutoff. In practice, the ceiling effect truncates all such performances to exactly 500.</li>
+<li>Consequently, saturated policies mask the underlying stochasticity of the environment, creating an illusion of zero-variance evaluation.</li>
+</ul></li>
+<li><strong>Calibration via Non-Saturated Policies</strong>: By switching to a non-saturated policy (mean ≈ 281.28, SD ≈ 41.76), we allowed the returns to fluctuate, effectively exposing the environmental stochasticity. This yielded the required <span class="math inline">\(N_{eval}=70\)</span>, providing a robust foundation for the evaluation protocol.</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="hyperparameter-sensitivity-and-local-landscape-characterization" class="level2">
+<h2 class="anchored" data-anchor-id="hyperparameter-sensitivity-and-local-landscape-characterization">Hyperparameter Sensitivity and Local Landscape Characterization</h2>
+<p>This section presents a local sensitivity analysis centered on the champion hyperparameters selected in Step 3. We employed a Full Factorial Grid Search combined with N-way ANOVA. As a balanced experimental design, this approach yields results with high interpretability. It should be noted that this interpretability applies only to the current local parameter neighborhood and does not represent the characteristics of the global parameter space. ### High System Sensitivity to Random Seeds</p>
+<p>Experimental results show that the <strong>Residual</strong> term, unexplained by hyperparameter factors, dominates the total sum of squares, accounting for approximately 95%. Under the current experimental setting (where training stochasticity is driven by training seeds), this indicates that model performance is highly sensitive to randomness during the training process.</p>
+<p>In Step 1B, we observed significant non-Gaussian characteristics and high variance for a single hyperparameter configuration across different training seeds. The current Step 4 ANOVA results (extremely high Residual proportion) corroborate the observations from Step 1B: different training seeds lead to significant performance fluctuations. Consequently, attempting to fully average out training stochasticity through large-scale repetition would incur extremely high computational costs; this also explains why the strategy of multi-stage incremental training seeds adopted in Step 3 was necessary.</p>
+<section id="hyperparameter-robustness-reveals-a-flat-parameter-space" class="level3">
+<h3 class="anchored" data-anchor-id="hyperparameter-robustness-reveals-a-flat-parameter-space">Hyperparameter Robustness Reveals a Flat Parameter Space</h3>
+<p>After testing against the residual as the error term, no factors except Learning Rate showed statistical significance. This implies that within the current local parameter neighborhood, differences in these hyperparameter levels have a relatively limited impact on performance, presenting an overall flat local landscape. Therefore, small parameter drifts within this neighborhood are unlikely to cause a systemic collapse in performance. Given that this grid was constructed centered on the champion configuration, this result aligns with the Step 3 model selection conclusion, indicating that the champion configuration possesses good parameter robustness in this local region.</p>
+<p>Within this local region, although Learning Rate is statistically significant (<span class="math inline">\(p=0.007\)</span>), the effect size is small (<span class="math inline">\(\eta_p^2=0.0064\)</span>), indicating a limited proportion of explainable performance variation. The main effects plot (Figure 5) shows an inverted-V trend for Learning Rate, with the peak corresponding to the intermediate level of this grid (which is also the champion configuration’s Learning Rate), suggesting that a local optimum exists for Learning Rate in this neighborhood.</p>
+<p>Overall, the dominance of training stochasticity implies that further hyperparameter fine-tuning yields low marginal returns. If further parameter fine-tuning is still desired within this neighborhood, Learning Rate is the dimension most likely to yield detectable gains, and a relatively optimal range exists. Meanwhile, since different training seeds lead to significant performance fluctuations, reliable evaluation should rely on multi-seed repetition and statistical aggregation rather than single-run results.</p>
+<p>### Practical Insights from Step 4 Sensitivity Analysis</p>
+<p>Given that the system possesses high seed sensitivity and the local hyperparameter landscape is relatively flat:</p>
+<ol type="1">
+<li>Continuing sensitivity analysis with finer hyperparameter levels in the current neighborhood likely offers limited marginal return and high computational cost.</li>
+<li>If further parameter fine-tuning is still desired, Learning Rate is the dimension worth prioritizing.</li>
+<li>If the goal is to improve the cost-effectiveness of the overall training pipeline (obtaining more reproducible results under a given algorithm and training budget), priority should be given to increasing the number of training seeds and reporting cross-seed statistical summaries, rather than relying on single-run results from a few seeds.</li>
+<li>If the goal is to significantly raise the performance ceiling, changes to the algorithm structure or training mechanism may be more effective than local hyperparameter fine-tuning.</li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="appendix" class="level1">
+<h1>Appendix</h1>
+<ol type="1">
+<li><strong>Random Seeds and Isolation Policy</strong>
+<ol type="1">
+<li><strong>Evaluation seeds</strong> We use a fixed evaluation-seed set <span class="math inline">\(20000–20069 (inclusive)\)</span>, corresponding to <span class="math inline">\(N_{eval}=70\)</span> independent evaluation episodes (one seed per episode).</li>
+<li><strong>Training seeds by stage</strong> (all ranges are inclusive):
+<ul>
+<li>Step 1A (training seed for the non-saturated checkpoint used in evaluation calibration): <span class="math inline">\({42}\)</span></li>
+<li>Step 1B (training-return distribution profiling): <span class="math inline">\(42–61\)</span></li>
+<li>Step 2 (Bayesian coarse screening): <span class="math inline">\(42–46\)</span></li>
+<li>Step 3 (model-selection training seeds): <span class="math inline">\(1–40\)</span></li>
+<li>Step 3 (post-selection independent retraining validation): <span class="math inline">\(101–110\)</span></li>
+<li>Step 4 (local sensitivity analysis): <span class="math inline">\(501–520\)</span></li>
+</ul></li>
+<li><strong>Mapping from training seed to environment reset seed</strong> To ensure that training-time environment initialization does not overlap with evaluation seeds, we derive environment reset seeds from training seeds using a piecewise mapping: <span class="math display">\[
+seed_{env} =
+\begin{cases}
+seed_{train}\times 10000, &amp; seed_{train}\neq 2\\
+seed_{train}\times 10000^2, &amp; seed_{train}=2
+\end{cases}
+\]</span> The special case avoids a collision between the default mapping and the evaluation-seed interval. The exact implementation is provided in the code and Appendix.</li>
+</ol></li>
+<li>The full ANOVA table:[[Full_Table1_step4_anova_report.csv]]</li>
+<li>Open-source code repository.</li>
+<li>Hyperparameter configurations for the top-10 candidates.</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/foxmir\.github\.io\/Foxmir-Blog\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

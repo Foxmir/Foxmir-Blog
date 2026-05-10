@@ -68,7 +68,7 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
       searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
     };
@@ -96,7 +96,7 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
       searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
     };
@@ -117,20 +117,20 @@ ul.task-list li input[type="checkbox"] {
   
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-test4folder-listing .list');
+    const listingTargetEl = window.document.querySelector('#listing-reports-listing .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
       return; 
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
       searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-test4folder-listing'] = new List('listing-test4folder-listing', options);
+    window['quarto-listings']['listing-reports-listing'] = new List('listing-reports-listing', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -373,8 +373,8 @@ window.Quarto = {
 <span class="menu-text">Life</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./test4folder.html"> 
-<span class="menu-text">test4Folder</span></a>
+    <a class="nav-link" href="./reports.html"> 
+<span class="menu-text">Reports</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -413,49 +413,32 @@ window.Quarto = {
 
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<p>Writing about tools, code, and everyday life.</p>
-<p>A small archive of notes, experiments, and everyday observations.</p>
+<p>this is the HOME page.</p>
 <section class="home-section">
 <h2 class="home-section-heading anchored">
 Latest
 </h2>
 <div id="listing-latest-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778256000000" data-listing-file-modified-sort="1778343232496" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
-<div class="thumbnail"><a href="./publish/test4Folder/test4file.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778256000000" data-listing-file-modified-sort="1778387425662" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./publish/test4Folder/test4file.html" class="no-external">test4file</a>
+<a href="./publish/Reports/test4file.html" class="no-external">test4file</a>
 </h3>
-<div class="delink listing-description"><a href="./publish/test4Folder/test4file.html" class="no-external">
-测试4的文本
-</a></div>
 </div>
 <div class="metadata">
-<a href="./publish/test4Folder/test4file.html" class="no-external">
+<a href="./publish/Reports/test4file.html" class="no-external">
 <div class="listing-date">
 May 9, 2026
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778343232459" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
-<div class="thumbnail"><a href="./publish/Life/First_Life.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778387425501" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Life/First_Life.html" class="no-external">First_Life</a>
 </h3>
-<div class="delink listing-description"><a href="./publish/Life/First_Life.html" class="no-external">
-I love my life!
-</a></div>
 </div>
 <div class="metadata">
 <a href="./publish/Life/First_Life.html" class="no-external">
@@ -465,24 +448,16 @@ Jan 17, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1768492800000" data-listing-file-modified-sort="1778343232512" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="53">
-<div class="thumbnail"><a href="./publish/Hello_world.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1768406400000" data-listing-file-modified-sort="1778387425626" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./publish/Hello_world.html" class="no-external">Hello_world</a>
+<a href="./publish/Reports/CartPole DQN Report.html" class="no-external">CartPole DQN Report</a>
 </h3>
-<div class="delink listing-description"><a href="./publish/Hello_world.html" class="no-external">
-这是行内公式：我们在讨论 <span class="math inline">\(E = mc^2\)</span> 的物理意义。
-</a></div>
 </div>
 <div class="metadata">
-<a href="./publish/Hello_world.html" class="no-external">
+<a href="./publish/Reports/CartPole DQN Report.html" class="no-external">
 <div class="listing-date">
-Jan 16, 2026
+Jan 15, 2026
 </div>
 </a>
 </div>
@@ -497,19 +472,11 @@ Life
 </h2>
 <div id="listing-life-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778343232459" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
-<div class="thumbnail"><a href="./publish/Life/First_Life.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778387425501" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Life/First_Life.html" class="no-external">First_Life</a>
 </h3>
-<div class="delink listing-description"><a href="./publish/Life/First_Life.html" class="no-external">
-I love my life!
-</a></div>
 </div>
 <div class="metadata">
 <a href="./publish/Life/First_Life.html" class="no-external">
@@ -525,28 +492,34 @@ Jan 17, 2026
 </section>
 <section class="home-section">
 <h2 class="home-section-heading anchored">
-test4Folder
+Reports
 </h2>
-<div id="listing-test4folder-listing" class="quarto-listing quarto-listing-container-default">
+<div id="listing-reports-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778256000000" data-listing-file-modified-sort="1778343232496" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
-<div class="thumbnail"><a href="./publish/test4Folder/test4file.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778256000000" data-listing-file-modified-sort="1778387425662" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./publish/test4Folder/test4file.html" class="no-external">test4file</a>
+<a href="./publish/Reports/test4file.html" class="no-external">test4file</a>
 </h3>
-<div class="delink listing-description"><a href="./publish/test4Folder/test4file.html" class="no-external">
-测试4的文本
-</a></div>
 </div>
 <div class="metadata">
-<a href="./publish/test4Folder/test4file.html" class="no-external">
+<a href="./publish/Reports/test4file.html" class="no-external">
 <div class="listing-date">
 May 9, 2026
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1768406400000" data-listing-file-modified-sort="1778387425626" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./publish/Reports/CartPole DQN Report.html" class="no-external">CartPole DQN Report</a>
+</h3>
+</div>
+<div class="metadata">
+<a href="./publish/Reports/CartPole DQN Report.html" class="no-external">
+<div class="listing-date">
+Jan 15, 2026
 </div>
 </a>
 </div>
