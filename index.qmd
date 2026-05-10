@@ -35,23 +35,22 @@ listing:
 ---
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260510193519 -->
+<!-- BUILD-ID: 20260510195326 -->
 
 ::: {.home-stage}
 ::: {.home-title}
 FOXMIR
 :::
-:::
 
-::: {.home-content-layer}
-::: {.home-sections-wrap}
-
-::: {.home-intro}
+::: {.home-stage-intro}
 
 this is the HOME page.
 
 :::
+:::
 
+::: {.home-content-layer}
+::: {.home-sections-wrap}
 
 ::: {.home-latest-section}
 ::: {.home-latest-label}
@@ -72,7 +71,9 @@ Latest
 <section class="home-band-panel" data-panel="articles">
   <div class="hbp-label">Articles</div>
   <div class="hbp-main">
-    <p class="hbp-empty">No posts yet.</p>
+::: {.hbp-empty}
+No posts yet.
+:::
   </div>
 </section>
 <section class="home-band-panel" data-panel="bits">
@@ -85,13 +86,17 @@ Latest
 <section class="home-band-panel" data-panel="learn">
   <div class="hbp-label">Learn</div>
   <div class="hbp-main">
-    <p class="hbp-empty">No posts yet.</p>
+::: {.hbp-empty}
+No posts yet.
+:::
   </div>
 </section>
 <section class="home-band-panel" data-panel="notes">
   <div class="hbp-label">Notes</div>
   <div class="hbp-main">
-    <p class="hbp-empty">No posts yet.</p>
+::: {.hbp-empty}
+No posts yet.
+:::
   </div>
 </section>
 <section class="home-band-panel" data-panel="reports">
@@ -153,13 +158,14 @@ body.quarto-dark .home-content-layer {
   margin:0 auto;
   padding:0 2rem;
 }
-.home-intro {
+.home-stage-intro {
   max-width:min(760px,100%);
-  margin:0 auto 6.8rem;
-  transform:translateY(-2.1rem);
+  margin-top:1rem;
   text-align:center;
+  pointer-events:none;
+  will-change:transform,filter,opacity;
 }
-.home-intro p {
+.home-stage-intro p {
   margin:0;
   font-size:clamp(1.04rem,1.8vw,1.24rem);
   line-height:1.72;
@@ -266,7 +272,7 @@ body.quarto-dark .home-content-layer {
 @media(max-width:640px){
   .home-stage{padding:3.5rem 1rem 8rem;}
   .home-content-layer{margin-top:42vh;padding-top:1.2rem;}
-  .home-intro{transform:none;margin:0 auto 3rem;}
+  .home-stage-intro{margin-top:0.8rem;}
   .home-band-divider{margin:0 0 1.4rem calc(50% - 50vw);}
   .home-latest-section{grid-template-columns:1fr;gap:0.6rem;}
   .home-band-sticky{position:static;overflow:visible;}
@@ -279,6 +285,7 @@ body.quarto-dark .home-content-layer {
 <script>
 (function(){
   const title = document.querySelector(".home-title");
+  const stageIntro = document.querySelector(".home-stage-intro");
   const cl = document.querySelector(".home-content-layer");
   const band = document.querySelector(".home-band");
   const sticky = document.querySelector(".home-band-sticky");
@@ -315,6 +322,11 @@ body.quarto-dark .home-content-layer {
       title.style.transform=`translate3d(0,${y*0.16}px,0)`;
       title.style.filter=`blur(${fade*16}px) grayscale(${fade*100}%)`;
       title.style.opacity=Math.max(1-fade*1.6,0);
+    }
+    if(stageIntro){
+      stageIntro.style.transform=`translate3d(0,${y*0.16}px,0)`;
+      stageIntro.style.filter=`blur(${fade*10}px) grayscale(${fade*90}%)`;
+      stageIntro.style.opacity=Math.max(1-fade*1.5,0);
     }
     if(!band||!sticky||!track||!panels.length||window.innerWidth<=640)return;
     const stickyTop = parseFloat(getComputedStyle(sticky).top)||0;

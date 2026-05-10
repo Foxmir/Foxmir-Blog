@@ -534,25 +534,25 @@ $homePage += @(
 
 $homePage += 'FOXMIR'
 
+$homePage += ':::'
+
+if ($homeContentLines.Count -gt 0) {
+    $homePage += @(
+        ''
+        '::: {.home-stage-intro}'
+    )
+    $homePage += $homeContentLines
+    $homePage += @(
+        ':::'
+    )
+}
+
 $homePage += @(
-    ':::'
     ':::'
     ''
     '::: {.home-content-layer}'
     '::: {.home-sections-wrap}'
 )
-
-if ($homeContentLines.Count -gt 0) {
-    $homePage += @(
-        ''
-        '::: {.home-intro}'
-    )
-    $homePage += $homeContentLines
-    $homePage += @(
-        ':::'
-        ''
-    )
-}
 
 $homePage += @(
     ''
@@ -585,7 +585,9 @@ if ($items.Count -gt 0) {
             $homePage += ':::{#' + $item.Slug + '-listing}'
             $homePage += ':::'
         } else {
-            $homePage += '    <p class="hbp-empty">No posts yet.</p>'
+            $homePage += '::: {.hbp-empty}'
+            $homePage += 'No posts yet.'
+            $homePage += ':::'
         }
         $homePage += '  </div>'
         $homePage += '</section>'
@@ -647,13 +649,14 @@ $homePage += @(
     '  margin:0 auto;'
     '  padding:0 2rem;'
     '}'
-    '.home-intro {'
+    '.home-stage-intro {'
     '  max-width:min(760px,100%);'
-    '  margin:0 auto 6.8rem;'
-    '  transform:translateY(-2.1rem);'
+    '  margin-top:1rem;'
     '  text-align:center;'
+    '  pointer-events:none;'
+    '  will-change:transform,filter,opacity;'
     '}'
-    '.home-intro p {'
+    '.home-stage-intro p {'
     '  margin:0;'
     '  font-size:clamp(1.04rem,1.8vw,1.24rem);'
     '  line-height:1.72;'
@@ -760,7 +763,7 @@ $homePage += @(
     '@media(max-width:640px){'
     '  .home-stage{padding:3.5rem 1rem 8rem;}'
     '  .home-content-layer{margin-top:42vh;padding-top:1.2rem;}'
-    '  .home-intro{transform:none;margin:0 auto 3rem;}'
+    '  .home-stage-intro{margin-top:0.8rem;}'
     '  .home-band-divider{margin:0 0 1.4rem calc(50% - 50vw);}'
     '  .home-latest-section{grid-template-columns:1fr;gap:0.6rem;}'
     '  .home-band-sticky{position:static;overflow:visible;}'
@@ -773,6 +776,7 @@ $homePage += @(
     '<script>'
     '(function(){'
     '  const title = document.querySelector(".home-title");'
+    '  const stageIntro = document.querySelector(".home-stage-intro");'
     '  const cl = document.querySelector(".home-content-layer");'
     '  const band = document.querySelector(".home-band");'
     '  const sticky = document.querySelector(".home-band-sticky");'
@@ -809,6 +813,11 @@ $homePage += @(
     '      title.style.transform=`translate3d(0,${y*0.16}px,0)`;'
     '      title.style.filter=`blur(${fade*16}px) grayscale(${fade*100}%)`;'
     '      title.style.opacity=Math.max(1-fade*1.6,0);'
+    '    }'
+    '    if(stageIntro){'
+    '      stageIntro.style.transform=`translate3d(0,${y*0.16}px,0)`;'
+    '      stageIntro.style.filter=`blur(${fade*10}px) grayscale(${fade*90}%)`;'
+    '      stageIntro.style.opacity=Math.max(1-fade*1.5,0);'
     '    }'
     '    if(!band||!sticky||!track||!panels.length||window.innerWidth<=640)return;'
     '    const stickyTop = parseFloat(getComputedStyle(sticky).top)||0;'
