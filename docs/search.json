@@ -130,7 +130,7 @@
     "href": "index.html",
     "title": "Foxmir Blog",
     "section": "",
-    "text": "this is the HOME page.\n\n\nLatest\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nLife\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nReports\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items"
+    "text": "this is the HOME page.\n\n\nLatest\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nAPPENDIX\n\n\n\n\n\nNo matching items\n\n\n\n\nLife\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nReports\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -138,6 +138,13 @@
     "title": "About",
     "section": "",
     "text": "this is the ABOUT page."
+  },
+  {
+    "objectID": "appendix.html",
+    "href": "appendix.html",
+    "title": "APPENDIX",
+    "section": "",
+    "text": "No matching items"
   },
   {
     "objectID": "life.html",

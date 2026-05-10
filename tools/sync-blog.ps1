@@ -161,6 +161,7 @@ $items = @()
 $used = @{}
 $homeContentLines = Get-RootMarkdownContent -Directory $publish -BaseName 'Home'
 $aboutContentLines = Get-RootMarkdownContent -Directory $publish -BaseName 'About'
+$buildId = [DateTime]::UtcNow.ToString('yyyyMMddHHmmss')
 
 foreach ($dir in $dirs) {
     $slug = ConvertTo-Slug $dir.Name
@@ -240,6 +241,7 @@ $homePage += @(
     '---'
     ''
     '<!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->'
+    '<!-- BUILD-ID: ' + $buildId + ' -->'
 )
 
 if ($homeContentLines.Count -gt 0) {
@@ -276,6 +278,7 @@ $aboutPage = @(
     '---'
     ''
     '<!-- AUTO-GENERATED-ABOUT-PAGE: edit the root About.md in Obsidian, not this file. -->'
+    '<!-- BUILD-ID: ' + $buildId + ' -->'
 )
 
 if ($aboutContentLines.Count -gt 0) {

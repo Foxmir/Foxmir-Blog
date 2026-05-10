@@ -89,6 +89,34 @@ ul.task-list li input[type="checkbox"] {
   
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-appendix-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: [],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-appendix-listing'] = new List('listing-appendix-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
     const listingTargetEl = window.document.querySelector('#listing-life-listing .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
@@ -369,6 +397,10 @@ window.Quarto = {
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./appendix.html"> 
+<span class="menu-text">APPENDIX</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./life.html"> 
 <span class="menu-text">Life</span></a>
   </li>  
@@ -413,6 +445,7 @@ window.Quarto = {
 
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
+<!-- BUILD-ID: 20260510044740 -->
 <p>this is the HOME page.</p>
 <section class="home-section">
 <h2 class="home-section-heading anchored">
@@ -420,7 +453,7 @@ Latest
 </h2>
 <div id="listing-latest-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778256000000" data-listing-file-modified-sort="1778387519989" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778256000000" data-listing-file-modified-sort="1778388460119" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Reports/test4file.html" class="no-external">test4file</a>
@@ -434,7 +467,7 @@ May 9, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778387519852" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778388460006" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Life/First_Life.html" class="no-external">First_Life</a>
@@ -448,7 +481,7 @@ Jan 17, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1768406400000" data-listing-file-modified-sort="1778387519971" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1768406400000" data-listing-file-modified-sort="1778388460106" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Reports/CartPole DQN Report.html" class="no-external">CartPole DQN Report</a>
@@ -468,11 +501,22 @@ Jan 15, 2026
 </section>
 <section class="home-section">
 <h2 class="home-section-heading anchored">
+APPENDIX
+</h2>
+<div id="listing-appendix-listing" class="quarto-listing quarto-listing-container-default">
+<div class="list quarto-listing-default">
+
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+</section>
+<section class="home-section">
+<h2 class="home-section-heading anchored">
 Life
 </h2>
 <div id="listing-life-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778387519852" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778388460006" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Life/First_Life.html" class="no-external">First_Life</a>
@@ -496,7 +540,7 @@ Reports
 </h2>
 <div id="listing-reports-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778256000000" data-listing-file-modified-sort="1778387519989" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778256000000" data-listing-file-modified-sort="1778388460119" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Reports/test4file.html" class="no-external">test4file</a>
@@ -510,7 +554,7 @@ May 9, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1768406400000" data-listing-file-modified-sort="1778387519971" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1768406400000" data-listing-file-modified-sort="1778388460106" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Reports/CartPole DQN Report.html" class="no-external">CartPole DQN Report</a>

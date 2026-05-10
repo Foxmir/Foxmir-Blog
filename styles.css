@@ -13,8 +13,8 @@
 	--site-accent-soft: rgba(162, 79, 36, 0.1);
 	--site-header-bg: rgba(246, 240, 231, 0.88);
 	--site-shadow: 0 18px 50px rgba(35, 27, 21, 0.08);
-	--site-max-width: 1180px;
-	--site-reading-width: 780px;
+	--site-max-width: 1440px;
+	--site-reading-width: 980px;
 	--site-radius: 22px;
 	--site-radius-sm: 14px;
 }
@@ -37,6 +37,7 @@ body.quarto-dark {
 }
 
 html {
+	background-color: var(--site-bg);
 	scroll-behavior: smooth;
 }
 
@@ -65,6 +66,15 @@ blockquote {
 	font-size: 1.12rem;
 	line-height: 1.82;
 	color: var(--site-text);
+}
+
+
+#quarto-content,
+.quarto-container,
+main.content,
+.column-page,
+.page-layout-full {
+	background-color: transparent;
 }
 
 #quarto-header {
@@ -148,9 +158,9 @@ blockquote {
 }
 
 #quarto-content {
-	max-width: calc(var(--site-reading-width) + 8rem);
+	max-width: min(calc(var(--site-reading-width) + 12rem), calc(100vw - 3rem));
 	margin: 0 auto;
-	padding: 3.4rem 1.2rem 5rem;
+	padding: 3.4rem 1.5rem 5rem;
 }
 
 #title-block-header {
@@ -168,8 +178,8 @@ blockquote {
 	font-size: clamp(3.2rem, 6vw, 5.5rem);
 	font-weight: 750;
 	letter-spacing: -0.06em;
-	line-height: 0.92;
-	max-width: 9ch;
+	line-height: 0.96;
+	max-width: 16ch;
 	margin-bottom: 1rem;
 	color: var(--site-text);
 }
@@ -179,7 +189,7 @@ blockquote {
 	font-size: 1.24rem;
 	line-height: 1.65;
 	color: var(--site-text-soft);
-	max-width: 48ch;
+	max-width: 72ch;
 	margin-bottom: 1.8rem;
 }
 
@@ -303,7 +313,7 @@ h3 {
 }
 
 .listing-description {
-	max-width: 54ch;
+	max-width: 72ch;
 	font-size: 0.99rem;
 	line-height: 1.58;
 	color: var(--site-text-soft);

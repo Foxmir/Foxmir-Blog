@@ -11,6 +11,8 @@ website:
     right:
       - href: about.qmd
         text: About
+      - href: appendix.qmd
+        text: 'APPENDIX'
       - href: life.qmd
         text: 'Life'
       - href: reports.qmd
