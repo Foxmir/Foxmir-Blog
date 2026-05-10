@@ -1,0 +1,17 @@
+,sum_sq,df,F,PR(>F),eta_sq_partial
+C(learning_rate):C(batch_size):C(epsilon_decay):C(tau),487393.6276291271,16.0,1.17,0.2857,0.012
+C(learning_rate):C(batch_size):C(epsilon_decay),267815.77246507653,8.0,1.28,0.2469,0.0066
+C(learning_rate),259730.1450333847,2.0,4.98,0.0070,0.0064
+C(learning_rate):C(batch_size):C(tau),166459.64250333013,8.0,0.8,0.6038,0.0041
+C(learning_rate):C(batch_size),161737.51072433288,4.0,1.55,0.1848,0.004
+C(batch_size),140436.5382822137,2.0,2.7,0.0679,0.0035
+C(batch_size):C(epsilon_decay):C(tau),135278.72225771574,8.0,0.65,0.7367,0.0034
+C(batch_size):C(tau),88370.15317700394,4.0,0.85,0.4948,0.0022
+C(learning_rate):C(epsilon_decay),74179.53418268423,4.0,0.71,0.5839,0.0018
+C(tau),54941.59155421715,2.0,1.05,0.3487,0.0014
+C(batch_size):C(epsilon_decay),50419.35783606355,4.0,0.48,0.7477,0.0013
+C(learning_rate):C(epsilon_decay):C(tau),49334.7086269814,8.0,0.24,0.9840,0.0012
+C(epsilon_decay),31610.40856043715,2.0,0.61,0.5453,0.0008
+C(learning_rate):C(tau),30971.63641460962,4.0,0.3,0.8799,0.0008
+C(epsilon_decay):C(tau),14677.845705344856,4.0,0.14,0.9670,0.0004
+Residual,40097636.42384336,1539.0,,<0.001,0.5

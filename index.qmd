@@ -4,7 +4,6 @@ page-layout: full
 listing:
   - id: latest-listing
     contents:
-      - publish/APPENDIX
       - publish/Life
       - publish/Reports
     sort: "date desc"
@@ -14,14 +13,6 @@ listing:
     sort-ui: false
     filter-ui: false
     max-items: 5
-  - id: appendix-listing
-    contents: publish/APPENDIX
-    sort: "date desc"
-    type: default
-    fields: [date, title]
-    categories: false
-    sort-ui: false
-    filter-ui: false
   - id: life-listing
     contents: publish/Life
     sort: "date desc"
@@ -41,7 +32,7 @@ listing:
 ---
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260510044740 -->
+<!-- BUILD-ID: 20260510054310 -->
 
 
 this is the HOME page.
@@ -51,13 +42,6 @@ this is the HOME page.
 <h2 class="home-section-heading">Latest</h2>
 
 :::{#latest-listing}
-:::
-</section>
-
-<section class="home-section">
-<h2 class="home-section-heading">APPENDIX</h2>
-
-:::{#appendix-listing}
 :::
 </section>
 

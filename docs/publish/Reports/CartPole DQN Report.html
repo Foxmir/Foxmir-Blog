@@ -283,10 +283,6 @@ window.Quarto = {
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../appendix.html"> 
-<span class="menu-text">APPENDIX</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="../../life.html"> 
 <span class="menu-text">Life</span></a>
   </li>  
@@ -516,14 +512,29 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="step-1">Step 1</h2>
 <section id="step-1a" class="level3">
 <h3 class="anchored" data-anchor-id="step-1a">Step 1A</h3>
-<p>![[Figure1_step1A1ceilingeffect.png]]</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../_attachments/reports/cartpole-dqn-report/Figure1_step1A1ceilingeffect.png" class="img-fluid figure-img"></p>
+<figcaption>Figure1_step1A1ceilingeffect</figcaption>
+</figure>
+</div>
 <p><strong>Figure 1</strong>: 95% CI half-width as a function of <span class="math inline">\(N_{eval}\)</span> (red line: threshold=10; green line: selected minimum <span class="math inline">\(N_{eval}\)</span>). For the saturated policy (mean=500, variance=0), the analysis yields a misleading requirement of <span class="math inline">\(N_{eval}=5\)</span>.</p>
-<p>![[Figure2_step1A2n=70.png]]</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../_attachments/reports/cartpole-dqn-report/Figure2_step1A2n%3D70.png" class="img-fluid figure-img"></p>
+<figcaption>Figure2_step1A2n=70</figcaption>
+</figure>
+</div>
 <p><strong>Figure 2</strong>: The same analysis for the non-saturated policy (mean=281.28, SD=41.76) correctly identifies <span class="math inline">\(N_{eval}=70\)</span>, which was subsequently adopted for the evaluation protocol.</p>
 </section>
 <section id="step-1b" class="level3">
 <h3 class="anchored" data-anchor-id="step-1b">Step 1B</h3>
-<p>![[Figure3_step1B_left_skewed_distribution.png]]</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../_attachments/reports/cartpole-dqn-report/Figure3_step1B_left_skewed_distribution.png" class="img-fluid figure-img"></p>
+<figcaption>Figure3_step1B_left_skewed_distribution</figcaption>
+</figure>
+</div>
 <p><strong>Figure 3</strong>: Histogram of final returns across <span class="math inline">\(N_{train}=20\)</span> seeds (green line: mean; red line: 500-point ceiling). The performance exhibits a typical left-skewed distribution (mean ≈ 361.2, SD ≈ 159), highlighting significant non-Gaussianity and high variance.</p>
 </section>
 </section>
@@ -533,7 +544,12 @@ window.Quarto = {
 </section>
 <section id="step-3" class="level2">
 <h2 class="anchored" data-anchor-id="step-3">Step 3</h2>
-<p>![[Figure4_step3_forest.png]]</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../_attachments/reports/cartpole-dqn-report/Figure4_step3_forest.png" class="img-fluid figure-img"></p>
+<figcaption>Figure4_step3_forest</figcaption>
+</figure>
+</div>
 <p><strong>Figure 4</strong>: Paired-difference forest plots for Step 3 champion selection (dynamic baseline). At each snapshot (<span class="math inline">\(n=30\)</span> and <span class="math inline">\(n=40\)</span>), candidates are ranked by mean return up to that seed count, and the top-ranked candidate is treated as the current leader (difference defined as 0). For each candidate i, we plot the mean of seed-wise paired differences (leader − i) and the 99% bootstrap resampling paired-difference CI computed with 10,000 resamples. The dashed line indicates the decision threshold of 10 points: a candidate meets the pruning/termination criterion if the CI lower bound (LB) &gt; 10. At <span class="math inline">\(n=30\)</span>, the 99% CI lower bound of the paired difference (leader − c02) exceeded 10, so c02 was pruned; hence it is absent at <span class="math inline">\(n=40\)</span>. Under the budget cap (<span class="math inline">\(N_{train}=40\)</span>), adaptive termination was never triggered and the final champion was selected by the highest mean return rather than by meeting the CI separation criterion. * learning_rate: <span class="math inline">\([0.00075, 0.00152, 0.00304]\)</span> * epsilon_decay: <span class="math inline">\([0.975, 0.983, 0.991]\)</span> * tau: <span class="math inline">\([0.015, 0.030, 0.060]\)</span> * batch_size: <span class="math inline">\([64, 128, 256]\)</span> 1. gamma: 0.979669671 2. learning_rate 0.001516538 3. epsilon_decay:0.983003997 4. tau: 0.030475336 (soft update) 5. replay buffer size: 40000 6. num_episodes: 500 7. batch_size: 128</p>
 <p>We further validated the champion configuration by retraining it with 10 additional independent training seeds and evaluating it with the same standardized protocol (<span class="math inline">\(N_{eval}=70\)</span>). Across these training seeds, Mean = 329.63, SD = 190.51.</p>
 </section>
@@ -611,7 +627,12 @@ window.Quarto = {
 </tbody>
 </table>
 <p><strong>Table 1</strong>: ANOVA Results (Top Effects). <span class="math inline">\(df\)</span> = degrees of freedom; <span class="math inline">\(SS\)</span> = sum of squares; <span class="math inline">\(\eta_p^2\)</span> = partial eta-squared. The analysis includes four factors: Learning Rate, Batch Size, Epsilon Decay, and Tau.</p>
-<p>![[Figure5_step4_main_effects.png]]</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../_attachments/reports/cartpole-dqn-report/Figure5_step4_main_effects.png" class="img-fluid figure-img"></p>
+<figcaption>Figure5_step4_main_effects</figcaption>
+</figure>
+</div>
 <p><strong>Figure 5</strong>: Main Effects of Hyperparameters on Agent Performance. Error bars represent 95% confidence intervals. Only Learning Rate shows a statistically significant non-monotonic effect (<span class="math inline">\(p &lt; 0.05\)</span>), peaking at the intermediate level.</p>
 <p>A four-way ANOVA evaluated the effects of Learning Rate, Batch Size, Epsilon Decay, and Tau on mean episode reward (Table 1). The analysis showed that the <strong>Residual</strong> term accounted for the majority of the variance (<span class="math inline">\(SS_{residual} \approx 4.0 \times 10^7\)</span>), representing approximately <strong>95%</strong> of the total sums of squares(from the full ANOVA table; see Appendix).</p>
 <p>Among the hyperparameters, only <strong>Learning Rate</strong> exhibited a statistically significant main effect (<span class="math inline">\(F(2, 1539) = 4.98, p = 0.007\)</span>), though with a small effect size (<span class="math inline">\(\eta_p^2 = 0.0064\)</span>). As shown in Figure 5, comparisons of means indicated an inverted-V trend, with the highest reward observed at the intermediate level (<span class="math inline">\(1.52 \times 10^{-3}\)</span>).</p>
@@ -746,7 +767,7 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
 \end{cases}
 \]</span> The special case avoids a collision between the default mapping and the evaluation-seed interval. The exact implementation is provided in the code and Appendix.</li>
 </ol></li>
-<li>The full ANOVA table:[[Full_Table1_step4_anova_report.csv]]</li>
+<li>The full ANOVA table:<a href="../_attachments/reports/cartpole-dqn-report/Full_Table1_step4_anova_report.csv">Full_Table1_step4_anova_report.csv</a></li>
 <li>Open-source code repository.</li>
 <li>Hyperparameter configurations for the top-10 candidates.</li>
 </ol>

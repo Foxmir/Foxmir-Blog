@@ -60,7 +60,7 @@
     "href": "publish/Reports/CartPole DQN Report.html#step-1",
     "title": "CartPole DQN Report",
     "section": "Step 1",
-    "text": "Step 1\n\nStep 1A\n![[Figure1_step1A1ceilingeffect.png]]\nFigure 1: 95% CI half-width as a function of \\(N_{eval}\\) (red line: threshold=10; green line: selected minimum \\(N_{eval}\\)). For the saturated policy (mean=500, variance=0), the analysis yields a misleading requirement of \\(N_{eval}=5\\).\n![[Figure2_step1A2n=70.png]]\nFigure 2: The same analysis for the non-saturated policy (mean=281.28, SD=41.76) correctly identifies \\(N_{eval}=70\\), which was subsequently adopted for the evaluation protocol.\n\n\nStep 1B\n![[Figure3_step1B_left_skewed_distribution.png]]\nFigure 3: Histogram of final returns across \\(N_{train}=20\\) seeds (green line: mean; red line: 500-point ceiling). The performance exhibits a typical left-skewed distribution (mean ≈ 361.2, SD ≈ 159), highlighting significant non-Gaussianity and high variance."
+    "text": "Step 1\n\nStep 1A\n\n\n\nFigure1_step1A1ceilingeffect\n\n\nFigure 1: 95% CI half-width as a function of \\(N_{eval}\\) (red line: threshold=10; green line: selected minimum \\(N_{eval}\\)). For the saturated policy (mean=500, variance=0), the analysis yields a misleading requirement of \\(N_{eval}=5\\).\n\n\n\nFigure2_step1A2n=70\n\n\nFigure 2: The same analysis for the non-saturated policy (mean=281.28, SD=41.76) correctly identifies \\(N_{eval}=70\\), which was subsequently adopted for the evaluation protocol.\n\n\nStep 1B\n\n\n\nFigure3_step1B_left_skewed_distribution\n\n\nFigure 3: Histogram of final returns across \\(N_{train}=20\\) seeds (green line: mean; red line: 500-point ceiling). The performance exhibits a typical left-skewed distribution (mean ≈ 361.2, SD ≈ 159), highlighting significant non-Gaussianity and high variance."
   },
   {
     "objectID": "publish/Reports/CartPole DQN Report.html#step-2",
@@ -74,14 +74,14 @@
     "href": "publish/Reports/CartPole DQN Report.html#step-3",
     "title": "CartPole DQN Report",
     "section": "Step 3",
-    "text": "Step 3\n![[Figure4_step3_forest.png]]\nFigure 4: Paired-difference forest plots for Step 3 champion selection (dynamic baseline). At each snapshot (\\(n=30\\) and \\(n=40\\)), candidates are ranked by mean return up to that seed count, and the top-ranked candidate is treated as the current leader (difference defined as 0). For each candidate i, we plot the mean of seed-wise paired differences (leader − i) and the 99% bootstrap resampling paired-difference CI computed with 10,000 resamples. The dashed line indicates the decision threshold of 10 points: a candidate meets the pruning/termination criterion if the CI lower bound (LB) &gt; 10. At \\(n=30\\), the 99% CI lower bound of the paired difference (leader − c02) exceeded 10, so c02 was pruned; hence it is absent at \\(n=40\\). Under the budget cap (\\(N_{train}=40\\)), adaptive termination was never triggered and the final champion was selected by the highest mean return rather than by meeting the CI separation criterion. * learning_rate: \\([0.00075, 0.00152, 0.00304]\\) * epsilon_decay: \\([0.975, 0.983, 0.991]\\) * tau: \\([0.015, 0.030, 0.060]\\) * batch_size: \\([64, 128, 256]\\) 1. gamma: 0.979669671 2. learning_rate 0.001516538 3. epsilon_decay:0.983003997 4. tau: 0.030475336 (soft update) 5. replay buffer size: 40000 6. num_episodes: 500 7. batch_size: 128\nWe further validated the champion configuration by retraining it with 10 additional independent training seeds and evaluating it with the same standardized protocol (\\(N_{eval}=70\\)). Across these training seeds, Mean = 329.63, SD = 190.51."
+    "text": "Step 3\n\n\n\nFigure4_step3_forest\n\n\nFigure 4: Paired-difference forest plots for Step 3 champion selection (dynamic baseline). At each snapshot (\\(n=30\\) and \\(n=40\\)), candidates are ranked by mean return up to that seed count, and the top-ranked candidate is treated as the current leader (difference defined as 0). For each candidate i, we plot the mean of seed-wise paired differences (leader − i) and the 99% bootstrap resampling paired-difference CI computed with 10,000 resamples. The dashed line indicates the decision threshold of 10 points: a candidate meets the pruning/termination criterion if the CI lower bound (LB) &gt; 10. At \\(n=30\\), the 99% CI lower bound of the paired difference (leader − c02) exceeded 10, so c02 was pruned; hence it is absent at \\(n=40\\). Under the budget cap (\\(N_{train}=40\\)), adaptive termination was never triggered and the final champion was selected by the highest mean return rather than by meeting the CI separation criterion. * learning_rate: \\([0.00075, 0.00152, 0.00304]\\) * epsilon_decay: \\([0.975, 0.983, 0.991]\\) * tau: \\([0.015, 0.030, 0.060]\\) * batch_size: \\([64, 128, 256]\\) 1. gamma: 0.979669671 2. learning_rate 0.001516538 3. epsilon_decay:0.983003997 4. tau: 0.030475336 (soft update) 5. replay buffer size: 40000 6. num_episodes: 500 7. batch_size: 128\nWe further validated the champion configuration by retraining it with 10 additional independent training seeds and evaluating it with the same standardized protocol (\\(N_{eval}=70\\)). Across these training seeds, Mean = 329.63, SD = 190.51."
   },
   {
     "objectID": "publish/Reports/CartPole DQN Report.html#step-4",
     "href": "publish/Reports/CartPole DQN Report.html#step-4",
     "title": "CartPole DQN Report",
     "section": "Step 4",
-    "text": "Step 4\nBased on the predefined grid search standard, centering on the champion configuration, we set the configuration as: * learning_rate: \\([0.00075, 0.00152, 0.00304]\\) * epsilon_decay: \\([0.975, 0.983, 0.991]\\) * tau: \\([0.015, 0.030, 0.060]\\) * batch_size: \\([64, 128, 256]\\)\n\n\n\n\n\n\n\n\n\n\n\nfactors\nsum_sq\ndf\nF\nPR(&gt;F)\neta_sq_partial\n\n\n\n\nC(learning_rate)\n259730.145\n2\n4.98\n0.007\n0.0064\n\n\nC(batch_size)\n140436.5383\n2\n2.7\n0.0679\n0.0035\n\n\nC(learning_rate):C(batch_size)\n161737.5107\n4\n1.55\n0.1848\n0.004\n\n\nC(tau)\n54941.59155\n2\n1.05\n0.3487\n0.0014\n\n\nC(epsilon_decay)\n31610.40856\n2\n0.61\n0.5453\n0.0008\n\n\nResidual\n40097636.42\n1539\nNA\nNA\nNA\n\n\n\nTable 1: ANOVA Results (Top Effects). \\(df\\) = degrees of freedom; \\(SS\\) = sum of squares; \\(\\eta_p^2\\) = partial eta-squared. The analysis includes four factors: Learning Rate, Batch Size, Epsilon Decay, and Tau.\n![[Figure5_step4_main_effects.png]]\nFigure 5: Main Effects of Hyperparameters on Agent Performance. Error bars represent 95% confidence intervals. Only Learning Rate shows a statistically significant non-monotonic effect (\\(p &lt; 0.05\\)), peaking at the intermediate level.\nA four-way ANOVA evaluated the effects of Learning Rate, Batch Size, Epsilon Decay, and Tau on mean episode reward (Table 1). The analysis showed that the Residual term accounted for the majority of the variance (\\(SS_{residual} \\approx 4.0 \\times 10^7\\)), representing approximately 95% of the total sums of squares(from the full ANOVA table; see Appendix).\nAmong the hyperparameters, only Learning Rate exhibited a statistically significant main effect (\\(F(2, 1539) = 4.98, p = 0.007\\)), though with a small effect size (\\(\\eta_p^2 = 0.0064\\)). As shown in Figure 5, comparisons of means indicated an inverted-V trend, with the highest reward observed at the intermediate level (\\(1.52 \\times 10^{-3}\\)).\nNeither Batch Size, Epsilon Decay, Tau, nor any interaction effects reached statistical significance at the \\(\\alpha = 0.05\\) level."
+    "text": "Step 4\nBased on the predefined grid search standard, centering on the champion configuration, we set the configuration as: * learning_rate: \\([0.00075, 0.00152, 0.00304]\\) * epsilon_decay: \\([0.975, 0.983, 0.991]\\) * tau: \\([0.015, 0.030, 0.060]\\) * batch_size: \\([64, 128, 256]\\)\n\n\n\n\n\n\n\n\n\n\n\nfactors\nsum_sq\ndf\nF\nPR(&gt;F)\neta_sq_partial\n\n\n\n\nC(learning_rate)\n259730.145\n2\n4.98\n0.007\n0.0064\n\n\nC(batch_size)\n140436.5383\n2\n2.7\n0.0679\n0.0035\n\n\nC(learning_rate):C(batch_size)\n161737.5107\n4\n1.55\n0.1848\n0.004\n\n\nC(tau)\n54941.59155\n2\n1.05\n0.3487\n0.0014\n\n\nC(epsilon_decay)\n31610.40856\n2\n0.61\n0.5453\n0.0008\n\n\nResidual\n40097636.42\n1539\nNA\nNA\nNA\n\n\n\nTable 1: ANOVA Results (Top Effects). \\(df\\) = degrees of freedom; \\(SS\\) = sum of squares; \\(\\eta_p^2\\) = partial eta-squared. The analysis includes four factors: Learning Rate, Batch Size, Epsilon Decay, and Tau.\n\n\n\nFigure5_step4_main_effects\n\n\nFigure 5: Main Effects of Hyperparameters on Agent Performance. Error bars represent 95% confidence intervals. Only Learning Rate shows a statistically significant non-monotonic effect (\\(p &lt; 0.05\\)), peaking at the intermediate level.\nA four-way ANOVA evaluated the effects of Learning Rate, Batch Size, Epsilon Decay, and Tau on mean episode reward (Table 1). The analysis showed that the Residual term accounted for the majority of the variance (\\(SS_{residual} \\approx 4.0 \\times 10^7\\)), representing approximately 95% of the total sums of squares(from the full ANOVA table; see Appendix).\nAmong the hyperparameters, only Learning Rate exhibited a statistically significant main effect (\\(F(2, 1539) = 4.98, p = 0.007\\)), though with a small effect size (\\(\\eta_p^2 = 0.0064\\)). As shown in Figure 5, comparisons of means indicated an inverted-V trend, with the highest reward observed at the intermediate level (\\(1.52 \\times 10^{-3}\\)).\nNeither Batch Size, Epsilon Decay, Tau, nor any interaction effects reached statistical significance at the \\(\\alpha = 0.05\\) level."
   },
   {
     "objectID": "publish/Reports/CartPole DQN Report.html#the-trade-off-between-statistical-rigor-and-pruning-efficiency",
@@ -112,46 +112,11 @@
     "text": "Hyperparameter Sensitivity and Local Landscape Characterization\nThis section presents a local sensitivity analysis centered on the champion hyperparameters selected in Step 3. We employed a Full Factorial Grid Search combined with N-way ANOVA. As a balanced experimental design, this approach yields results with high interpretability. It should be noted that this interpretability applies only to the current local parameter neighborhood and does not represent the characteristics of the global parameter space. ### High System Sensitivity to Random Seeds\nExperimental results show that the Residual term, unexplained by hyperparameter factors, dominates the total sum of squares, accounting for approximately 95%. Under the current experimental setting (where training stochasticity is driven by training seeds), this indicates that model performance is highly sensitive to randomness during the training process.\nIn Step 1B, we observed significant non-Gaussian characteristics and high variance for a single hyperparameter configuration across different training seeds. The current Step 4 ANOVA results (extremely high Residual proportion) corroborate the observations from Step 1B: different training seeds lead to significant performance fluctuations. Consequently, attempting to fully average out training stochasticity through large-scale repetition would incur extremely high computational costs; this also explains why the strategy of multi-stage incremental training seeds adopted in Step 3 was necessary.\n\nHyperparameter Robustness Reveals a Flat Parameter Space\nAfter testing against the residual as the error term, no factors except Learning Rate showed statistical significance. This implies that within the current local parameter neighborhood, differences in these hyperparameter levels have a relatively limited impact on performance, presenting an overall flat local landscape. Therefore, small parameter drifts within this neighborhood are unlikely to cause a systemic collapse in performance. Given that this grid was constructed centered on the champion configuration, this result aligns with the Step 3 model selection conclusion, indicating that the champion configuration possesses good parameter robustness in this local region.\nWithin this local region, although Learning Rate is statistically significant (\\(p=0.007\\)), the effect size is small (\\(\\eta_p^2=0.0064\\)), indicating a limited proportion of explainable performance variation. The main effects plot (Figure 5) shows an inverted-V trend for Learning Rate, with the peak corresponding to the intermediate level of this grid (which is also the champion configuration’s Learning Rate), suggesting that a local optimum exists for Learning Rate in this neighborhood.\nOverall, the dominance of training stochasticity implies that further hyperparameter fine-tuning yields low marginal returns. If further parameter fine-tuning is still desired within this neighborhood, Learning Rate is the dimension most likely to yield detectable gains, and a relatively optimal range exists. Meanwhile, since different training seeds lead to significant performance fluctuations, reliable evaluation should rely on multi-seed repetition and statistical aggregation rather than single-run results.\n### Practical Insights from Step 4 Sensitivity Analysis\nGiven that the system possesses high seed sensitivity and the local hyperparameter landscape is relatively flat:\n\nContinuing sensitivity analysis with finer hyperparameter levels in the current neighborhood likely offers limited marginal return and high computational cost.\nIf further parameter fine-tuning is still desired, Learning Rate is the dimension worth prioritizing.\nIf the goal is to improve the cost-effectiveness of the overall training pipeline (obtaining more reproducible results under a given algorithm and training budget), priority should be given to increasing the number of training seeds and reporting cross-seed statistical summaries, rather than relying on single-run results from a few seeds.\nIf the goal is to significantly raise the performance ceiling, changes to the algorithm structure or training mechanism may be more effective than local hyperparameter fine-tuning."
   },
   {
-    "objectID": "publish/HOME.html",
-    "href": "publish/HOME.html",
-    "title": "HOME",
+    "objectID": "publish/Life/First_Life.html",
+    "href": "publish/Life/First_Life.html",
+    "title": "First_Life",
     "section": "",
-    "text": "this is the HOME page."
-  },
-  {
-    "objectID": "publish/ABOUT.html",
-    "href": "publish/ABOUT.html",
-    "title": "ABOUT",
-    "section": "",
-    "text": "this is the ABOUT page."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Foxmir Blog",
-    "section": "",
-    "text": "this is the HOME page.\n\n\nLatest\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nAPPENDIX\n\n\n\n\n\nNo matching items\n\n\n\n\nLife\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nReports\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "this is the ABOUT page."
-  },
-  {
-    "objectID": "appendix.html",
-    "href": "appendix.html",
-    "title": "APPENDIX",
-    "section": "",
-    "text": "No matching items"
-  },
-  {
-    "objectID": "life.html",
-    "href": "life.html",
-    "title": "Life",
-    "section": "",
-    "text": "First_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\nNo matching items"
+    "text": "I love my life!\nI love myself!\nI love the world!\nAnd……I miss you!"
   },
   {
     "objectID": "publish/Hello_world.html",
@@ -175,11 +140,39 @@
     "text": "下面是一段 Python 代码：\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndef plot_wave(freq):\n    x = np.linspace(0, 10, 100)\n    y = np.sin(freq * x)\n    return x, y\n\nprint(\"Hello Quarto!\")"
   },
   {
-    "objectID": "publish/Life/First_Life.html",
-    "href": "publish/Life/First_Life.html",
-    "title": "First_Life",
+    "objectID": "life.html",
+    "href": "life.html",
+    "title": "Life",
     "section": "",
-    "text": "I love my life!\nI love myself!\nI love the world!\nAnd……I miss you!"
+    "text": "First_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "this is the ABOUT page."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Foxmir Blog",
+    "section": "",
+    "text": "this is the HOME page.\n\n\nLatest\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nLife\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nReports\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "publish/ABOUT.html",
+    "href": "publish/ABOUT.html",
+    "title": "ABOUT",
+    "section": "",
+    "text": "this is the ABOUT page."
+  },
+  {
+    "objectID": "publish/HOME.html",
+    "href": "publish/HOME.html",
+    "title": "HOME",
+    "section": "",
+    "text": "this is the HOME page."
   },
   {
     "objectID": "publish/Reports/test4file.html",

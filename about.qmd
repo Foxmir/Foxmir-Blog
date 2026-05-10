@@ -4,7 +4,7 @@ page-layout: full
 ---
 
 <!-- AUTO-GENERATED-ABOUT-PAGE: edit the root About.md in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260510044740 -->
+<!-- BUILD-ID: 20260510054310 -->
 
 
 this is the ABOUT page.
