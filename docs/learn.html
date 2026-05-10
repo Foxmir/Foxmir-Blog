@@ -307,11 +307,13 @@ window.Quarto = {
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="./articles.html"> 
 <span class="menu-text">Articles</span></a>
@@ -389,6 +391,8 @@ window.Quarto = {
   const desktopMedia = window.matchMedia('(min-width: 1200px)');
 
   const maxDepth = 3;
+
+  const backToTopThreshold = 0.65;
 
 
 
@@ -680,6 +684,56 @@ window.Quarto = {
 
 
 
+  const initBackToTop = () => {
+
+    const button = document.createElement('button');
+
+    button.type = 'button';
+
+    button.className = 'back-to-top';
+
+    button.setAttribute('aria-label', 'Back to top');
+
+    button.setAttribute('title', 'Back to top');
+
+    button.textContent = '↑';
+
+    document.body.appendChild(button);
+
+
+
+    const updateVisibility = () => {
+
+      const root = document.documentElement;
+
+      const scrollableHeight = root.scrollHeight - window.innerHeight;
+
+      const shouldShow = scrollableHeight > 48 && window.scrollY > (window.innerHeight * backToTopThreshold);
+
+      button.classList.toggle('is-visible', shouldShow);
+
+    };
+
+
+
+    button.addEventListener('click', () => {
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    });
+
+
+
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+
+    window.addEventListener('resize', updateVisibility);
+
+    updateVisibility();
+
+  };
+
+
+
   const initOutline = () => {
 
     if (!articlePathPattern.test(window.location.pathname)) return;
@@ -816,11 +870,19 @@ window.Quarto = {
 
   if (document.readyState === 'loading') {
 
-    document.addEventListener('DOMContentLoaded', initOutline, { once: true });
+    document.addEventListener('DOMContentLoaded', () => {
+
+      initOutline();
+
+      initBackToTop();
+
+    }, { once: true });
 
   } else {
 
     initOutline();
+
+    initBackToTop();
 
   }
 

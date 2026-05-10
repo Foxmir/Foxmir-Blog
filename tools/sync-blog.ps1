@@ -559,9 +559,10 @@ $config = @(
     '  google-analytics: ' + (ConvertTo-YamlSingleQuoted $googleAnalyticsId)
     '  search: false'
     '  navbar:'
-    '    right:'
+    '    left:'
     '      - href: about.qmd'
     '        text: About'
+    '    right:'
 )
 
 foreach ($item in $items) {

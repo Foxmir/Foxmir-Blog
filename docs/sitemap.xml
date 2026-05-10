@@ -2,54 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/reports.html</loc>
-    <lastmod>2026-05-10T08:44:00.733Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Reports/CartPole DQN Report.html</loc>
-    <lastmod>2026-05-10T08:44:00.323Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/LOG.html</loc>
-    <lastmod>2026-05-10T08:43:59.853Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/ABOUT.html</loc>
-    <lastmod>2026-05-10T08:43:59.823Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/learn.html</loc>
-    <lastmod>2026-05-10T08:44:00.710Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/bits.html</loc>
-    <lastmod>2026-05-10T08:44:00.701Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/about.html</loc>
-    <lastmod>2026-05-10T08:44:00.782Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/articles.html</loc>
-    <lastmod>2026-05-10T08:44:00.691Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/index.html</loc>
-    <lastmod>2026-05-10T08:44:00.771Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/notes.html</loc>
-    <lastmod>2026-05-10T08:44:00.720Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/HOME.html</loc>
-    <lastmod>2026-05-10T08:43:59.841Z</lastmod>
+    <lastmod>2026-05-10T09:12:53.470Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/Notes/First_Life.html</loc>
-    <lastmod>2026-05-10T08:43:59.589Z</lastmod>
+    <lastmod>2026-05-10T09:12:52.464Z</lastmod>
   </url>
   <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Reports/test4file.html</loc>
-    <lastmod>2026-05-10T08:43:59.788Z</lastmod>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/HOME.html</loc>
+    <lastmod>2026-05-10T09:12:52.598Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/Deconstructing Reward in RL.html</loc>
+    <lastmod>2026-05-10T09:12:52.358Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/notes.html</loc>
+    <lastmod>2026-05-10T09:12:53.462Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/index.html</loc>
+    <lastmod>2026-05-10T09:12:53.501Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/articles.html</loc>
+    <lastmod>2026-05-10T09:12:53.440Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/about.html</loc>
+    <lastmod>2026-05-10T09:12:53.507Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/bits.html</loc>
+    <lastmod>2026-05-10T09:12:53.447Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/learn.html</loc>
+    <lastmod>2026-05-10T09:12:53.454Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/ABOUT.html</loc>
+    <lastmod>2026-05-10T09:12:52.566Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/解构i奖励的含义及常见误解.html</loc>
+    <lastmod>2026-05-10T09:12:52.410Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/LOG.html</loc>
+    <lastmod>2026-05-10T09:12:52.611Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Reports/Statistical Analysis of DQN on CartPole v1.html</loc>
+    <lastmod>2026-05-10T09:12:53.067Z</lastmod>
   </url>
 </urlset>

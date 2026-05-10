@@ -8,9 +8,10 @@ website:
   google-analytics: 'G-VQW94RHSBY'
   search: false
   navbar:
-    right:
+    left:
       - href: about.qmd
         text: About
+    right:
       - href: articles.qmd
         text: 'Articles'
       - href: bits.qmd

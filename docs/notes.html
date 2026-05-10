@@ -307,11 +307,13 @@ window.Quarto = {
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="./articles.html"> 
 <span class="menu-text">Articles</span></a>
@@ -371,7 +373,7 @@ window.Quarto = {
 <!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->
 <div id="listing-category-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778402639589" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778404372464" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Notes/First_Life.html" class="no-external">First_Life</a>
@@ -402,6 +404,8 @@ Jan 17, 2026
   const desktopMedia = window.matchMedia('(min-width: 1200px)');
 
   const maxDepth = 3;
+
+  const backToTopThreshold = 0.65;
 
 
 
@@ -693,6 +697,56 @@ Jan 17, 2026
 
 
 
+  const initBackToTop = () => {
+
+    const button = document.createElement('button');
+
+    button.type = 'button';
+
+    button.className = 'back-to-top';
+
+    button.setAttribute('aria-label', 'Back to top');
+
+    button.setAttribute('title', 'Back to top');
+
+    button.textContent = '↑';
+
+    document.body.appendChild(button);
+
+
+
+    const updateVisibility = () => {
+
+      const root = document.documentElement;
+
+      const scrollableHeight = root.scrollHeight - window.innerHeight;
+
+      const shouldShow = scrollableHeight > 48 && window.scrollY > (window.innerHeight * backToTopThreshold);
+
+      button.classList.toggle('is-visible', shouldShow);
+
+    };
+
+
+
+    button.addEventListener('click', () => {
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    });
+
+
+
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+
+    window.addEventListener('resize', updateVisibility);
+
+    updateVisibility();
+
+  };
+
+
+
   const initOutline = () => {
 
     if (!articlePathPattern.test(window.location.pathname)) return;
@@ -829,11 +883,19 @@ Jan 17, 2026
 
   if (document.readyState === 'loading') {
 
-    document.addEventListener('DOMContentLoaded', initOutline, { once: true });
+    document.addEventListener('DOMContentLoaded', () => {
+
+      initOutline();
+
+      initBackToTop();
+
+    }, { once: true });
 
   } else {
 
     initOutline();
+
+    initBackToTop();
 
   }
 

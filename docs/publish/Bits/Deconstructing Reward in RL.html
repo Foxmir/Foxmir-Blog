@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-01-17">
+<meta name="dcterms.date" content="2026-05-10">
 
-<title>First_Life – Foxmir Blog</title>
+<title>Deconstructing Reward in RL – Foxmir Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,6 +67,35 @@ gtag('js', new Date());
 gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -294,7 +323,7 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">First_Life</h1>
+<h1 class="title">Deconstructing Reward in RL</h1>
 </div>
 
 
@@ -305,7 +334,7 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 17, 2026</p>
+      <p class="date">May 10, 2026</p>
     </div>
   </div>
   
@@ -317,12 +346,149 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 </header>
 
 
-<p>I love my life!</p>
-<p>I love myself!</p>
-<p>I love the world!</p>
-<p>And……I miss you!</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In Reinforcement Learning (RL), “Reward” is a core concept that seems simple but is extremely prone to confusion in both theory and practice.</p>
+<p>We often find ourselves wrestling with apparent contradictions in different contexts: * Why does my colleague say the reward is “received when leaving state S,” while a tutorial says it’s “received upon arriving at state S’”? * Why is the reward function <code>R(s, a, s')</code> in theory, but in the code of many classic environments, the reward seems to depend only on <code>s'</code>? * When we say, “there’s a reward of 100 for reaching the terminal state,” when, where, and how is this reward factored into our model’s calculations? Why is the discussion about it always entangled with “the value being zero”?</p>
+<p>This article does not intend to reiterate the definition of reward. Our goal is to delve into these nuanced misunderstandings—the misconceptions jointly caused by theoretical rigor, implementation flexibility, and the association with other concepts (like V/Q functions).</p>
+<p>We will deconstruct it step by step.</p>
+</section>
+<section id="immediate-reward-and-reward-function" class="level2">
+<h2 class="anchored" data-anchor-id="immediate-reward-and-reward-function">Immediate Reward and Reward Function</h2>
+<ul>
+<li>The <strong>Reward Function, R(s, a, s’)</strong>, is a <strong>rule or procedure</strong> that generates a reward.</li>
+<li>The <strong>Immediate Reward, r</strong>, is <strong>the specific numerical value</strong> (e.g., +1 or -5) returned by this function in a single, specific transition. This specific value is calculated according to the rules of the reward function.</li>
+<li>In practice, we often use the terms “Reward Function,” “Reward,” and “Immediate Reward” interchangeably.</li>
+</ul>
+</section>
+<section id="what-determines-the-reward-functions-dependencies" class="level2">
+<h2 class="anchored" data-anchor-id="what-determines-the-reward-functions-dependencies">What Determines the Reward Function’s Dependencies?</h2>
+<p>This brings us to a core confusion: “What does R truly depend on?” The question arises because the dependencies of the reward&nbsp;r&nbsp;often differ between theory and practice. To make matters more complex, this ambiguity can be easily conflated with the different dependencies of the V and Q functions, especially since reward and value are intrinsically linked within the Bellman equation.</p>
+<section id="from-the-environments-perspective" class="level3">
+<h3 class="anchored" data-anchor-id="from-the-environments-perspective">From the Environment’s Perspective</h3>
+<ul>
+<li><strong>General Definition</strong>: In a <strong>standard MDP</strong> environment, the reward function R is the environment’s feedback on <strong>a single, complete event (a transition)</strong>. It <strong>depends on three elements: s, a, s’</strong>, and the corresponding notation for the reward function is R(s, a, s’).</li>
+<li><strong>Practical Implementation</strong>: It does not necessarily have to include all elements, meaning it depends on at most these three elements, because the reward rules of real physical environments can be incredibly varied:
+<ul>
+<li><strong>R depends only on (s, a)</strong>
+<ul>
+<li>The reward function is simplified to R(s, a).</li>
+<li>For example: Starting from home (s), walking (<span class="math inline">\(a_1\)</span>) gives a reward of (0), but taking a car (<span class="math inline">\(a_2\)</span>) gives a reward of (-5).</li>
+</ul></li>
+<li><strong>R depends only on (s)</strong>
+<ul>
+<li>The reward function is simplified to R(s).</li>
+<li>For example: Being in a burning room (s), as long as you stay here, you receive a reward of (-1) every second (regardless of any action).</li>
+</ul></li>
+<li><strong>R depends only on (s’)</strong>
+<ul>
+<li>The reward function is simplified to R(s’).</li>
+<li>For example: In a board game or a maze, there is only a reward (+100) for reaching the final destination (s’).</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="from-the-agents-perspective-the-bellman-equations-perspective" class="level3">
+<h3 class="anchored" data-anchor-id="from-the-agents-perspective-the-bellman-equations-perspective">From the Agent’s Perspective (The Bellman Equation’s Perspective)</h3>
+<ul>
+<li><strong>The agent has no choice</strong>: Regardless of how the environment generates the reward, the agent must leverage&nbsp;<strong>all available information</strong>&nbsp;to make its decisions. While the notations&nbsp;<strong>V(s)</strong>&nbsp;and&nbsp;<strong>Q(s, a)</strong>&nbsp;specify the&nbsp;<strong>entity</strong>&nbsp;being evaluated, the process of calculating these values via the Bellman equation requires the complete set of information from the transition.</li>
+<li>According to the <strong>Bellman Equation</strong>:
+<ul>
+<li><span class="math inline">\(V(s) = E [ r + \gamma * V(s') ]\)</span>
+<ul>
+<li>The state-value V itself represents the expected value of a specific state s. This “representation” is only related to s and is independent of (a, s’).</li>
+<li>But to calculate V, one must know the action (a) taken from s, and which s’ is reached.</li>
+</ul></li>
+<li><span class="math inline">\(Q(s,a) = E [ r + \gamma * max_{a'}Q(s',a') ]\)</span>
+<ul>
+<li>The action-value Q itself represents the expected value of a specific state-action pair (s, a) and is likewise independent of (s’).</li>
+<li>But to calculate Q, one must know which state s’ is reached.</li>
+</ul></li>
+</ul></li>
+<li>The <strong><code>r</code> inside the Bellman equation</strong> is obtained directly from the environment according to its rules. That is, it is the numerical value of the immediate reward <code>r</code> requested from the environment for “this specific transition event.” The Bellman equation does not need to know the rules by which <code>r</code> was generated from the environment’s perspective; it only needs the obtained <code>r</code> to perform its calculation.</li>
+</ul>
+</section>
+</section>
+<section id="what-simplified-phrasing-really-means" class="level2">
+<h2 class="anchored" data-anchor-id="what-simplified-phrasing-really-means">What Simplified Phrasing Really Means</h2>
+<ul>
+<li><strong>“The reward in state S is 10”</strong>: This is a simplified expression.
+<ul>
+<li><strong>From a theoretical standpoint</strong>, the actual meaning is that this +10 is the <strong>immediate reward obtained from the complete experience of the transition <code>(S, a, S')</code></strong>. It omits the full description, “when you start from S, take action a, and successfully transition to S’.”</li>
+<li><strong>From a practical standpoint</strong>, (we need more context) it cannot be ruled out that this is a reward truly related only to state S.</li>
+</ul></li>
+<li><strong>“We get reward XX when leaving S” / “We get reward XX upon arriving at S’”</strong>: These two expressions might coexist (you might especially hear them from colleagues describing the same environment), leading to confusion: is the reward obtained upon leaving or upon arriving? In fact, both are simplified expressions.
+<ul>
+<li><strong>From the perspective of the complete reward function R’s definition (the theoretical level)</strong>, <strong>R comes from the complete experience (s, a, s’)</strong>.</li>
+<li><strong>From the perspective of practical implementation</strong>, it can be very flexible, and this flexibility leads to many simplified expressions.
+<ol type="1">
+<li>As mentioned above, if the <strong>reward function is R(s) or R(s’)</strong>, then it is correct for us to state that the immediate reward is received upon leaving/arriving.</li>
+<li>But if the <strong>reward function R is of another type</strong>, or for instance, it’s R(s) but described as receiving a reward upon arriving at s’ (or vice versa), then it’s an incorrect description.</li>
+<li>However, in <strong>practical, colloquial terms</strong>, such imprecise but commonly understood expressions occur frequently. As long as it ensures that <strong>“a single reward R is issued only once for a complete experience”</strong> (meaning, you don’t get one reward for leaving and another for arriving), it is acceptable.</li>
+</ol></li>
+</ul></li>
+</ul>
+</section>
+<section id="the-special-case-of-the-terminal-reward" class="level2">
+<h2 class="anchored" data-anchor-id="the-special-case-of-the-terminal-reward">The Special Case of the Terminal Reward</h2>
+<section id="common-misconceptions" class="level3">
+<h3 class="anchored" data-anchor-id="common-misconceptions">Common Misconceptions</h3>
+<ul>
+<li>❌ Because the terminal state has no next state, the reward for the terminal state is handled by attributing it to the previous state.
+<ul>
+<li><strong>A more precise statement is</strong>: The terminal reward is the <strong>immediate reward <code>r</code> returned by the environment during the complete transition event <span class="math inline">\((s, a, s_{terminal})\)</span> that caused the episode to end</strong>.</li>
+<li>This erroneous understanding still stems from the biased perception that “<code>r</code> is tied to a single element.” The key is to recognize that “<code>r</code> is tied to the entire event,” which contains various elements, complete or incomplete. Therefore, the “immediate reward of the terminal state” still conforms to our definition of immediate reward and the Bellman equation.</li>
+</ul></li>
+</ul>
+</section>
+<section id="a-special-terminal-state" class="level3">
+<h3 class="anchored" data-anchor-id="a-special-terminal-state">A Special Terminal State?</h3>
+<ul>
+<li>When we discuss the <strong>“special terminal state”</strong>,
+<ol type="1">
+<li>We need to <strong>distinguish between two objects</strong>:
+<ol type="1">
+<li><strong>Value</strong>: State-value V, Action-value Q</li>
+<li><strong>Reward</strong> / Immediate Reward r</li>
+</ol></li>
+<li>The <strong>“special” dual meaning</strong>:
+<ol type="1">
+<li><strong>For value, the value of a terminal state is always 0</strong>.</li>
+<li><strong>For reward, the uniqueness of the game rules</strong> makes the “terminal state different from other states.”
+<ol type="1">
+<li>e.g., Chess/Mazes: 0 in the middle, 100 at the end.</li>
+<li>e.g., Adventure Games: -1 for energy consumption per step, +10 for finding an item, terminal state 1 (falling into a pit) is 0, terminal state 2 (finding treasure) is 100.</li>
+<li>e.g., CartPole: +1 for surviving, 0 at the terminal state (pole falls).</li>
+<li>e.g., Automated Trading: no reward in the middle, terminal reward fluctuates with the market.</li>
+</ol></li>
+</ol></li>
+<li>The <strong>Bellman Equation connects</strong> the concepts of “special terminal value” and “special terminal reward.” Due to confounding factors, to understand questions like “<strong>Is the terminal state truly special, how does this ‘specialness’ affect calculation, and is it so special that it transcends the Bellman equation?</strong>”, one must understand them separately and clearly.</li>
+</ol></li>
+<li><strong>The good news is: the terminal state still follows the Bellman equation</strong>, it’s just that:
+<ol type="1">
+<li>In special game rules, although the terminal <code>r</code> is special, it is still obtained directly from the environment according to its rules. That is, it is the immediate reward <code>r</code> for “this specific transition event.” The Bellman equation does not need to know how <code>r</code> is generated from the environment’s perspective; it only needs the obtained <code>r</code> to calculate. Therefore, <strong>for the terminal state, the “special reward” does not affect the computational complexity or any logic of the Bellman equation</strong>.</li>
+<li>For both V/Q, when performing the Bellman equation calculation:
+<ol type="1">
+<li><span class="math inline">\(V(s_{terminal}) = 0\)</span>, <span class="math inline">\(Q(s_{terminal}, a) = 0\)</span></li>
+<li>The value function evaluates the “expected future return.” Since the terminal state has been reached, there is no “future.” The episode ends, and no subsequent rewards can be obtained. Therefore, its expected future return is 0.</li>
+<li><strong>Is this a crude violation of the Bellman equation’s rules?</strong>
+<ol type="1">
+<li>One might think that since all other states follow a single calculation rule, handling the terminal state separately seems to deviate from the established protocol.</li>
+<li>But this <strong>shouldn’t be seen as a&nbsp;crude violation</strong>. Instead, a better way to frame it is that the terminal state&nbsp;does&nbsp;follow the same Bellman equation rules. It’s just that for this special state, we have effectively pre-calculated its future value to be zero, making it convenient to use this “exact value” for a more straightforward and efficient calculation.</li>
+</ol></li>
+<li><strong>How is this special treatment implemented in practice?</strong>
+<ol type="1">
+<li>The good news is we don’t need to use <code>if...else</code> statements or temporarily modify formulas. Mature environments have usually encapsulated this for us. We just need to define which state is the terminal state, and the environment will understand the game rules. You need almost no extra operations.</li>
+<li>When a transition leads to the end of an episode, the environment’s <code>step()</code> function returns a <code>done=True</code> (or <code>terminated=True</code>) signal. This signal implies that the value of the terminal state is 0, and it is generated automatically, connecting seamlessly with the existing calculation logic.</li>
+<li>By the way, the environment internally also relies on simple statements like <code>if...else</code> to achieve the seemingly effortless effects we see on the outside</li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ul>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script>

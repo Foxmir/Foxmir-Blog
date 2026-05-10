@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-01-15">
+<meta name="dcterms.date" content="2026-05-10">
 
-<title>CartPole DQN Report – Foxmir Blog</title>
+<title>Statistical Analysis of DQN on CartPole v1 – Foxmir Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -277,11 +277,13 @@ window.Quarto = {
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../articles.html"> 
 <span class="menu-text">Articles</span></a>
@@ -321,7 +323,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">CartPole DQN Report</h1>
+<h1 class="title">Statistical Analysis of DQN on CartPole v1</h1>
 </div>
 
 
@@ -332,7 +334,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 15, 2026</p>
+      <p class="date">May 10, 2026</p>
     </div>
   </div>
   
@@ -344,11 +346,8 @@ window.Quarto = {
 </header>
 
 
-<section id="technical-report-statistical-analysis-of-dqn-on-cartpole-v1" class="level1">
-<h1>Technical Report: Statistical Analysis of DQN on CartPole-v1</h1>
 <p>（Written on January 2, 2026 and completed on January 15, 2026）</p>
 <hr>
-</section>
 <section id="abstract" class="level1">
 <h1>Abstract</h1>
 <p>Under constrained computational budgets, reinforcement learning experiments often face a severe conflict between statistical rigor and resource consumption. Using DQN training on CartPole-v1 as a case study, this report aims to quantify this conflict and explore hyperparameter sensitivity characteristics under strict statistical standards. We adopted a four-stage statistical experimental protocol: evaluation precision calibration, coarse screening via Bayesian optimization, incremental model selection based on bootstrap paired-difference confidence intervals (incorporating statistical pruning and adaptive early termination), and a full-factorial ANOVA local sensitivity analysis centered on the champion configuration. Empirical results reveal the high cost of maintaining statistical reliability in this specific RL project: the training phase exhibits high variance and significant deviation from normality, causing sample size estimates based on normal approximation to yield unrealistic requirements; pursuing equivalent rigor would require a training seed count (<span class="math inline">\(N_{train} \approx 1000\)</span>) far exceeding typical budgets. Model selection within an acceptable training budget (<span class="math inline">\(N_{train} = 40\)</span>) also demonstrated that strict paired-difference CIs prevented adaptive early termination from triggering and triggered statistical pruning only once, reflecting a direct conflict between rigor and efficiency. Local sensitivity analysis based on the champion hyperparameters further indicated that within the champion configuration’s neighborhood, the residual term (stochastic noise) explained 95% of performance variation, with only the learning rate showing weak statistical significance (<span class="math inline">\(\eta_p^2=0.0064\)</span>). These results suggest that under the current experimental budget, the marginal benefit of excessive local hyperparameter fine-tuning is extremely low and highly susceptible to stochastic interference; engineering practice should acknowledge this statistical reality. Increasing the number of training seeds and utilizing statistical aggregation are more reliable means for improving the cost-effectiveness of model selection or the reliability of sensitivity analysis.</p>
@@ -526,14 +525,14 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="step-1a">Step 1A</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../_attachments/reports/cartpole-dqn-report/Figure1_step1A1ceilingeffect.png" class="img-fluid figure-img"></p>
+<p><img src="../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Figure1_step1A1ceilingeffect.png" class="img-fluid figure-img"></p>
 <figcaption>Figure1_step1A1ceilingeffect</figcaption>
 </figure>
 </div>
 <p><strong>Figure 1</strong>: 95% CI half-width as a function of <span class="math inline">\(N_{eval}\)</span> (red line: threshold=10; green line: selected minimum <span class="math inline">\(N_{eval}\)</span>). For the saturated policy (mean=500, variance=0), the analysis yields a misleading requirement of <span class="math inline">\(N_{eval}=5\)</span>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../_attachments/reports/cartpole-dqn-report/Figure2_step1A2n=70.png" class="img-fluid figure-img"></p>
+<p><img src="../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Figure2_step1A2n=70.png" class="img-fluid figure-img"></p>
 <figcaption>Figure2_step1A2n=70</figcaption>
 </figure>
 </div>
@@ -543,7 +542,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="step-1b">Step 1B</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../_attachments/reports/cartpole-dqn-report/Figure3_step1B_left_skewed_distribution.png" class="img-fluid figure-img"></p>
+<p><img src="../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Figure3_step1B_left_skewed_distribution.png" class="img-fluid figure-img"></p>
 <figcaption>Figure3_step1B_left_skewed_distribution</figcaption>
 </figure>
 </div>
@@ -558,7 +557,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="step-3">Step 3</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../_attachments/reports/cartpole-dqn-report/Figure4_step3_forest.png" class="img-fluid figure-img"></p>
+<p><img src="../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Figure4_step3_forest.png" class="img-fluid figure-img"></p>
 <figcaption>Figure4_step3_forest</figcaption>
 </figure>
 </div>
@@ -641,7 +640,7 @@ window.Quarto = {
 <p><strong>Table 1</strong>: ANOVA Results (Top Effects). <span class="math inline">\(df\)</span> = degrees of freedom; <span class="math inline">\(SS\)</span> = sum of squares; <span class="math inline">\(\eta_p^2\)</span> = partial eta-squared. The analysis includes four factors: Learning Rate, Batch Size, Epsilon Decay, and Tau.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../_attachments/reports/cartpole-dqn-report/Figure5_step4_main_effects.png" class="img-fluid figure-img"></p>
+<p><img src="../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Figure5_step4_main_effects.png" class="img-fluid figure-img"></p>
 <figcaption>Figure5_step4_main_effects</figcaption>
 </figure>
 </div>
@@ -779,7 +778,7 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
 \end{cases}
 \]</span> The special case avoids a collision between the default mapping and the evaluation-seed interval. The exact implementation is provided in the code and Appendix.</li>
 </ol></li>
-<li>The full ANOVA table:<a href="../_attachments/reports/cartpole-dqn-report/Full_Table1_step4_anova_report.csv">Full_Table1_step4_anova_report.csv</a></li>
+<li>The full ANOVA table:<a href="../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Full_Table1_step4_anova_report.csv">Full_Table1_step4_anova_report.csv</a></li>
 <li>Open-source code repository.</li>
 <li>Hyperparameter configurations for the top-10 candidates.</li>
 </ol>
@@ -797,6 +796,8 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
   const desktopMedia = window.matchMedia('(min-width: 1200px)');
 
   const maxDepth = 3;
+
+  const backToTopThreshold = 0.65;
 
 
 
@@ -1088,6 +1089,56 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
 
 
 
+  const initBackToTop = () => {
+
+    const button = document.createElement('button');
+
+    button.type = 'button';
+
+    button.className = 'back-to-top';
+
+    button.setAttribute('aria-label', 'Back to top');
+
+    button.setAttribute('title', 'Back to top');
+
+    button.textContent = '↑';
+
+    document.body.appendChild(button);
+
+
+
+    const updateVisibility = () => {
+
+      const root = document.documentElement;
+
+      const scrollableHeight = root.scrollHeight - window.innerHeight;
+
+      const shouldShow = scrollableHeight > 48 && window.scrollY > (window.innerHeight * backToTopThreshold);
+
+      button.classList.toggle('is-visible', shouldShow);
+
+    };
+
+
+
+    button.addEventListener('click', () => {
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    });
+
+
+
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+
+    window.addEventListener('resize', updateVisibility);
+
+    updateVisibility();
+
+  };
+
+
+
   const initOutline = () => {
 
     if (!articlePathPattern.test(window.location.pathname)) return;
@@ -1224,11 +1275,19 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
 
   if (document.readyState === 'loading') {
 
-    document.addEventListener('DOMContentLoaded', initOutline, { once: true });
+    document.addEventListener('DOMContentLoaded', () => {
+
+      initOutline();
+
+      initBackToTop();
+
+    }, { once: true });
 
   } else {
 
     initOutline();
+
+    initBackToTop();
 
   }
 

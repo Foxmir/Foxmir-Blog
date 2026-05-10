@@ -39,6 +39,15 @@ body.quarto-dark {
 html {
 	background-color: var(--site-bg);
 	scroll-behavior: smooth;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.context-outline::-webkit-scrollbar {
+	width: 0;
+	height: 0;
 }
 
 body {
@@ -47,6 +56,8 @@ body {
 	color: var(--site-text);
 	font-family: Charter, 'Bitstream Charter', 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
 	text-rendering: optimizeLegibility;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
 
 a {
@@ -144,17 +155,40 @@ main.content,
 	width: 2.3rem;
 	height: 2.3rem;
 	margin-left: 0.85rem;
-	border: 1px solid var(--site-line);
+	border: 1px solid var(--site-line-strong);
 	border-radius: 999px;
-	color: var(--site-text-soft);
-	background: var(--site-paper);
-	transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+	color: var(--site-text);
+	background: var(--site-paper-strong);
+	box-shadow: 0 8px 22px rgba(35, 27, 21, 0.08);
+	transition: color 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.navbar .quarto-color-scheme-toggle i,
+.navbar .quarto-color-scheme-toggle svg {
+	color: currentColor !important;
+	fill: currentColor;
+}
+
+.navbar .quarto-color-scheme-toggle:not(:hover):not(:focus-visible) {
+	transform: translateY(0);
 }
 
 .navbar .quarto-color-scheme-toggle:hover {
 	color: var(--site-text);
 	border-color: var(--site-line-strong);
 	background: var(--site-paper-strong);
+	box-shadow: 0 12px 28px rgba(35, 27, 21, 0.12);
+	transform: translateY(-1px);
+}
+
+body:not(.quarto-dark) .navbar .quarto-color-scheme-toggle {
+	color: #191715;
+	background: rgba(255, 253, 250, 0.96);
+}
+
+body.quarto-dark .navbar .quarto-color-scheme-toggle {
+	color: #f2eadf;
+	background: rgba(33, 29, 27, 0.96);
 }
 
 #quarto-content {
@@ -165,6 +199,8 @@ main.content,
 
 .context-outline {
 	display: none;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
 
 .context-outline__inner {
@@ -217,7 +253,9 @@ main.content,
 	text-decoration: none;
 	color: inherit;
 	transition: color 0.18s ease;
-	word-break: break-word;
+	word-break: normal;
+	overflow-wrap: anywhere;
+	line-height: 1.5;
 }
 
 .context-outline__nav a:hover,
@@ -228,6 +266,40 @@ main.content,
 
 .context-outline__item.is-active > a {
 	font-weight: 700;
+}
+
+.back-to-top {
+	position: fixed;
+	right: 1.25rem;
+	bottom: 1.25rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	border: 1px solid var(--site-line-strong);
+	border-radius: 999px;
+	background: var(--site-paper-strong);
+	color: var(--site-text);
+	box-shadow: 0 14px 32px rgba(35, 27, 21, 0.14);
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(0.5rem);
+	transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
+	z-index: 40;
+}
+
+.back-to-top.is-visible {
+	opacity: 1;
+	pointer-events: auto;
+	transform: translateY(0);
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
+	border-color: var(--site-accent);
+	color: var(--site-accent);
+	outline: none;
 }
 
 #title-block-header {
@@ -433,8 +505,8 @@ table {
 
 @media (min-width: 1200px) {
 	body.has-context-outline #quarto-content {
-		max-width: min(calc(var(--site-reading-width) + 24rem), calc(100vw - 3rem));
-		padding-right: clamp(14rem, 18vw, 18rem);
+		max-width: min(calc(var(--site-reading-width) + 29rem), calc(100vw - 3rem));
+		padding-right: clamp(15rem, 22vw, 22rem);
 	}
 
 	body.has-context-outline .context-outline {
@@ -442,7 +514,7 @@ table {
 		position: fixed;
 		top: 8rem;
 		right: max(1.25rem, calc((100vw - var(--site-max-width)) / 2 + 1.25rem));
-		width: clamp(12rem, 15vw, 15rem);
+		width: clamp(15rem, 21vw, 21rem);
 		max-height: calc(100vh - 10rem);
 		overflow: auto;
 		padding-bottom: 1rem;
@@ -467,6 +539,11 @@ table {
 @media (max-width: 767px) {
 	#quarto-content {
 		padding: 2.4rem 1rem 4rem;
+	}
+
+	.back-to-top {
+		right: 1rem;
+		bottom: 1rem;
 	}
 
 	.quarto-listing .quarto-post {

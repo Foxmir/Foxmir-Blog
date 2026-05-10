@@ -2,28 +2,7 @@
   {
     "listing": "/reports.html",
     "items": [
-      "/publish/Reports/test4file.html",
-      "/publish/Reports/CartPole DQN Report.html"
-    ]
-  },
-  {
-    "listing": "/learn.html",
-    "items": []
-  },
-  {
-    "listing": "/bits.html",
-    "items": []
-  },
-  {
-    "listing": "/articles.html",
-    "items": []
-  },
-  {
-    "listing": "/index.html",
-    "items": [
-      "/publish/Reports/test4file.html",
-      "/publish/Notes/First_Life.html",
-      "/publish/Reports/CartPole DQN Report.html"
+      "/publish/Reports/Statistical Analysis of DQN on CartPole v1.html"
     ]
   },
   {
@@ -31,5 +10,29 @@
     "items": [
       "/publish/Notes/First_Life.html"
     ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/publish/Bits/Deconstructing Reward in RL.html",
+      "/publish/Bits/解构i奖励的含义及常见误解.html",
+      "/publish/Reports/Statistical Analysis of DQN on CartPole v1.html",
+      "/publish/Notes/First_Life.html"
+    ]
+  },
+  {
+    "listing": "/articles.html",
+    "items": []
+  },
+  {
+    "listing": "/bits.html",
+    "items": [
+      "/publish/Bits/Deconstructing Reward in RL.html",
+      "/publish/Bits/解构i奖励的含义及常见误解.html"
+    ]
+  },
+  {
+    "listing": "/learn.html",
+    "items": []
   }
 ]

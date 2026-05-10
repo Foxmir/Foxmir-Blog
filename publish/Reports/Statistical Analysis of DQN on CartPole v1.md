@@ -1,9 +1,7 @@
 ---
-title: 'CartPole DQN Report'
-date: '2026-01-15'
+title: 'Statistical Analysis of DQN on CartPole v1'
+date: '2026-05-10'
 ---
-
-# Technical Report: Statistical Analysis of DQN on CartPole-v1
 
 （Written on January 2, 2026 and completed on January 15, 2026）
 
@@ -186,17 +184,17 @@ Unless otherwise specified, configuration-level metrics (mean and SD) refer to s
 
 ### Step 1A
 
-![Figure1_step1A1ceilingeffect](../_attachments/reports/cartpole-dqn-report/Figure1_step1A1ceilingeffect.png)
+![Figure1_step1A1ceilingeffect](../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Figure1_step1A1ceilingeffect.png)
 
 **Figure 1**: 95% CI half-width as a function of $N_{eval}$ (red line: threshold=10; green line: selected minimum $N_{eval}$). For the saturated policy (mean=500, variance=0), the analysis yields a misleading requirement of $N_{eval}=5$. 
 
-![Figure2_step1A2n=70](../_attachments/reports/cartpole-dqn-report/Figure2_step1A2n=70.png)
+![Figure2_step1A2n=70](../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Figure2_step1A2n=70.png)
 
 **Figure 2**: The same analysis for the non-saturated policy (mean=281.28, SD=41.76) correctly identifies $N_{eval}=70$, which was subsequently adopted for the evaluation protocol.
 
 ### Step 1B
 
-![Figure3_step1B_left_skewed_distribution](../_attachments/reports/cartpole-dqn-report/Figure3_step1B_left_skewed_distribution.png)
+![Figure3_step1B_left_skewed_distribution](../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Figure3_step1B_left_skewed_distribution.png)
 
 **Figure 3**: Histogram of final returns across $N_{train}=20$ seeds (green line: mean; red line: 500-point ceiling). The performance exhibits a typical left-skewed distribution (mean ≈ 361.2, SD ≈ 159), highlighting significant non-Gaussianity and high variance.
 
@@ -206,7 +204,7 @@ The Bayesian optimization process evaluated 84 configurations. The top-10 candid
 
 ## Step 3
 
-![Figure4_step3_forest](../_attachments/reports/cartpole-dqn-report/Figure4_step3_forest.png)
+![Figure4_step3_forest](../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Figure4_step3_forest.png)
 
 **Figure 4**: Paired-difference forest plots for Step 3 champion selection (dynamic baseline). At each snapshot ($n=30$ and $n=40$), candidates are ranked by mean return up to that seed count, and the top-ranked candidate is treated as the current leader (difference defined as 0). For each candidate i, we plot the mean of seed-wise paired differences (leader − i) and the 99% bootstrap resampling paired-difference CI computed with 10,000 resamples. The dashed line indicates the decision threshold of 10 points: a candidate meets the pruning/termination criterion if the CI lower bound (LB) > 10. At $n=30$, the 99% CI lower bound of the paired difference (leader − c02) exceeded 10, so c02 was pruned; hence it is absent at $n=40$. Under the budget cap ($N_{train}=40$), adaptive termination was never triggered and the final champion was selected by the highest mean return rather than by meeting the CI separation criterion.
 * learning_rate: $[0.00075, 0.00152, 0.00304]$ 
@@ -242,7 +240,7 @@ Based on the predefined grid search standard, centering on the champion configur
 
 **Table 1**: ANOVA Results (Top Effects). $df$ = degrees of freedom; $SS$ = sum of squares; $\eta_p^2$ = partial eta-squared. The analysis includes four factors: Learning Rate, Batch Size, Epsilon Decay, and Tau.
 
-![Figure5_step4_main_effects](../_attachments/reports/cartpole-dqn-report/Figure5_step4_main_effects.png)
+![Figure5_step4_main_effects](../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Figure5_step4_main_effects.png)
 
 **Figure 5**: Main Effects of Hyperparameters on Agent Performance. Error bars represent 95% confidence intervals. Only Learning Rate shows a statistically significant non-monotonic effect ($p < 0.05$), peaking at the intermediate level.
 
@@ -393,7 +391,7 @@ Given that the system possesses high seed sensitivity and the local hyperparamet
 	   \end{cases}
 	   $$
 	   The special case avoids a collision between the default mapping and the evaluation-seed interval. The exact implementation is provided in the code and Appendix. 
-2. The full ANOVA table:[Full_Table1_step4_anova_report.csv](../_attachments/reports/cartpole-dqn-report/Full_Table1_step4_anova_report.csv)
+2. The full ANOVA table:[Full_Table1_step4_anova_report.csv](../_attachments/reports/statistical-analysis-of-dqn-on-cartpole-v1/Full_Table1_step4_anova_report.csv)
 3. Open-source code repository.
 4. Hyperparameter configurations for the top-10 candidates.
 

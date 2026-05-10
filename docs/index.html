@@ -126,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
     const options = {
       valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: [],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -447,11 +447,13 @@ window.Quarto = {
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="./articles.html"> 
 <span class="menu-text">Articles</span></a>
@@ -509,7 +511,7 @@ window.Quarto = {
 
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260510084400 -->
+<!-- BUILD-ID: 20260510091253 -->
 <p>this is the HOME page.</p>
 <section class="home-section">
 <h2 class="home-section-heading anchored">
@@ -517,21 +519,49 @@ Latest
 </h2>
 <div id="listing-latest-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778256000000" data-listing-file-modified-sort="1778402639788" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404372358" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./publish/Reports/test4file.html" class="no-external">test4file</a>
+<a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">Deconstructing Reward in RL</a>
 </h3>
 </div>
 <div class="metadata">
-<a href="./publish/Reports/test4file.html" class="no-external">
+<a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">
 <div class="listing-date">
-May 9, 2026
+May 10, 2026
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778402639589" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404372410" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="165">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./publish/Bits/解构i奖励的含义及常见误解.html" class="no-external">解构i奖励的含义及常见误解</a>
+</h3>
+</div>
+<div class="metadata">
+<a href="./publish/Bits/解构i奖励的含义及常见误解.html" class="no-external">
+<div class="listing-date">
+May 10, 2026
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404373067" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5082">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
+</h3>
+</div>
+<div class="metadata">
+<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">
+<div class="listing-date">
+May 10, 2026
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778404372464" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Notes/First_Life.html" class="no-external">First_Life</a>
@@ -541,20 +571,6 @@ May 9, 2026
 <a href="./publish/Notes/First_Life.html" class="no-external">
 <div class="listing-date">
 Jan 17, 2026
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1768406400000" data-listing-file-modified-sort="1778402640323" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./publish/Reports/CartPole DQN Report.html" class="no-external">CartPole DQN Report</a>
-</h3>
-</div>
-<div class="metadata">
-<a href="./publish/Reports/CartPole DQN Report.html" class="no-external">
-<div class="listing-date">
-Jan 15, 2026
 </div>
 </a>
 </div>
@@ -580,7 +596,34 @@ Bits
 </h2>
 <div id="listing-bits-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404372358" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">Deconstructing Reward in RL</a>
+</h3>
+</div>
+<div class="metadata">
+<a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">
+<div class="listing-date">
+May 10, 2026
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404372410" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="165">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./publish/Bits/解构i奖励的含义及常见误解.html" class="no-external">解构i奖励的含义及常见误解</a>
+</h3>
+</div>
+<div class="metadata">
+<a href="./publish/Bits/解构i奖励的含义及常见误解.html" class="no-external">
+<div class="listing-date">
+May 10, 2026
+</div>
+</a>
+</div>
+</div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
@@ -602,7 +645,7 @@ Notes
 </h2>
 <div id="listing-notes-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778402639589" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1768579200000" data-listing-file-modified-sort="1778404372464" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Notes/First_Life.html" class="no-external">First_Life</a>
@@ -626,30 +669,16 @@ Reports
 </h2>
 <div id="listing-reports-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778256000000" data-listing-file-modified-sort="1778402639788" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1778404373067" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5082">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./publish/Reports/test4file.html" class="no-external">test4file</a>
+<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
 </h3>
 </div>
 <div class="metadata">
-<a href="./publish/Reports/test4file.html" class="no-external">
+<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">
 <div class="listing-date">
-May 9, 2026
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1768406400000" data-listing-file-modified-sort="1778402640323" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./publish/Reports/CartPole DQN Report.html" class="no-external">CartPole DQN Report</a>
-</h3>
-</div>
-<div class="metadata">
-<a href="./publish/Reports/CartPole DQN Report.html" class="no-external">
-<div class="listing-date">
-Jan 15, 2026
+May 10, 2026
 </div>
 </a>
 </div>
@@ -672,6 +701,8 @@ Jan 15, 2026
   const desktopMedia = window.matchMedia('(min-width: 1200px)');
 
   const maxDepth = 3;
+
+  const backToTopThreshold = 0.65;
 
 
 
@@ -963,6 +994,56 @@ Jan 15, 2026
 
 
 
+  const initBackToTop = () => {
+
+    const button = document.createElement('button');
+
+    button.type = 'button';
+
+    button.className = 'back-to-top';
+
+    button.setAttribute('aria-label', 'Back to top');
+
+    button.setAttribute('title', 'Back to top');
+
+    button.textContent = '↑';
+
+    document.body.appendChild(button);
+
+
+
+    const updateVisibility = () => {
+
+      const root = document.documentElement;
+
+      const scrollableHeight = root.scrollHeight - window.innerHeight;
+
+      const shouldShow = scrollableHeight > 48 && window.scrollY > (window.innerHeight * backToTopThreshold);
+
+      button.classList.toggle('is-visible', shouldShow);
+
+    };
+
+
+
+    button.addEventListener('click', () => {
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    });
+
+
+
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+
+    window.addEventListener('resize', updateVisibility);
+
+    updateVisibility();
+
+  };
+
+
+
   const initOutline = () => {
 
     if (!articlePathPattern.test(window.location.pathname)) return;
@@ -1099,11 +1180,19 @@ Jan 15, 2026
 
   if (document.readyState === 'loading') {
 
-    document.addEventListener('DOMContentLoaded', initOutline, { once: true });
+    document.addEventListener('DOMContentLoaded', () => {
+
+      initOutline();
+
+      initBackToTop();
+
+    }, { once: true });
 
   } else {
 
     initOutline();
+
+    initBackToTop();
 
   }
 
