@@ -4,7 +4,9 @@ page-layout: full
 listing:
   - id: latest-listing
     contents:
+      - publish/Articles
       - publish/Bits
+      - publish/Learn
       - publish/Notes
       - publish/Reports
     sort: "date desc"
@@ -22,14 +24,6 @@ listing:
     categories: false
     sort-ui: false
     filter-ui: false
-  - id: notes-listing
-    contents: publish/Notes
-    sort: "date desc"
-    type: default
-    fields: [date, title]
-    categories: false
-    sort-ui: false
-    filter-ui: false
   - id: reports-listing
     contents: publish/Reports
     sort: "date desc"
@@ -41,7 +35,7 @@ listing:
 ---
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260510192314 -->
+<!-- BUILD-ID: 20260510193519 -->
 
 ::: {.home-stage}
 ::: {.home-title}
@@ -54,41 +48,7 @@ FOXMIR
 
 ::: {.home-intro}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 this is the HOME page.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 :::
 
@@ -109,6 +69,12 @@ Latest
 ::: {.home-band}
 ::: {.home-band-sticky}
 <div class="home-band-track">
+<section class="home-band-panel" data-panel="articles">
+  <div class="hbp-label">Articles</div>
+  <div class="hbp-main">
+    <p class="hbp-empty">No posts yet.</p>
+  </div>
+</section>
 <section class="home-band-panel" data-panel="bits">
   <div class="hbp-label">Bits</div>
   <div class="hbp-main">
@@ -116,11 +82,16 @@ Latest
 :::
   </div>
 </section>
+<section class="home-band-panel" data-panel="learn">
+  <div class="hbp-label">Learn</div>
+  <div class="hbp-main">
+    <p class="hbp-empty">No posts yet.</p>
+  </div>
+</section>
 <section class="home-band-panel" data-panel="notes">
   <div class="hbp-label">Notes</div>
   <div class="hbp-main">
-:::{#notes-listing}
-:::
+    <p class="hbp-empty">No posts yet.</p>
   </div>
 </section>
 <section class="home-band-panel" data-panel="reports">
@@ -289,6 +260,8 @@ body.quarto-dark .home-content-layer {
 .hbp-main .listing-title a { color:var(--site-text); text-decoration:none; }
 .hbp-main .listing-title a:hover { color:var(--site-accent); }
 .hbp-main .listing-date { font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--site-text-soft); margin-top:0.1rem; }
+.hbp-main .hbp-empty { margin:0; font-size:0.98rem; color:var(--site-text-soft); }
+.category-empty { margin:2rem auto; max-width:720px; color:var(--site-text-soft); font-size:1.03rem; }
 
 @media(max-width:640px){
   .home-stage{padding:3.5rem 1rem 8rem;}

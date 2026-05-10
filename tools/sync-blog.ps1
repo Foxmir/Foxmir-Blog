@@ -419,10 +419,6 @@ Get-ChildItem $project -Filter '*.qmd' -File |
 $dirs = @(
     Get-ChildItem $publish -Directory |
     Where-Object { $_.Name -notmatch '^[._]' } |
-    Where-Object {
-        # Only generate categories that currently contain markdown posts.
-        (Get-ChildItem $_.FullName -File -Filter '*.md' -ErrorAction SilentlyContinue | Measure-Object).Count -gt 0
-    } |
     Sort-Object Name
 )
 $items = @()
@@ -438,32 +434,51 @@ foreach ($dir in $dirs) {
     }
     $used[$slug] = $true
 
+    $postCount = (Get-ChildItem $dir.FullName -File -Filter '*.md' -ErrorAction SilentlyContinue | Measure-Object).Count
+
     $items += [pscustomobject]@{
         Name = $dir.Name
         Slug = $slug
+        PostCount = $postCount
+        HasPosts = ($postCount -gt 0)
     }
 
     $contentsPath = ConvertTo-YamlPlainPath ('publish/' + $dir.Name)
-    $page = @(
-        '---'
-        'title: ' + (ConvertTo-YamlSingleQuoted $dir.Name)
-        'page-layout: full'
-        'listing:'
-        '  id: category-listing'
-        '  contents: ' + $contentsPath
-        '  sort: "date desc"'
-        '  type: default'
-        '  fields: [date, title]'
-        '  categories: false'
-        '  sort-ui: false'
-        '  filter-ui: false'
-        '---'
-        ''
-        '<!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->'
-        ''
-        ':::{#category-listing}'
-        ':::'
-    )
+    if ($postCount -gt 0) {
+        $page = @(
+            '---'
+            'title: ' + (ConvertTo-YamlSingleQuoted $dir.Name)
+            'page-layout: full'
+            'listing:'
+            '  id: category-listing'
+            '  contents: ' + $contentsPath
+            '  sort: "date desc"'
+            '  type: default'
+            '  fields: [date, title]'
+            '  categories: false'
+            '  sort-ui: false'
+            '  filter-ui: false'
+            '---'
+            ''
+            '<!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->'
+            ''
+            ':::{#category-listing}'
+            ':::'
+        )
+    } else {
+        $page = @(
+            '---'
+            'title: ' + (ConvertTo-YamlSingleQuoted $dir.Name)
+            'page-layout: full'
+            '---'
+            ''
+            '<!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->'
+            ''
+            '::: {.category-empty}'
+            'No posts in this category yet.'
+            ':::'
+        )
+    }
     Write-Utf8File -Path (Join-Path $project ($slug + '.qmd')) -Lines $page
 }
 
@@ -495,14 +510,16 @@ $homePage += @(
 )
 
 foreach ($item in $items) {
-    $homePage += '  - id: ' + $item.Slug + '-listing'
-    $homePage += '    contents: ' + (ConvertTo-YamlPlainPath ('publish/' + $item.Name))
-    $homePage += '    sort: "date desc"'
-    $homePage += '    type: default'
-    $homePage += '    fields: [date, title]'
-    $homePage += '    categories: false'
-    $homePage += '    sort-ui: false'
-    $homePage += '    filter-ui: false'
+    if ($item.HasPosts) {
+        $homePage += '  - id: ' + $item.Slug + '-listing'
+        $homePage += '    contents: ' + (ConvertTo-YamlPlainPath ('publish/' + $item.Name))
+        $homePage += '    sort: "date desc"'
+        $homePage += '    type: default'
+        $homePage += '    fields: [date, title]'
+        $homePage += '    categories: false'
+        $homePage += '    sort-ui: false'
+        $homePage += '    filter-ui: false'
+    }
 }
 
 $homePage += @(
@@ -564,8 +581,12 @@ if ($items.Count -gt 0) {
         $homePage += '<section class="home-band-panel" data-panel="' + $item.Slug + '">'
         $homePage += '  <div class="hbp-label">' + $item.Name + '</div>'
         $homePage += '  <div class="hbp-main">'
-        $homePage += ':::{#' + $item.Slug + '-listing}'
-        $homePage += ':::'
+        if ($item.HasPosts) {
+            $homePage += ':::{#' + $item.Slug + '-listing}'
+            $homePage += ':::'
+        } else {
+            $homePage += '    <p class="hbp-empty">No posts yet.</p>'
+        }
         $homePage += '  </div>'
         $homePage += '</section>'
     }
@@ -733,6 +754,8 @@ $homePage += @(
     '.hbp-main .listing-title a { color:var(--site-text); text-decoration:none; }'
     '.hbp-main .listing-title a:hover { color:var(--site-accent); }'
     '.hbp-main .listing-date { font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--site-text-soft); margin-top:0.1rem; }'
+    '.hbp-main .hbp-empty { margin:0; font-size:0.98rem; color:var(--site-text-soft); }'
+    '.category-empty { margin:2rem auto; max-width:720px; color:var(--site-text-soft); font-size:1.03rem; }'
     ''
     '@media(max-width:640px){'
     '  .home-stage{padding:3.5rem 1rem 8rem;}'

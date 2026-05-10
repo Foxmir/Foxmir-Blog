@@ -4,21 +4,98 @@
     "href": "reports.html",
     "title": "Reports",
     "section": "",
-    "text": "Statistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\nNo matching items"
+    "text": "Statistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "publish/Notes/First_Life.html",
-    "href": "publish/Notes/First_Life.html",
-    "title": "First_Life",
+    "objectID": "publish/Bits/解构奖励的含义及常见误解.html",
+    "href": "publish/Bits/解构奖励的含义及常见误解.html",
+    "title": "解构奖励的含义及常见误解",
     "section": "",
-    "text": "I love my life!\nI love myself!\nI love the world!\nAnd……I miss you!"
+    "text": "在强化学习中，“奖励” 是一个看似简单，却极易在理论与实践中引起混淆的核心概念。\n我们常常在不同的语境中感到矛盾： - 为什么我的同事说奖励是“离开S时获得”，而教程里又写“到达S’时获得”？ - 为什么理论上奖励函数是 R(s, a, s’)，但在很多经典环境的代码里，奖励似乎只跟 s’ 有关？ - 当我们说“到达终点有100的奖励”时，这个奖励究竟是在何时、何地、又是如何计入我们模型的计算中的？为什么对它的讨论总是和“价值为0”纠缠不清？\n这篇文章不打算复述奖励的定义。我们的目标是深入这些“缝隙中的困惑”——那些由理论的严谨性、实现的灵活性以及与其他概念（如V/Q函数）的关联所共同造成的误区。\n我们将一步步解构它。"
   },
   {
-    "objectID": "publish/HOME.html",
-    "href": "publish/HOME.html",
-    "title": "HOME",
+    "objectID": "publish/Bits/解构奖励的含义及常见误解.html#前言",
+    "href": "publish/Bits/解构奖励的含义及常见误解.html#前言",
+    "title": "解构奖励的含义及常见误解",
     "section": "",
-    "text": "this is the HOME page."
+    "text": "在强化学习中，“奖励” 是一个看似简单，却极易在理论与实践中引起混淆的核心概念。\n我们常常在不同的语境中感到矛盾： - 为什么我的同事说奖励是“离开S时获得”，而教程里又写“到达S’时获得”？ - 为什么理论上奖励函数是 R(s, a, s’)，但在很多经典环境的代码里，奖励似乎只跟 s’ 有关？ - 当我们说“到达终点有100的奖励”时，这个奖励究竟是在何时、何地、又是如何计入我们模型的计算中的？为什么对它的讨论总是和“价值为0”纠缠不清？\n这篇文章不打算复述奖励的定义。我们的目标是深入这些“缝隙中的困惑”——那些由理论的严谨性、实现的灵活性以及与其他概念（如V/Q函数）的关联所共同造成的误区。\n我们将一步步解构它。"
+  },
+  {
+    "objectID": "publish/Bits/解构奖励的含义及常见误解.html#即时奖励和奖励函数",
+    "href": "publish/Bits/解构奖励的含义及常见误解.html#即时奖励和奖励函数",
+    "title": "解构奖励的含义及常见误解",
+    "section": "即时奖励和奖励函数",
+    "text": "即时奖励和奖励函数\n\n奖励函数 R(s, a, s’) 是一个产生奖励的规则或程序。\n即时奖励 r 是这个函数在某一次具体的转移中，返回的那个具体的数值（比如+1或-5），而这个具体数值就是根据奖励函数的规则计算出来的。\n现实中，我们经常把”奖励函数“，”奖励“，”即时奖励”三者互换使用。"
+  },
+  {
+    "objectID": "publish/Bits/解构奖励的含义及常见误解.html#奖励函数基于哪些要素",
+    "href": "publish/Bits/解构奖励的含义及常见误解.html#奖励函数基于哪些要素",
+    "title": "解构奖励的含义及常见误解",
+    "section": "奖励函数基于哪些要素？",
+    "text": "奖励函数基于哪些要素？\n由于环境中返回的r值在理论和实际层面的依赖不同，且理解概念时，又很可能被“V/Q的依赖不同“相混淆（毕竟奖励和价值在贝尔曼方程中有关联），导致了我们产生 “R究竟依赖于谁” 这样的困惑。\n\n从环境的视角\n\n通用定义：在标准MDP 环境中，奖励函数R的是环境对“一次完整的事件”的反馈，依赖于三个要素：s，a，s’，对应的奖励函数写法为R(s,a,s’)。\n现实实现：也可以不必全部包含，即最多依赖于三要素，因为真实的物理环境的奖励规则可以千奇百怪：\n\nR只依赖于（s,a）\n\n奖励函数被简化为 R(s,a) 。\n比如：从家出发（s），步行( \\(a_1\\) )奖励（0），但坐车( \\(a_2\\) )奖励（-5）\n\nR只依赖于（s）\n\n奖励函数被简化为R(s)。\n比如：处在着火的房间（s），只要一直呆在这里，每过1秒（无论任何动作），都会获得奖励(-1)\n\nR只依赖于（s’）\n\n奖励函数被简化为R(s‘) 比如：在棋类游戏/迷宫中，只有到达终点（s’），才有奖励（+100）\n\n\n\n\n\n从智能体视角（即贝尔曼方程的视角）\n\n它没得选，无论环境的奖励是基于何种规则给出的，它自身都必须依据全部的信息（全部的证据）来进行决策。V(s)和 Q(s, a) 里面的(s)，（s,a）表明我们想要评估谁？，而通过贝尔曼方程拿到评估结果则需要全部信息。\n根据贝尔曼方程\n\n\\(V(s) = E [ r + γ * V(s') ]\\)\n\n状态价值 V 本身代表特定状态s下的期望价值，这个“代表”只和s有关，但和（a,s’）无关。\n但要计算出V，则必须要知道从s出发的动作（a），以及到达哪一个s’\n\n\\(Q(s,a) = E [ r + \\gamma * max_{a'}Q(s',a') ]\\)\n\n动作价值 Q本身代表特定状态动作（s,a）下的期望价值，和（s’）同样无关\n但要计算出Q，则必须到达哪一个状态 s’\n\n\n贝尔曼方程里面的 \\(r\\) 是根据环境规则本身直接索要到手的。即针对“本次转移事件”向环境索要即时奖励的数值 r 。贝尔曼方程并不需要了解从环境视角来看， r 是依据什么规则得到的，只需要用得到的 r 来计算该方程即可。"
+  },
+  {
+    "objectID": "publish/Bits/解构奖励的含义及常见误解.html#简化说法的真正含义",
+    "href": "publish/Bits/解构奖励的含义及常见误解.html#简化说法的真正含义",
+    "title": "解构奖励的含义及常见误解",
+    "section": "简化说法的真正含义",
+    "text": "简化说法的真正含义\n\n“在状态 S 的奖励是 10” ：这是一种简化表述。\n\n从理论层面实际含义是，这个 +10 是属于从 \\((S, a, S')\\) 这次转移的完整经验中获得的即时奖励，省略了“当你从 S 出发，经过动作a，并成功转移到 S’”的完整表述。\n从现实层面，（我们需要更多上下文）不排除是真的只和状态s相关的一个奖励。\n\n离开S时我们会获得奖励XX /到达S’时，我们会获得奖励XX”：这两种表述可能同时存在，（尤其可能遇到你的同事在描述同一个环境时听到）因而令人感到困惑：奖励到底是离开时拿到的，还是到达时拿到的？实际上两者都属于简化表述。\n\n从完整奖励函数R的定义（理论层面）的视角看，R来自完整经验（s,a,s’）\n从现实实现层面来看：则可以非常灵活，这种灵活性导致了很多表述的简化。\n\n如上文所提及的，如果奖励函数是R(s)，或 R(s‘)，则我们表述为离开/到达拿到即时奖励是正确的。\n但如果奖励函数R是其他类型，甚至比如是R(s)却描述为到达s’拿到奖励，或反之，则属于不正确的表述。\n但在现实的口语层面，这种不精确但人人理解的表述经常发生。只要它确保——“一次完整经验只发放一次奖励R“即可（也就是，并非离开拿到一次奖励，到达又拿到一次。）"
+  },
+  {
+    "objectID": "publish/Bits/解构奖励的含义及常见误解.html#特殊的终点奖励",
+    "href": "publish/Bits/解构奖励的含义及常见误解.html#特殊的终点奖励",
+    "title": "解构奖励的含义及常见误解",
+    "section": "特殊的终点奖励",
+    "text": "特殊的终点奖励\n\n常见的误解\n\n❌由于终点没有下一个状态，终点的奖励被归入上一个状态处理：\n\n更精确的表述是：终点奖励，是智能体在执行了导致episode结束的完整转移事件 (s, a, s_terminal) 时，由环境返回的即时奖励 r。\n这种错误的理解依然是依照“r和某个元素绑定”的有偏认知。关键在于认识到“r是和整个事件绑定”，而整个事件包含了各种变化的元素，完整或不完整的元素，因此“终点的即时奖励”依然符合我们对即时奖励的定义，依然符合贝尔曼方程。\n\n\n\n\n特殊的终点？\n\n当我们讨论到”特殊的终点“时,\n\n我们需要分清两个对象：\n\n价值：状态价值V，动作价值Q\n奖励/即时奖励 r\n\n“特殊”的双重含义：\n\n对于价值而言，终点状态的价值永远为 0\n对于奖励而言，游戏规则的独特性造就了”终点状态和其他状态不同“\n\n比如棋类/迷宫游戏，中间0，终点100\n比如探险游戏，中间每步因能量消耗-1，探索到事物+10，终点1掉入洞穴为0，终点2探索到宝藏100\n平衡杆游戏，维持了生存奖励+1，终点倒下0\n自动量化交易，中间没奖励，终点奖励随市场浮动\n\n\n贝尔曼方程连接了”特殊的终点价值“和”特殊的终点奖励“两个概念。由于混淆因素的存在，要明白”终点是否真的特殊，这种”特殊“如何影响计算，特殊到超越了贝尔曼方程吗？“之类的问题时，就必须分别理解清楚。\n\n好消息是：终点依然遵循贝尔曼方程，只不过\n\n特殊的游戏规则里，终点的 r 虽然特殊，但同样是根据环境规则本身直接索要到手的。即针对“本次转移事件”向环境索要即时奖励的数值 r 。贝尔曼方程并不需要了解从环境视角来看， r 是依据什么规则得到的，只需要用得到的 r 来计算该方程即可。因此对于终点状态而言，”特殊的奖励“不影响贝尔曼方程的计算复杂性或任何逻辑。\n无论V/Q ，在进行贝尔曼方程计算时\n\n\\(V(s_{terminal)}=0\\) ，\\(Q(s_{terminal},a)=0\\)\n\n价值函数评估的是“未来期望回报”。既然已经到达终点，就没有“未来”了，episode结束，不可能再获得任何后续奖励。因此，其未来期望回报为0。\n这是对贝尔曼方程计算规则的粗暴破坏吗？\n\n你也许在想，别的状态都按照一个规则计算的，到了终点偏偏要单独计算，好像有些不守规矩\n不要把这看作是对贝尔曼方程的粗暴破坏，而应该看作终点状态在依照同样的贝尔曼方程规则进行计算时，我们直接替它算好了这两个”精确的数值“，方便它直接使用，更好更快算出贝尔曼方程的结果。\n\n这种特殊待遇在实际操作中是如何实现的？\n\n好消息是我们不需要用到 if…else语句，或者临时修改公式，成熟的环境通常已经为我们封装好了，我们只要设定好哪个状态是终点状态，环境就能理解游戏规则。你几乎不需要额外的操作。\n当一次转移导致episode结束，环境的 step() 函数会返回一个 done=True（或 terminated=True）的信号，其含义就是终点状态价值为0，这是自动产生的，衔接了原有计算逻辑的。\n顺便说一下，环境内部也是依赖于 if…else这样的简单语句实现我们外部的神奇效果。"
+  },
+  {
+    "objectID": "publish/ABOUT.html",
+    "href": "publish/ABOUT.html",
+    "title": "ABOUT",
+    "section": "",
+    "text": "this is the ABOUT page."
+  },
+  {
+    "objectID": "learn.html",
+    "href": "learn.html",
+    "title": "Learn",
+    "section": "",
+    "text": "No posts in this category yet."
+  },
+  {
+    "objectID": "bits.html",
+    "href": "bits.html",
+    "title": "Bits",
+    "section": "",
+    "text": "Deconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "this is the ABOUT page."
+  },
+  {
+    "objectID": "articles.html",
+    "href": "articles.html",
+    "title": "Articles",
+    "section": "",
+    "text": "No posts in this category yet."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Foxmir Blog",
+    "section": "",
+    "text": "FOXMIR\n\n\n\n\n\nthis is the HOME page.\n\n\n\nLatest\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n\n\nArticles\n\n\n&lt;p class=\"hbp-empty\"&gt;No posts yet.&lt;/p&gt;\n\n\n\n\nBits\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\nLearn\n\n\n&lt;p class=\"hbp-empty\"&gt;No posts yet.&lt;/p&gt;\n\n\n\n\nNotes\n\n\n&lt;p class=\"hbp-empty\"&gt;No posts yet.&lt;/p&gt;\n\n\n\n\nReports\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "notes.html",
+    "href": "notes.html",
+    "title": "Notes",
+    "section": "",
+    "text": "No posts in this category yet."
   },
   {
     "objectID": "publish/Bits/Deconstructing Reward in RL.html",
@@ -63,81 +140,11 @@
     "text": "The Special Case of the Terminal Reward\n\nCommon Misconceptions\n\n❌ Because the terminal state has no next state, the reward for the terminal state is handled by attributing it to the previous state.\n\nA more precise statement is: The terminal reward is the immediate reward r returned by the environment during the complete transition event \\((s, a, s_{terminal})\\) that caused the episode to end.\nThis erroneous understanding still stems from the biased perception that “r is tied to a single element.” The key is to recognize that “r is tied to the entire event,” which contains various elements, complete or incomplete. Therefore, the “immediate reward of the terminal state” still conforms to our definition of immediate reward and the Bellman equation.\n\n\n\n\nA Special Terminal State?\n\nWhen we discuss the “special terminal state”,\n\nWe need to distinguish between two objects:\n\nValue: State-value V, Action-value Q\nReward / Immediate Reward r\n\nThe “special” dual meaning:\n\nFor value, the value of a terminal state is always 0.\nFor reward, the uniqueness of the game rules makes the “terminal state different from other states.”\n\ne.g., Chess/Mazes: 0 in the middle, 100 at the end.\ne.g., Adventure Games: -1 for energy consumption per step, +10 for finding an item, terminal state 1 (falling into a pit) is 0, terminal state 2 (finding treasure) is 100.\ne.g., CartPole: +1 for surviving, 0 at the terminal state (pole falls).\ne.g., Automated Trading: no reward in the middle, terminal reward fluctuates with the market.\n\n\nThe Bellman Equation connects the concepts of “special terminal value” and “special terminal reward.” Due to confounding factors, to understand questions like “Is the terminal state truly special, how does this ‘specialness’ affect calculation, and is it so special that it transcends the Bellman equation?”, one must understand them separately and clearly.\n\nThe good news is: the terminal state still follows the Bellman equation, it’s just that:\n\nIn special game rules, although the terminal r is special, it is still obtained directly from the environment according to its rules. That is, it is the immediate reward r for “this specific transition event.” The Bellman equation does not need to know how r is generated from the environment’s perspective; it only needs the obtained r to calculate. Therefore, for the terminal state, the “special reward” does not affect the computational complexity or any logic of the Bellman equation.\nFor both V/Q, when performing the Bellman equation calculation:\n\n\\(V(s_{terminal}) = 0\\), \\(Q(s_{terminal}, a) = 0\\)\nThe value function evaluates the “expected future return.” Since the terminal state has been reached, there is no “future.” The episode ends, and no subsequent rewards can be obtained. Therefore, its expected future return is 0.\nIs this a crude violation of the Bellman equation’s rules?\n\nOne might think that since all other states follow a single calculation rule, handling the terminal state separately seems to deviate from the established protocol.\nBut this shouldn’t be seen as a crude violation. Instead, a better way to frame it is that the terminal state does follow the same Bellman equation rules. It’s just that for this special state, we have effectively pre-calculated its future value to be zero, making it convenient to use this “exact value” for a more straightforward and efficient calculation.\n\nHow is this special treatment implemented in practice?\n\nThe good news is we don’t need to use if...else statements or temporarily modify formulas. Mature environments have usually encapsulated this for us. We just need to define which state is the terminal state, and the environment will understand the game rules. You need almost no extra operations.\nWhen a transition leads to the end of an episode, the environment’s step() function returns a done=True (or terminated=True) signal. This signal implies that the value of the terminal state is 0, and it is generated automatically, connecting seamlessly with the existing calculation logic.\nBy the way, the environment internally also relies on simple statements like if...else to achieve the seemingly effortless effects we see on the outside"
   },
   {
-    "objectID": "notes.html",
-    "href": "notes.html",
-    "title": "Notes",
+    "objectID": "publish/HOME.html",
+    "href": "publish/HOME.html",
+    "title": "HOME",
     "section": "",
-    "text": "First_Life\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "bits.html",
-    "href": "bits.html",
-    "title": "Bits",
-    "section": "",
-    "text": "Deconstructing Reward in RL\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\n\n\n解构i奖励的含义及常见误解\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "this is the ABOUT page."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Foxmir Blog",
-    "section": "",
-    "text": "FOXMIR\n\n\n\n\n\nthis is the HOME page.\n\n\n\nLatest\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\n\n\n解构i奖励的含义及常见误解\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n\n\nBits\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\n\n\n解构i奖励的含义及常见误解\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\nNotes\n\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\nReports\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 11, 2026\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "publish/ABOUT.html",
-    "href": "publish/ABOUT.html",
-    "title": "ABOUT",
-    "section": "",
-    "text": "this is the ABOUT page."
-  },
-  {
-    "objectID": "publish/Bits/解构i奖励的含义及常见误解.html",
-    "href": "publish/Bits/解构i奖励的含义及常见误解.html",
-    "title": "解构i奖励的含义及常见误解",
-    "section": "",
-    "text": "在强化学习中，“奖励” 是一个看似简单，却极易在理论与实践中引起混淆的核心概念。\n我们常常在不同的语境中感到矛盾： - 为什么我的同事说奖励是“离开S时获得”，而教程里又写“到达S’时获得”？ - 为什么理论上奖励函数是 R(s, a, s’)，但在很多经典环境的代码里，奖励似乎只跟 s’ 有关？ - 当我们说“到达终点有100的奖励”时，这个奖励究竟是在何时、何地、又是如何计入我们模型的计算中的？为什么对它的讨论总是和“价值为0”纠缠不清？\n这篇文章不打算复述奖励的定义。我们的目标是深入这些“缝隙中的困惑”——那些由理论的严谨性、实现的灵活性以及与其他概念（如V/Q函数）的关联所共同造成的误区。\n我们将一步步解构它。"
-  },
-  {
-    "objectID": "publish/Bits/解构i奖励的含义及常见误解.html#前言",
-    "href": "publish/Bits/解构i奖励的含义及常见误解.html#前言",
-    "title": "解构i奖励的含义及常见误解",
-    "section": "",
-    "text": "在强化学习中，“奖励” 是一个看似简单，却极易在理论与实践中引起混淆的核心概念。\n我们常常在不同的语境中感到矛盾： - 为什么我的同事说奖励是“离开S时获得”，而教程里又写“到达S’时获得”？ - 为什么理论上奖励函数是 R(s, a, s’)，但在很多经典环境的代码里，奖励似乎只跟 s’ 有关？ - 当我们说“到达终点有100的奖励”时，这个奖励究竟是在何时、何地、又是如何计入我们模型的计算中的？为什么对它的讨论总是和“价值为0”纠缠不清？\n这篇文章不打算复述奖励的定义。我们的目标是深入这些“缝隙中的困惑”——那些由理论的严谨性、实现的灵活性以及与其他概念（如V/Q函数）的关联所共同造成的误区。\n我们将一步步解构它。"
-  },
-  {
-    "objectID": "publish/Bits/解构i奖励的含义及常见误解.html#即时奖励和奖励函数",
-    "href": "publish/Bits/解构i奖励的含义及常见误解.html#即时奖励和奖励函数",
-    "title": "解构i奖励的含义及常见误解",
-    "section": "即时奖励和奖励函数",
-    "text": "即时奖励和奖励函数\n\n奖励函数 R(s, a, s’) 是一个产生奖励的规则或程序。\n即时奖励 r 是这个函数在某一次具体的转移中，返回的那个具体的数值（比如+1或-5），而这个具体数值就是根据奖励函数的规则计算出来的。\n现实中，我们经常把”奖励函数“，”奖励“，”即时奖励”三者互换使用。"
-  },
-  {
-    "objectID": "publish/Bits/解构i奖励的含义及常见误解.html#奖励函数基于哪些要素",
-    "href": "publish/Bits/解构i奖励的含义及常见误解.html#奖励函数基于哪些要素",
-    "title": "解构i奖励的含义及常见误解",
-    "section": "奖励函数基于哪些要素？",
-    "text": "奖励函数基于哪些要素？\n由于环境中返回的r值在理论和实际层面的依赖不同，且理解概念时，又很可能被“V/Q的依赖不同“相混淆（毕竟奖励和价值在贝尔曼方程中有关联），导致了我们产生 “R究竟依赖于谁” 这样的困惑。\n\n从环境的视角\n\n通用定义：在标准MDP 环境中，奖励函数R的是环境对“一次完整的事件”的反馈，依赖于三个要素：s，a，s’，对应的奖励函数写法为R(s,a,s’)。\n现实实现：也可以不必全部包含，即最多依赖于三要素，因为真实的物理环境的奖励规则可以千奇百怪：\n\nR只依赖于（s,a）\n\n奖励函数被简化为 R(s,a) 。\n比如：从家出发（s），步行( \\(a_1\\) )奖励（0），但坐车( \\(a_2\\) )奖励（-5）\n\nR只依赖于（s）\n\n奖励函数被简化为R(s)。\n比如：处在着火的房间（s），只要一直呆在这里，每过1秒（无论任何动作），都会获得奖励(-1)\n\nR只依赖于（s’）\n\n奖励函数被简化为R(s‘) 比如：在棋类游戏/迷宫中，只有到达终点（s’），才有奖励（+100）\n\n\n\n\n\n从智能体视角（即贝尔曼方程的视角）\n\n它没得选，无论环境的奖励是基于何种规则给出的，它自身都必须依据全部的信息（全部的证据）来进行决策。V(s)和 Q(s, a) 里面的(s)，（s,a）表明我们想要评估谁？，而通过贝尔曼方程拿到评估结果则需要全部信息。\n根据贝尔曼方程\n\n\\(V(s) = E [ r + γ * V(s') ]\\)\n\n状态价值 V 本身代表特定状态s下的期望价值，这个“代表”只和s有关，但和（a,s’）无关。\n但要计算出V，则必须要知道从s出发的动作（a），以及到达哪一个s’\n\n\\(Q(s,a) = E [ r + \\gamma * max_{a'}Q(s',a') ]\\)\n\n动作价值 Q本身代表特定状态动作（s,a）下的期望价值，和（s’）同样无关\n但要计算出Q，则必须到达哪一个状态 s’\n\n\n贝尔曼方程里面的 \\(r\\) 是根据环境规则本身直接索要到手的。即针对“本次转移事件”向环境索要即时奖励的数值 r 。贝尔曼方程并不需要了解从环境视角来看， r 是依据什么规则得到的，只需要用得到的 r 来计算该方程即可。"
-  },
-  {
-    "objectID": "publish/Bits/解构i奖励的含义及常见误解.html#简化说法的真正含义",
-    "href": "publish/Bits/解构i奖励的含义及常见误解.html#简化说法的真正含义",
-    "title": "解构i奖励的含义及常见误解",
-    "section": "简化说法的真正含义",
-    "text": "简化说法的真正含义\n\n“在状态 S 的奖励是 10” ：这是一种简化表述。\n\n从理论层面实际含义是，这个 +10 是属于从 \\((S, a, S')\\) 这次转移的完整经验中获得的即时奖励，省略了“当你从 S 出发，经过动作a，并成功转移到 S’”的完整表述。\n从现实层面，（我们需要更多上下文）不排除是真的只和状态s相关的一个奖励。\n\n离开S时我们会获得奖励XX /到达S’时，我们会获得奖励XX”：这两种表述可能同时存在，（尤其可能遇到你的同事在描述同一个环境时听到）因而令人感到困惑：奖励到底是离开时拿到的，还是到达时拿到的？实际上两者都属于简化表述。\n\n从完整奖励函数R的定义（理论层面）的视角看，R来自完整经验（s,a,s’）\n从现实实现层面来看：则可以非常灵活，这种灵活性导致了很多表述的简化。\n\n如上文所提及的，如果奖励函数是R(s)，或 R(s‘)，则我们表述为离开/到达拿到即时奖励是正确的。\n但如果奖励函数R是其他类型，甚至比如是R(s)却描述为到达s’拿到奖励，或反之，则属于不正确的表述。\n但在现实的口语层面，这种不精确但人人理解的表述经常发生。只要它确保——“一次完整经验只发放一次奖励R“即可（也就是，并非离开拿到一次奖励，到达又拿到一次。）"
-  },
-  {
-    "objectID": "publish/Bits/解构i奖励的含义及常见误解.html#特殊的终点奖励",
-    "href": "publish/Bits/解构i奖励的含义及常见误解.html#特殊的终点奖励",
-    "title": "解构i奖励的含义及常见误解",
-    "section": "特殊的终点奖励",
-    "text": "特殊的终点奖励\n\n常见的误解\n\n❌由于终点没有下一个状态，终点的奖励被归入上一个状态处理：\n\n更精确的表述是：终点奖励，是智能体在执行了导致episode结束的完整转移事件 (s, a, s_terminal) 时，由环境返回的即时奖励 r。\n这种错误的理解依然是依照“r和某个元素绑定”的有偏认知。关键在于认识到“r是和整个事件绑定”，而整个事件包含了各种变化的元素，完整或不完整的元素，因此“终点的即时奖励”依然符合我们对即时奖励的定义，依然符合贝尔曼方程。\n\n\n\n\n特殊的终点？\n\n当我们讨论到”特殊的终点“时,\n\n我们需要分清两个对象：\n\n价值：状态价值V，动作价值Q\n奖励/即时奖励 r\n\n“特殊”的双重含义：\n\n对于价值而言，终点状态的价值永远为 0\n对于奖励而言，游戏规则的独特性造就了”终点状态和其他状态不同“\n\n比如棋类/迷宫游戏，中间0，终点100\n比如探险游戏，中间每步因能量消耗-1，探索到事物+10，终点1掉入洞穴为0，终点2探索到宝藏100\n平衡杆游戏，维持了生存奖励+1，终点倒下0\n自动量化交易，中间没奖励，终点奖励随市场浮动\n\n\n贝尔曼方程连接了”特殊的终点价值“和”特殊的终点奖励“两个概念。由于混淆因素的存在，要明白”终点是否真的特殊，这种”特殊“如何影响计算，特殊到超越了贝尔曼方程吗？“之类的问题时，就必须分别理解清楚。\n\n好消息是：终点依然遵循贝尔曼方程，只不过\n\n特殊的游戏规则里，终点的 r 虽然特殊，但同样是根据环境规则本身直接索要到手的。即针对“本次转移事件”向环境索要即时奖励的数值 r 。贝尔曼方程并不需要了解从环境视角来看， r 是依据什么规则得到的，只需要用得到的 r 来计算该方程即可。因此对于终点状态而言，”特殊的奖励“不影响贝尔曼方程的计算复杂性或任何逻辑。\n无论V/Q ，在进行贝尔曼方程计算时\n\n\\(V(s_{terminal)}=0\\) ，\\(Q(s_{terminal},a)=0\\)\n\n价值函数评估的是“未来期望回报”。既然已经到达终点，就没有“未来”了，episode结束，不可能再获得任何后续奖励。因此，其未来期望回报为0。\n这是对贝尔曼方程计算规则的粗暴破坏吗？\n\n你也许在想，别的状态都按照一个规则计算的，到了终点偏偏要单独计算，好像有些不守规矩\n不要把这看作是对贝尔曼方程的粗暴破坏，而应该看作终点状态在依照同样的贝尔曼方程规则进行计算时，我们直接替它算好了这两个”精确的数值“，方便它直接使用，更好更快算出贝尔曼方程的结果。\n\n这种特殊待遇在实际操作中是如何实现的？\n\n好消息是我们不需要用到 if…else语句，或者临时修改公式，成熟的环境通常已经为我们封装好了，我们只要设定好哪个状态是终点状态，环境就能理解游戏规则。你几乎不需要额外的操作。\n当一次转移导致episode结束，环境的 step() 函数会返回一个 done=True（或 terminated=True）的信号，其含义就是终点状态价值为0，这是自动产生的，衔接了原有计算逻辑的。\n顺便说一下，环境内部也是依赖于 if…else这样的简单语句实现我们外部的神奇效果。"
+    "text": "this is the HOME page."
   },
   {
     "objectID": "publish/Reports/Statistical Analysis of DQN on CartPole v1.html",
