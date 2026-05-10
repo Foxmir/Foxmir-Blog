@@ -4,7 +4,10 @@ page-layout: full
 listing:
   - id: latest-listing
     contents:
-      - publish/Life
+      - publish/Articles
+      - publish/Bits
+      - publish/Learn
+      - publish/Notes
       - publish/Reports
     sort: "date desc"
     type: default
@@ -13,8 +16,32 @@ listing:
     sort-ui: false
     filter-ui: false
     max-items: 5
-  - id: life-listing
-    contents: publish/Life
+  - id: articles-listing
+    contents: publish/Articles
+    sort: "date desc"
+    type: default
+    fields: [date, title]
+    categories: false
+    sort-ui: false
+    filter-ui: false
+  - id: bits-listing
+    contents: publish/Bits
+    sort: "date desc"
+    type: default
+    fields: [date, title]
+    categories: false
+    sort-ui: false
+    filter-ui: false
+  - id: learn-listing
+    contents: publish/Learn
+    sort: "date desc"
+    type: default
+    fields: [date, title]
+    categories: false
+    sort-ui: false
+    filter-ui: false
+  - id: notes-listing
+    contents: publish/Notes
     sort: "date desc"
     type: default
     fields: [date, title]
@@ -32,7 +59,7 @@ listing:
 ---
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260510082813 -->
+<!-- BUILD-ID: 20260510084400 -->
 
 
 this is the HOME page.
@@ -46,9 +73,30 @@ this is the HOME page.
 </section>
 
 <section class="home-section">
-<h2 class="home-section-heading">Life</h2>
+<h2 class="home-section-heading">Articles</h2>
 
-:::{#life-listing}
+:::{#articles-listing}
+:::
+</section>
+
+<section class="home-section">
+<h2 class="home-section-heading">Bits</h2>
+
+:::{#bits-listing}
+:::
+</section>
+
+<section class="home-section">
+<h2 class="home-section-heading">Learn</h2>
+
+:::{#learn-listing}
+:::
+</section>
+
+<section class="home-section">
+<h2 class="home-section-heading">Notes</h2>
+
+:::{#notes-listing}
 :::
 </section>
 

@@ -1,0 +1,18 @@
+---
+title: 'Articles'
+page-layout: full
+listing:
+  id: category-listing
+  contents: publish/Articles
+  sort: "date desc"
+  type: default
+  fields: [date, title]
+  categories: false
+  sort-ui: false
+  filter-ui: false
+---
+
+<!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->
+
+:::{#category-listing}
+:::

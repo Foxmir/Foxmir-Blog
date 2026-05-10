@@ -112,39 +112,25 @@
     "text": "Hyperparameter Sensitivity and Local Landscape Characterization\nThis section presents a local sensitivity analysis centered on the champion hyperparameters selected in Step 3. We employed a Full Factorial Grid Search combined with N-way ANOVA. As a balanced experimental design, this approach yields results with high interpretability. It should be noted that this interpretability applies only to the current local parameter neighborhood and does not represent the characteristics of the global parameter space. ### High System Sensitivity to Random Seeds\nExperimental results show that the Residual term, unexplained by hyperparameter factors, dominates the total sum of squares, accounting for approximately 95%. Under the current experimental setting (where training stochasticity is driven by training seeds), this indicates that model performance is highly sensitive to randomness during the training process.\nIn Step 1B, we observed significant non-Gaussian characteristics and high variance for a single hyperparameter configuration across different training seeds. The current Step 4 ANOVA results (extremely high Residual proportion) corroborate the observations from Step 1B: different training seeds lead to significant performance fluctuations. Consequently, attempting to fully average out training stochasticity through large-scale repetition would incur extremely high computational costs; this also explains why the strategy of multi-stage incremental training seeds adopted in Step 3 was necessary.\n\nHyperparameter Robustness Reveals a Flat Parameter Space\nAfter testing against the residual as the error term, no factors except Learning Rate showed statistical significance. This implies that within the current local parameter neighborhood, differences in these hyperparameter levels have a relatively limited impact on performance, presenting an overall flat local landscape. Therefore, small parameter drifts within this neighborhood are unlikely to cause a systemic collapse in performance. Given that this grid was constructed centered on the champion configuration, this result aligns with the Step 3 model selection conclusion, indicating that the champion configuration possesses good parameter robustness in this local region.\nWithin this local region, although Learning Rate is statistically significant (\\(p=0.007\\)), the effect size is small (\\(\\eta_p^2=0.0064\\)), indicating a limited proportion of explainable performance variation. The main effects plot (Figure 5) shows an inverted-V trend for Learning Rate, with the peak corresponding to the intermediate level of this grid (which is also the champion configuration’s Learning Rate), suggesting that a local optimum exists for Learning Rate in this neighborhood.\nOverall, the dominance of training stochasticity implies that further hyperparameter fine-tuning yields low marginal returns. If further parameter fine-tuning is still desired within this neighborhood, Learning Rate is the dimension most likely to yield detectable gains, and a relatively optimal range exists. Meanwhile, since different training seeds lead to significant performance fluctuations, reliable evaluation should rely on multi-seed repetition and statistical aggregation rather than single-run results.\n### Practical Insights from Step 4 Sensitivity Analysis\nGiven that the system possesses high seed sensitivity and the local hyperparameter landscape is relatively flat:\n\nContinuing sensitivity analysis with finer hyperparameter levels in the current neighborhood likely offers limited marginal return and high computational cost.\nIf further parameter fine-tuning is still desired, Learning Rate is the dimension worth prioritizing.\nIf the goal is to improve the cost-effectiveness of the overall training pipeline (obtaining more reproducible results under a given algorithm and training budget), priority should be given to increasing the number of training seeds and reporting cross-seed statistical summaries, rather than relying on single-run results from a few seeds.\nIf the goal is to significantly raise the performance ceiling, changes to the algorithm structure or training mechanism may be more effective than local hyperparameter fine-tuning."
   },
   {
-    "objectID": "publish/Life/First_Life.html",
-    "href": "publish/Life/First_Life.html",
-    "title": "First_Life",
+    "objectID": "publish/ABOUT.html",
+    "href": "publish/ABOUT.html",
+    "title": "ABOUT",
     "section": "",
-    "text": "I love my life!\nI love myself!\nI love the world!\nAnd……I miss you!"
+    "text": "this is the ABOUT page."
   },
   {
-    "objectID": "publish/Hello_world.html",
-    "href": "publish/Hello_world.html",
-    "title": "Hello_world",
+    "objectID": "learn.html",
+    "href": "learn.html",
+    "title": "Learn",
     "section": "",
-    "text": "这是行内公式：我们在讨论 \\(E = mc^2\\) 的物理意义。\n这是行间公式（应该居中显示）： \\[\nf(x) = \\int_{-\\infty}^\\infty \\hat f(\\xi)\\,e^{2\\pi i \\xi x} \\,d\\xi\n\\]\n\n\n\n下面是一段 Python 代码：\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndef plot_wave(freq):\n    x = np.linspace(0, 10, 100)\n    y = np.sin(freq * x)\n    return x, y\n\nprint(\"Hello Quarto!\")"
+    "text": "No matching items"
   },
   {
-    "objectID": "publish/Hello_world.html#测试-latex-公式",
-    "href": "publish/Hello_world.html#测试-latex-公式",
-    "title": "Hello_world",
+    "objectID": "bits.html",
+    "href": "bits.html",
+    "title": "Bits",
     "section": "",
-    "text": "这是行内公式：我们在讨论 \\(E = mc^2\\) 的物理意义。\n这是行间公式（应该居中显示）： \\[\nf(x) = \\int_{-\\infty}^\\infty \\hat f(\\xi)\\,e^{2\\pi i \\xi x} \\,d\\xi\n\\]"
-  },
-  {
-    "objectID": "publish/Hello_world.html#测试-python-代码高亮",
-    "href": "publish/Hello_world.html#测试-python-代码高亮",
-    "title": "Hello_world",
-    "section": "",
-    "text": "下面是一段 Python 代码：\nimport numpy as np\nimport matplotlib.pyplot as plt\n\ndef plot_wave(freq):\n    x = np.linspace(0, 10, 100)\n    y = np.sin(freq * x)\n    return x, y\n\nprint(\"Hello Quarto!\")"
-  },
-  {
-    "objectID": "life.html",
-    "href": "life.html",
-    "title": "Life",
-    "section": "",
-    "text": "First_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\nNo matching items"
+    "text": "No matching items"
   },
   {
     "objectID": "about.html",
@@ -154,18 +140,25 @@
     "text": "this is the ABOUT page."
   },
   {
+    "objectID": "articles.html",
+    "href": "articles.html",
+    "title": "Articles",
+    "section": "",
+    "text": "No matching items"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Foxmir Blog",
     "section": "",
-    "text": "this is the HOME page.\n\n\nLatest\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nLife\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nReports\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items"
+    "text": "this is the HOME page.\n\n\nLatest\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nArticles\n\n\n\n\n\nNo matching items\n\n\n\n\nBits\n\n\n\n\n\nNo matching items\n\n\n\n\nLearn\n\n\n\n\n\nNo matching items\n\n\n\n\nNotes\n\n\n\n\n\n\nFirst_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\nReports\n\n\n\n\n\n\ntest4file\n\n\n\n\n\nMay 9, 2026\n\n\n\n\n\n\n\nCartPole DQN Report\n\n\n\n\n\nJan 15, 2026\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "publish/ABOUT.html",
-    "href": "publish/ABOUT.html",
-    "title": "ABOUT",
+    "objectID": "notes.html",
+    "href": "notes.html",
+    "title": "Notes",
     "section": "",
-    "text": "this is the ABOUT page."
+    "text": "First_Life\n\n\n\n\n\nJan 17, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "publish/HOME.html",
@@ -173,6 +166,13 @@
     "title": "HOME",
     "section": "",
     "text": "this is the HOME page."
+  },
+  {
+    "objectID": "publish/Notes/First_Life.html",
+    "href": "publish/Notes/First_Life.html",
+    "title": "First_Life",
+    "section": "",
+    "text": "I love my life!\nI love myself!\nI love the world!\nAnd……I miss you!"
   },
   {
     "objectID": "publish/Reports/test4file.html",

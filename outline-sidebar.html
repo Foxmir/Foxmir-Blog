@@ -2,6 +2,7 @@
 (() => {
   const articlePathPattern = /\/publish\/[^/]+\/[^/]+\.html$/i;
   const desktopMedia = window.matchMedia('(min-width: 1200px)');
+  const maxDepth = 3;
 
   const slugify = (value) => value
     .toLowerCase()
@@ -21,14 +22,14 @@
     });
   };
 
-  const buildTree = (headings) => {
+  const buildTree = (headings, rootLevel) => {
     const items = [];
-    let currentH2 = null;
-    let currentH3 = null;
+    const stack = [];
 
     const createItem = (heading) => ({
       id: heading.id,
       level: Number(heading.tagName.slice(1)),
+      normalizedLevel: Number(heading.tagName.slice(1)) - rootLevel,
       label: (heading.textContent || '').trim(),
       heading,
       children: [],
@@ -37,38 +38,41 @@
 
     headings.forEach((heading) => {
       const item = createItem(heading);
-      if (item.level === 2) {
+      if (item.normalizedLevel > maxDepth) {
+        return;
+      }
+
+      while (stack.length > 0 && stack[stack.length - 1].level >= item.level) {
+        stack.pop();
+      }
+
+      if (stack.length === 0) {
         items.push(item);
-        currentH2 = item;
-        currentH3 = null;
-        return;
+      } else {
+        item.parent = stack[stack.length - 1];
+        item.parent.children.push(item);
       }
 
-      if (item.level === 3) {
-        if (!currentH2) {
-          items.push(item);
-        } else {
-          item.parent = currentH2;
-          currentH2.children.push(item);
-        }
-        currentH3 = item;
-        return;
-      }
-
-      if (item.level === 4) {
-        if (currentH3) {
-          item.parent = currentH3;
-          currentH3.children.push(item);
-        } else if (currentH2) {
-          item.parent = currentH2;
-          currentH2.children.push(item);
-        } else {
-          items.push(item);
-        }
-      }
+      stack.push(item);
     });
 
     return items;
+  };
+
+  const getRootAncestor = (item) => {
+    let current = item || null;
+    while (current?.parent) {
+      current = current.parent;
+    }
+    return current;
+  };
+
+  const getDepthOneAncestor = (item) => {
+    let current = item || null;
+    while (current && current.normalizedLevel > 1) {
+      current = current.parent;
+    }
+    return current;
   };
 
   const getAncestors = (item) => {
@@ -105,7 +109,7 @@
 
   const createLink = (item) => {
     const li = document.createElement('li');
-    li.className = `context-outline__item context-outline__item--level-${item.level}`;
+    li.className = `context-outline__item context-outline__item--level-${item.normalizedLevel}`;
     li.dataset.outlineId = item.id;
     const link = document.createElement('a');
     link.href = `#${item.id}`;
@@ -114,44 +118,34 @@
     return li;
   };
 
-  const renderNav = (nav, items, activeItem) => {
-    const ancestors = getAncestors(activeItem);
-    const activeH2 = activeItem?.level === 2 ? activeItem : activeItem?.parent?.level === 2 ? activeItem.parent : activeItem?.parent?.parent || null;
-    const activeH3 = activeItem?.level === 3 ? activeItem : activeItem?.parent?.level === 3 ? activeItem.parent : null;
+  const renderBranch = (items, activeItem, ancestors, activeDepthOneAncestor) => {
+    const list = document.createElement('ul');
+    items.forEach((item) => {
+      const entry = createLink(item);
+      if (activeItem?.id === item.id) entry.classList.add('is-active');
+      if (ancestors.has(item.id)) entry.classList.add('is-ancestor');
 
-    const root = document.createElement('ul');
-    items.forEach((section) => {
-      const sectionItem = createLink(section);
-      if (activeItem?.id === section.id) sectionItem.classList.add('is-active');
-      if (ancestors.has(section.id)) sectionItem.classList.add('is-ancestor');
+      if (item.children.length > 0) {
+        const shouldRenderChildren = item.normalizedLevel === 0
+          ? item.id === getRootAncestor(activeItem)?.id
+          : item.normalizedLevel === 1
+            ? item.id === activeDepthOneAncestor?.id
+            : false;
 
-      if (activeH2 && section.id === activeH2.id && section.children.length > 0) {
-        const level3List = document.createElement('ul');
-        section.children.forEach((child) => {
-          const childItem = createLink(child);
-          if (activeItem?.id === child.id) childItem.classList.add('is-active');
-          if (ancestors.has(child.id)) childItem.classList.add('is-ancestor');
-
-          if (activeH3 && child.id === activeH3.id && child.children.length > 0) {
-            const level4List = document.createElement('ul');
-            child.children.forEach((grandchild) => {
-              const grandchildItem = createLink(grandchild);
-              if (activeItem?.id === grandchild.id) grandchildItem.classList.add('is-active');
-              if (ancestors.has(grandchild.id)) grandchildItem.classList.add('is-ancestor');
-              level4List.appendChild(grandchildItem);
-            });
-            childItem.appendChild(level4List);
-          }
-
-          level3List.appendChild(childItem);
-        });
-        sectionItem.appendChild(level3List);
+        if (shouldRenderChildren) {
+          entry.appendChild(renderBranch(item.children, activeItem, ancestors, activeDepthOneAncestor));
+        }
       }
 
-      root.appendChild(sectionItem);
+      list.appendChild(entry);
     });
+    return list;
+  };
 
-    nav.replaceChildren(root);
+  const renderNav = (nav, items, activeItem) => {
+    const ancestors = getAncestors(activeItem);
+    const activeDepthOneAncestor = getDepthOneAncestor(activeItem);
+    nav.replaceChildren(renderBranch(items, activeItem, ancestors, activeDepthOneAncestor));
   };
 
   const initOutline = () => {
@@ -159,14 +153,18 @@
     const contentRoot = document.querySelector('#quarto-document-content');
     if (!contentRoot) return;
 
-    const headings = Array.from(contentRoot.querySelectorAll('h2, h3, h4')).filter((heading) => {
+    const headings = Array.from(contentRoot.querySelectorAll('h1, h2, h3, h4')).filter((heading) => {
       const text = (heading.textContent || '').trim();
       return text.length > 0;
     });
     if (headings.length < 2) return;
 
     ensureHeadingIds(headings);
-    const items = buildTree(headings);
+    const rootLevel = headings.reduce((minLevel, heading) => {
+      const level = Number(heading.tagName.slice(1));
+      return Math.min(minLevel, level);
+    }, 6);
+    const items = buildTree(headings, rootLevel);
     const allItems = flatten(items);
     if (allItems.length === 0) return;
 

@@ -197,16 +197,7 @@ function ConvertTo-MarkdownLinkPath {
     )
 
     $relativePath = Get-RelativePath -BasePath $BaseDirectory -TargetPath $TargetPath
-    $segments = ($relativePath -replace '\\', '/').Split('/')
-    $encodedSegments = foreach ($segment in $segments) {
-        if ($segment -eq '.' -or $segment -eq '..' -or [string]::IsNullOrWhiteSpace($segment)) {
-            $segment
-        } else {
-            [System.Uri]::EscapeDataString($segment)
-        }
-    }
-
-    return ($encodedSegments -join '/')
+    return ($relativePath -replace '\\', '/')
 }
 
 function Resolve-AttachmentSource {

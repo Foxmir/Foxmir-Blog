@@ -11,8 +11,14 @@ website:
     right:
       - href: about.qmd
         text: About
-      - href: life.qmd
-        text: 'Life'
+      - href: articles.qmd
+        text: 'Articles'
+      - href: bits.qmd
+        text: 'Bits'
+      - href: learn.qmd
+        text: 'Learn'
+      - href: notes.qmd
+        text: 'Notes'
       - href: reports.qmd
         text: 'Reports'
 

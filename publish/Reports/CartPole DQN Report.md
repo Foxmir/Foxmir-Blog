@@ -190,7 +190,7 @@ Unless otherwise specified, configuration-level metrics (mean and SD) refer to s
 
 **Figure 1**: 95% CI half-width as a function of $N_{eval}$ (red line: threshold=10; green line: selected minimum $N_{eval}$). For the saturated policy (mean=500, variance=0), the analysis yields a misleading requirement of $N_{eval}=5$. 
 
-![Figure2_step1A2n=70](../_attachments/reports/cartpole-dqn-report/Figure2_step1A2n%3D70.png)
+![Figure2_step1A2n=70](../_attachments/reports/cartpole-dqn-report/Figure2_step1A2n=70.png)
 
 **Figure 2**: The same analysis for the non-saturated policy (mean=281.28, SD=41.76) correctly identifies $N_{eval}=70$, which was subsequently adopted for the evaluation protocol.
 

@@ -7,17 +7,29 @@
     ]
   },
   {
-    "listing": "/life.html",
-    "items": [
-      "/publish/Life/First_Life.html"
-    ]
+    "listing": "/learn.html",
+    "items": []
+  },
+  {
+    "listing": "/bits.html",
+    "items": []
+  },
+  {
+    "listing": "/articles.html",
+    "items": []
   },
   {
     "listing": "/index.html",
     "items": [
       "/publish/Reports/test4file.html",
-      "/publish/Life/First_Life.html",
+      "/publish/Notes/First_Life.html",
       "/publish/Reports/CartPole DQN Report.html"
+    ]
+  },
+  {
+    "listing": "/notes.html",
+    "items": [
+      "/publish/Notes/First_Life.html"
     ]
   }
 ]

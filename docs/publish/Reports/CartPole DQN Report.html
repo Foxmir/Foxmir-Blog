@@ -283,8 +283,20 @@ window.Quarto = {
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../life.html"> 
-<span class="menu-text">Life</span></a>
+    <a class="nav-link" href="../../articles.html"> 
+<span class="menu-text">Articles</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../bits.html"> 
+<span class="menu-text">Bits</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../learn.html"> 
+<span class="menu-text">Learn</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../notes.html"> 
+<span class="menu-text">Notes</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../reports.html"> 
@@ -521,7 +533,7 @@ window.Quarto = {
 <p><strong>Figure 1</strong>: 95% CI half-width as a function of <span class="math inline">\(N_{eval}\)</span> (red line: threshold=10; green line: selected minimum <span class="math inline">\(N_{eval}\)</span>). For the saturated policy (mean=500, variance=0), the analysis yields a misleading requirement of <span class="math inline">\(N_{eval}=5\)</span>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../_attachments/reports/cartpole-dqn-report/Figure2_step1A2n%3D70.png" class="img-fluid figure-img"></p>
+<p><img src="../_attachments/reports/cartpole-dqn-report/Figure2_step1A2n=70.png" class="img-fluid figure-img"></p>
 <figcaption>Figure2_step1A2n=70</figcaption>
 </figure>
 </div>
@@ -784,6 +796,8 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
 
   const desktopMedia = window.matchMedia('(min-width: 1200px)');
 
+  const maxDepth = 3;
+
 
 
   const slugify = (value) => value
@@ -822,13 +836,11 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
 
 
 
-  const buildTree = (headings) => {
+  const buildTree = (headings, rootLevel) => {
 
     const items = [];
 
-    let currentH2 = null;
-
-    let currentH3 = null;
+    const stack = [];
 
 
 
@@ -837,6 +849,8 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
       id: heading.id,
 
       level: Number(heading.tagName.slice(1)),
+
+      normalizedLevel: Number(heading.tagName.slice(1)) - rootLevel,
 
       label: (heading.textContent || '').trim(),
 
@@ -854,69 +868,75 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
 
       const item = createItem(heading);
 
-      if (item.level === 2) {
+      if (item.normalizedLevel > maxDepth) {
+
+        return;
+
+      }
+
+
+
+      while (stack.length > 0 && stack[stack.length - 1].level >= item.level) {
+
+        stack.pop();
+
+      }
+
+
+
+      if (stack.length === 0) {
 
         items.push(item);
 
-        currentH2 = item;
+      } else {
 
-        currentH3 = null;
+        item.parent = stack[stack.length - 1];
 
-        return;
-
-      }
-
-
-
-      if (item.level === 3) {
-
-        if (!currentH2) {
-
-          items.push(item);
-
-        } else {
-
-          item.parent = currentH2;
-
-          currentH2.children.push(item);
-
-        }
-
-        currentH3 = item;
-
-        return;
+        item.parent.children.push(item);
 
       }
 
 
 
-      if (item.level === 4) {
-
-        if (currentH3) {
-
-          item.parent = currentH3;
-
-          currentH3.children.push(item);
-
-        } else if (currentH2) {
-
-          item.parent = currentH2;
-
-          currentH2.children.push(item);
-
-        } else {
-
-          items.push(item);
-
-        }
-
-      }
+      stack.push(item);
 
     });
 
 
 
     return items;
+
+  };
+
+
+
+  const getRootAncestor = (item) => {
+
+    let current = item || null;
+
+    while (current?.parent) {
+
+      current = current.parent;
+
+    }
+
+    return current;
+
+  };
+
+
+
+  const getDepthOneAncestor = (item) => {
+
+    let current = item || null;
+
+    while (current && current.normalizedLevel > 1) {
+
+      current = current.parent;
+
+    }
+
+    return current;
 
   };
 
@@ -990,7 +1010,7 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
 
     const li = document.createElement('li');
 
-    li.className = `context-outline__item context-outline__item--level-${item.level}`;
+    li.className = `context-outline__item context-outline__item--level-${item.normalizedLevel}`;
 
     li.dataset.outlineId = item.id;
 
@@ -1008,81 +1028,61 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
 
 
 
-  const renderNav = (nav, items, activeItem) => {
+  const renderBranch = (items, activeItem, ancestors, activeDepthOneAncestor) => {
 
-    const ancestors = getAncestors(activeItem);
+    const list = document.createElement('ul');
 
-    const activeH2 = activeItem?.level === 2 ? activeItem : activeItem?.parent?.level === 2 ? activeItem.parent : activeItem?.parent?.parent || null;
+    items.forEach((item) => {
 
-    const activeH3 = activeItem?.level === 3 ? activeItem : activeItem?.parent?.level === 3 ? activeItem.parent : null;
+      const entry = createLink(item);
 
+      if (activeItem?.id === item.id) entry.classList.add('is-active');
 
-
-    const root = document.createElement('ul');
-
-    items.forEach((section) => {
-
-      const sectionItem = createLink(section);
-
-      if (activeItem?.id === section.id) sectionItem.classList.add('is-active');
-
-      if (ancestors.has(section.id)) sectionItem.classList.add('is-ancestor');
+      if (ancestors.has(item.id)) entry.classList.add('is-ancestor');
 
 
 
-      if (activeH2 && section.id === activeH2.id && section.children.length > 0) {
+      if (item.children.length > 0) {
 
-        const level3List = document.createElement('ul');
+        const shouldRenderChildren = item.normalizedLevel === 0
 
-        section.children.forEach((child) => {
+          ? item.id === getRootAncestor(activeItem)?.id
 
-          const childItem = createLink(child);
+          : item.normalizedLevel === 1
 
-          if (activeItem?.id === child.id) childItem.classList.add('is-active');
+            ? item.id === activeDepthOneAncestor?.id
 
-          if (ancestors.has(child.id)) childItem.classList.add('is-ancestor');
-
-
-
-          if (activeH3 && child.id === activeH3.id && child.children.length > 0) {
-
-            const level4List = document.createElement('ul');
-
-            child.children.forEach((grandchild) => {
-
-              const grandchildItem = createLink(grandchild);
-
-              if (activeItem?.id === grandchild.id) grandchildItem.classList.add('is-active');
-
-              if (ancestors.has(grandchild.id)) grandchildItem.classList.add('is-ancestor');
-
-              level4List.appendChild(grandchildItem);
-
-            });
-
-            childItem.appendChild(level4List);
-
-          }
+            : false;
 
 
 
-          level3List.appendChild(childItem);
+        if (shouldRenderChildren) {
 
-        });
+          entry.appendChild(renderBranch(item.children, activeItem, ancestors, activeDepthOneAncestor));
 
-        sectionItem.appendChild(level3List);
+        }
 
       }
 
 
 
-      root.appendChild(sectionItem);
+      list.appendChild(entry);
 
     });
 
+    return list;
+
+  };
 
 
-    nav.replaceChildren(root);
+
+  const renderNav = (nav, items, activeItem) => {
+
+    const ancestors = getAncestors(activeItem);
+
+    const activeDepthOneAncestor = getDepthOneAncestor(activeItem);
+
+    nav.replaceChildren(renderBranch(items, activeItem, ancestors, activeDepthOneAncestor));
 
   };
 
@@ -1098,7 +1098,7 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
 
 
 
-    const headings = Array.from(contentRoot.querySelectorAll('h2, h3, h4')).filter((heading) => {
+    const headings = Array.from(contentRoot.querySelectorAll('h1, h2, h3, h4')).filter((heading) => {
 
       const text = (heading.textContent || '').trim();
 
@@ -1112,7 +1112,15 @@ seed_{train}\times 10000^2, &amp; seed_{train}=2
 
     ensureHeadingIds(headings);
 
-    const items = buildTree(headings);
+    const rootLevel = headings.reduce((minLevel, heading) => {
+
+      const level = Number(heading.tagName.slice(1));
+
+      return Math.min(minLevel, level);
+
+    }, 6);
+
+    const items = buildTree(headings, rootLevel);
 
     const allItems = flatten(items);
 
