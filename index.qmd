@@ -41,12 +41,15 @@ listing:
 ---
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260510185434 -->
+<!-- BUILD-ID: 20260510185837 -->
 
 ::: {.home-stage}
 ::: {.home-title}
 FOXMIR
 :::
+:::
+
+::: {.home-band-divider}
 :::
 
 ::: {.home-content-layer}
@@ -146,6 +149,12 @@ body.quarto-dark .home-content-layer {
   align-items:start;
   margin-bottom:4rem;
 }
+.home-band-divider {
+  width:100vw;
+  height:1px;
+  margin:0 0 2.1rem calc(50% - 50vw);
+  background:var(--site-line-strong);
+}
 .home-latest-label {
   padding-top:0.25rem;
   font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
@@ -229,6 +238,7 @@ body.quarto-dark .home-content-layer {
 
 @media(max-width:640px){
   .home-stage{padding:3.5rem 1rem 8rem;}
+  .home-band-divider{margin:0 0 1.4rem calc(50% - 50vw);}
   .home-latest-section{grid-template-columns:1fr;gap:0.6rem;}
   .home-band-sticky{position:static;overflow:visible;}
   .home-band-track{display:grid;transform:none!important;}
