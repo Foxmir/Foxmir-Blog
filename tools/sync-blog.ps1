@@ -103,11 +103,16 @@ function Write-Utf8File {
     }
 
     $content = [string]::Join([Environment]::NewLine, $Lines) + [Environment]::NewLine
+    if ((Test-Path -LiteralPath $Path) -and ([System.IO.File]::ReadAllText($Path) -eq $content)) {
+        return $false
+    }
+
     $tempPath = $Path + '.tmp'
     $encoding = New-Object System.Text.UTF8Encoding($false)
 
     [System.IO.File]::WriteAllText($tempPath, $content, $encoding)
     Move-Item -LiteralPath $tempPath -Destination $Path -Force
+    return $true
 }
 
 function Get-FileContentLines {
@@ -311,8 +316,17 @@ function Convert-ObsidianLinksInMarkdown {
             New-Item -ItemType Directory -Path $assetDirectory -Force | Out-Null
         }
 
-        Copy-Item -LiteralPath $resolved.Path -Destination $destinationPath -Force
-        $copiedAttachmentTargets[$destinationPath] = $true
+        $shouldCopyAttachment = $true
+        if (Test-Path -LiteralPath $destinationPath) {
+            $sourceInfo = Get-Item -LiteralPath $resolved.Path
+            $destinationInfo = Get-Item -LiteralPath $destinationPath
+            $shouldCopyAttachment = ($sourceInfo.Length -ne $destinationInfo.Length) -or ($sourceInfo.LastWriteTimeUtc -ne $destinationInfo.LastWriteTimeUtc)
+        }
+
+        if ($shouldCopyAttachment) {
+            Copy-Item -LiteralPath $resolved.Path -Destination $destinationPath -Force
+            $copiedAttachmentTargets[$destinationPath] = $true
+        }
 
         $relativeLinkPath = ConvertTo-MarkdownLinkPath -BaseDirectory $markdownDirectory -TargetPath $destinationPath
         $isImageEmbed = $match.Groups['embed'].Value -eq '!' -and $extension -match '^(?i)\.(png|jpe?g|gif|webp|svg)$'
@@ -367,7 +381,7 @@ function Add-MissingTitleFrontMatter {
         '---',
         ''
     ) + $bodyLines
-    Write-Utf8File -Path $Path -Lines $newLines
+    Write-Utf8File -Path $Path -Lines $newLines | Out-Null
 }
 
 $markdownFiles = @(
@@ -410,12 +424,6 @@ if ($copiedAttachmentTargets.Count -gt 0) {
     Write-Host ('Resolved attachments: ' + $copiedAttachmentTargets.Count)
 }
 
-Get-ChildItem $project -Filter '*.qmd' -File |
-    Where-Object {
-        (Get-Content $_.FullName -Raw -ErrorAction SilentlyContinue) -match 'AUTO-GENERATED-CATEGORY-PAGE'
-    } |
-    Remove-Item -Force
-
 $dirs = @(
     Get-ChildItem $publish -Directory |
     Where-Object { $_.Name -notmatch '^[._]' } |
@@ -423,9 +431,9 @@ $dirs = @(
 )
 $items = @()
 $used = @{}
+$generatedCategoryPaths = New-Object System.Collections.Generic.HashSet[string] ([System.StringComparer]::OrdinalIgnoreCase)
 $homeContentLines = Get-RootMarkdownContent -Directory $publish -BaseName 'Home'
 $aboutContentLines = Get-RootMarkdownContent -Directory $publish -BaseName 'About'
-$buildId = [DateTime]::UtcNow.ToString('yyyyMMddHHmmss')
 
 foreach ($dir in $dirs) {
     $slug = ConvertTo-Slug $dir.Name
@@ -479,8 +487,17 @@ foreach ($dir in $dirs) {
             ':::'
         )
     }
-    Write-Utf8File -Path (Join-Path $project ($slug + '.qmd')) -Lines $page
+    $categoryPagePath = Join-Path $project ($slug + '.qmd')
+    $generatedCategoryPaths.Add($categoryPagePath) | Out-Null
+    Write-Utf8File -Path $categoryPagePath -Lines $page | Out-Null
 }
+
+Get-ChildItem $project -Filter '*.qmd' -File |
+    Where-Object {
+        $_.FullName -notin $generatedCategoryPaths -and
+        ((Get-Content $_.FullName -Raw -ErrorAction SilentlyContinue) -match 'AUTO-GENERATED-CATEGORY-PAGE')
+    } |
+    Remove-Item -Force
 
 $homePage = @(
     '---'
@@ -526,7 +543,6 @@ $homePage += @(
     '---'
     ''
     '<!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->'
-    '<!-- BUILD-ID: ' + $buildId + ' -->'
     ''
     '::: {.home-stage}'
     '::: {.home-title}'
@@ -862,7 +878,7 @@ $homePage += @(
     '```'
 )
 
-Write-Utf8File -Path (Join-Path $project 'index.qmd') -Lines $homePage
+Write-Utf8File -Path (Join-Path $project 'index.qmd') -Lines $homePage | Out-Null
 
 $aboutPage = @(
     '---'
@@ -871,7 +887,6 @@ $aboutPage = @(
     '---'
     ''
     '<!-- AUTO-GENERATED-ABOUT-PAGE: edit the root About.md in Obsidian, not this file. -->'
-    '<!-- BUILD-ID: ' + $buildId + ' -->'
 )
 
 if ($aboutContentLines.Count -gt 0) {
@@ -879,7 +894,7 @@ if ($aboutContentLines.Count -gt 0) {
     $aboutPage += $aboutContentLines
 }
 
-Write-Utf8File -Path (Join-Path $project 'about.qmd') -Lines $aboutPage
+Write-Utf8File -Path (Join-Path $project 'about.qmd') -Lines $aboutPage | Out-Null
 
 $config = @(
     'project:'
@@ -916,5 +931,5 @@ $config += @(
     '    toc: false'
 )
 
-Write-Utf8File -Path (Join-Path $project '_quarto.yml') -Lines $config
+Write-Utf8File -Path (Join-Path $project '_quarto.yml') -Lines $config | Out-Null
 Write-Host ('Generated categories: ' + (($items | ForEach-Object { $_.Name }) -join ', '))
