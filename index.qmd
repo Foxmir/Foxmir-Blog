@@ -35,7 +35,7 @@ listing:
 ---
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260510203131 -->
+<!-- BUILD-ID: 20260512153512 -->
 
 ::: {.home-stage}
 ::: {.home-title}
@@ -44,7 +44,10 @@ FOXMIR
 
 ::: {.home-stage-intro}
 
-this is the HOME page.
+**RL is fun, isn’t it?**  
+**If not, let me show you.**  
+**If yes, let’s talk.**
+
 
 :::
 :::

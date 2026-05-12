@@ -53,7 +53,14 @@
     "href": "publish/ABOUT.html",
     "title": "ABOUT",
     "section": "",
-    "text": "this is the ABOUT page."
+    "text": "Thanks to RL for bringing us together.\nThis is my personal blog. I write about RL-related theory, implementation, and reflections, including basic concepts, algorithm reproduction, training stability, experiment evaluation, result interpretation, as well as tools and side topics. Occasionally, I may also share other unrelated but interesting things."
+  },
+  {
+    "objectID": "publish/ABOUT.html#collaboration-contact",
+    "href": "publish/ABOUT.html#collaboration-contact",
+    "title": "ABOUT",
+    "section": "Collaboration & Contact",
+    "text": "Collaboration & Contact\nI am currently open to a small number of RL-related collaboration inquiries, especially:\n\nRL project diagnosis and debugging review\nExperiment design and evaluation protocol review\nReproduction review, training log analysis, and result interpretation\nStructured feedback for existing RL practice projects\n\nIt is a good fit if you already have code, configs, logs, training curves, experiment reports, or a clear problem description, and you want help with triage, review, and prioritizing the next debugging steps.\nCurrently not accepting: Python/framework basics, environment setup, from-scratch beginner Q&A, or real-time chat-style coaching.\nIf you would like to contact me, please briefly describe: the background of your problem, available materials, what you have already tried, and what kind of help you are looking for.\ngithub: https://github.com/Foxmir Email: superuserisme@outlook.com"
   },
   {
     "objectID": "learn.html",
@@ -74,7 +81,14 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "this is the ABOUT page."
+    "text": "Thanks to RL for bringing us together.\nThis is my personal blog. I write about RL-related theory, implementation, and reflections, including basic concepts, algorithm reproduction, training stability, experiment evaluation, result interpretation, as well as tools and side topics. Occasionally, I may also share other unrelated but interesting things."
+  },
+  {
+    "objectID": "about.html#collaboration-contact",
+    "href": "about.html#collaboration-contact",
+    "title": "About",
+    "section": "Collaboration & Contact",
+    "text": "Collaboration & Contact\nI am currently open to a small number of RL-related collaboration inquiries, especially:\n\nRL project diagnosis and debugging review\nExperiment design and evaluation protocol review\nReproduction review, training log analysis, and result interpretation\nStructured feedback for existing RL practice projects\n\nIt is a good fit if you already have code, configs, logs, training curves, experiment reports, or a clear problem description, and you want help with triage, review, and prioritizing the next debugging steps.\nCurrently not accepting: Python/framework basics, environment setup, from-scratch beginner Q&A, or real-time chat-style coaching.\nIf you would like to contact me, please briefly describe: the background of your problem, available materials, what you have already tried, and what kind of help you are looking for.\ngithub: https://github.com/Foxmir Email: superuserisme@outlook.com"
   },
   {
     "objectID": "articles.html",
@@ -88,7 +102,7 @@
     "href": "index.html",
     "title": "Foxmir Blog",
     "section": "",
-    "text": "FOXMIR\n\n\nthis is the HOME page.\n\n\n\n\n\n\nLatest\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n\n\nArticles\n\n\n\nNo posts yet.\n\n\n\n\n\nBits\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\nLearn\n\n\n\nNo posts yet.\n\n\n\n\n\nNotes\n\n\n\nNo posts yet.\n\n\n\n\n\nReports\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items"
+    "text": "FOXMIR\n\n\nRL is fun, isn’t it?\nIf not, let me show you.\nIf yes, let’s talk.\n\n\n\n\n\n\nLatest\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n\n\nArticles\n\n\n\nNo posts yet.\n\n\n\n\n\nBits\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\nLearn\n\n\n\nNo posts yet.\n\n\n\n\n\nNotes\n\n\n\nNo posts yet.\n\n\n\n\n\nReports\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "notes.html",
@@ -144,7 +158,7 @@
     "href": "publish/HOME.html",
     "title": "HOME",
     "section": "",
-    "text": "this is the HOME page."
+    "text": "RL is fun, isn’t it?\nIf not, let me show you.\nIf yes, let’s talk."
   },
   {
     "objectID": "publish/Reports/Statistical Analysis of DQN on CartPole v1.html",

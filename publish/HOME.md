@@ -1,6 +1,9 @@
 ---
 title: 'HOME'
-date: '2026-05-10'
+date: '2026-05-12'
 ---
 
-this is the HOME page.
+**RL is fun, isn’t it?**  
+**If not, let me show you.**  
+**If yes, let’s talk.**
+
