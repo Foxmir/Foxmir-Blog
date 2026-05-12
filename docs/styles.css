@@ -54,7 +54,7 @@ body {
 	min-height: 100vh;
 	background-color: var(--site-bg);
 	color: var(--site-text);
-	font-family: Charter, 'Bitstream Charter', 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+	font-family: 'Avenir Next', Avenir, 'Segoe UI Variable', 'Segoe UI', 'Helvetica Neue', sans-serif;
 	text-rendering: optimizeLegibility;
 	scrollbar-width: none;
 	-ms-overflow-style: none;
@@ -125,7 +125,7 @@ main.content,
 }
 
 .navbar-brand {
-	font-family: Charter, 'Bitstream Charter', 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+	font-family: 'Avenir Next', Avenir, 'Segoe UI Variable', 'Segoe UI', 'Helvetica Neue', sans-serif;
 	font-size: 1.5rem;
 	font-weight: 700;
 	letter-spacing: -0.03em;
