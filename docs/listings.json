@@ -15,9 +15,9 @@
   {
     "listing": "/index.html",
     "items": [
+      "/publish/Reports/Statistical Analysis of DQN on CartPole v1.html",
       "/publish/Bits/Deconstructing Reward in RL.html",
-      "/publish/Bits/解构奖励的含义及常见误解.html",
-      "/publish/Reports/Statistical Analysis of DQN on CartPole v1.html"
+      "/publish/Bits/解构奖励的含义及常见误解.html"
     ]
   }
 ]

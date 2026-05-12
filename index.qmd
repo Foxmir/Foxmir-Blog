@@ -35,7 +35,7 @@ listing:
 ---
 
 <!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<!-- BUILD-ID: 20260512153512 -->
+<!-- BUILD-ID: 20260512154304 -->
 
 ::: {.home-stage}
 ::: {.home-title}
