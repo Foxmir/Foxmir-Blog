@@ -4,7 +4,7 @@
     "href": "reports.html",
     "title": "Reports",
     "section": "",
-    "text": "Statistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 12, 2026\n\n\n\n\n\nNo matching items"
+    "text": "Statistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 13, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "publish/Bits/解构奖励的含义及常见误解.html",
@@ -60,7 +60,7 @@
     "href": "publish/ABOUT.html#collaboration-contact",
     "title": "ABOUT",
     "section": "Collaboration & Contact",
-    "text": "Collaboration & Contact\nI am currently open to a small number of RL-related collaboration inquiries, especially:\n\nRL project diagnosis and debugging review\nExperiment design and evaluation protocol review\nReproduction review, training log analysis, and result interpretation\nStructured feedback for existing RL practice projects\n\nIt is a good fit if you already have code, configs, logs, training curves, experiment reports, or a clear problem description, and you want help with triage, review, and prioritizing the next debugging steps.\nCurrently not accepting: Python/framework basics, environment setup, from-scratch beginner Q&A, or real-time chat-style coaching.\nIf you would like to contact me, please briefly describe: the background of your problem, available materials, what you have already tried, and what kind of help you are looking for.\ngithub: https://github.com/Foxmir Email: superuserisme@outlook.com"
+    "text": "Collaboration & Contact\nI am currently open to a small number of RL-related collaboration inquiries, especially:\n\nRL project diagnosis and debugging review\nExperiment design and evaluation protocol review\nReproduction review, training log analysis, and result interpretation\nStructured feedback for existing RL practice projects\n\nIt is a good fit if you already have code, configs, logs, training curves, experiment reports, or a clear problem description, and you want help with triage, review, and prioritizing the next debugging steps.\nCurrently not accepting: Python/framework basics, environment setup, from-scratch beginner Q&A, or real-time chat-style coaching.\nIf you would like to contact me, please briefly describe: the background of your problem, available materials, what you have already tried, and what kind of help you are looking for.\n\ngithub: https://github.com/Foxmir\nEmail: superuserisme@outlook.com"
   },
   {
     "objectID": "learn.html",
@@ -74,7 +74,7 @@
     "href": "bits.html",
     "title": "Bits",
     "section": "",
-    "text": "Deconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items"
+    "text": "Deconstructing Reward in RL\n\n\n\n\n\nMay 13, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 13, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -88,7 +88,7 @@
     "href": "about.html#collaboration-contact",
     "title": "About",
     "section": "Collaboration & Contact",
-    "text": "Collaboration & Contact\nI am currently open to a small number of RL-related collaboration inquiries, especially:\n\nRL project diagnosis and debugging review\nExperiment design and evaluation protocol review\nReproduction review, training log analysis, and result interpretation\nStructured feedback for existing RL practice projects\n\nIt is a good fit if you already have code, configs, logs, training curves, experiment reports, or a clear problem description, and you want help with triage, review, and prioritizing the next debugging steps.\nCurrently not accepting: Python/framework basics, environment setup, from-scratch beginner Q&A, or real-time chat-style coaching.\nIf you would like to contact me, please briefly describe: the background of your problem, available materials, what you have already tried, and what kind of help you are looking for.\ngithub: https://github.com/Foxmir Email: superuserisme@outlook.com"
+    "text": "Collaboration & Contact\nI am currently open to a small number of RL-related collaboration inquiries, especially:\n\nRL project diagnosis and debugging review\nExperiment design and evaluation protocol review\nReproduction review, training log analysis, and result interpretation\nStructured feedback for existing RL practice projects\n\nIt is a good fit if you already have code, configs, logs, training curves, experiment reports, or a clear problem description, and you want help with triage, review, and prioritizing the next debugging steps.\nCurrently not accepting: Python/framework basics, environment setup, from-scratch beginner Q&A, or real-time chat-style coaching.\nIf you would like to contact me, please briefly describe: the background of your problem, available materials, what you have already tried, and what kind of help you are looking for.\n\ngithub: https://github.com/Foxmir\nEmail: superuserisme@outlook.com"
   },
   {
     "objectID": "articles.html",
@@ -102,7 +102,7 @@
     "href": "index.html",
     "title": "Foxmir Blog",
     "section": "",
-    "text": "FOXMIR\n\n\nRL is fun, isn’t it?\nIf not, let me show you.\nIf yes, let’s talk.\n\n\n\n\n\n\nLatest\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 12, 2026\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n\n\nArticles\n\n\n\nNo posts yet.\n\n\n\n\n\nBits\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\nLearn\n\n\n\nNo posts yet.\n\n\n\n\n\nNotes\n\n\n\nNo posts yet.\n\n\n\n\n\nReports\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 12, 2026\n\n\n\n\n\nNo matching items"
+    "text": "FOXMIR\n\n\nRL is fun, isn’t it?\nIf not, let me show you.\nIf yes, let’s talk.\n\n\n\n\n\n\nLatest\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 13, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 13, 2026\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 13, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n\n\nArticles\n\n\n\nNo posts yet.\n\n\n\n\n\nBits\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 13, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 13, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\nLearn\n\n\n\nNo posts yet.\n\n\n\n\n\nNotes\n\n\n\nNo posts yet.\n\n\n\n\n\nReports\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 13, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "notes.html",

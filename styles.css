@@ -356,15 +356,6 @@ body.quarto-dark .navbar .quarto-color-scheme-toggle {
 	color: var(--site-text);
 }
 
-#quarto-document-content > p:first-of-type {
-	font-family: 'Avenir Next', Avenir, 'Segoe UI Variable', 'Segoe UI', 'Helvetica Neue', sans-serif;
-	font-size: 1.24rem;
-	line-height: 1.65;
-	color: var(--site-text-soft);
-	max-width: 72ch;
-	margin-bottom: 1.8rem;
-}
-
 h1,
 h2,
 h3,
@@ -596,7 +587,4 @@ table {
 		font-size: clamp(2.6rem, 14vw, 4rem);
 	}
 
-	#quarto-document-content > p:first-of-type {
-		font-size: 1.08rem;
-	}
 }

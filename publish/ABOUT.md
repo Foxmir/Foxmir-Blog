@@ -1,7 +1,14 @@
 ---
 title: 'ABOUT'
-date: '2026-05-12'
+date: '2026-05-13'
 ---
+
+
+
+
+
+
+
 
 Thanks to RL for bringing us together.
 
@@ -22,5 +29,12 @@ Currently not accepting: Python/framework basics, environment setup, from-scratc
 
 If you would like to contact me, please briefly describe: the background of your problem, available materials, what you have already tried, and what kind of help you are looking for.
 
-github: https://github.com/Foxmir
-Email: superuserisme@outlook.com
+* github: https://github.com/Foxmir
+* Email: superuserisme@outlook.com
+
+
+
+
+
+
+
