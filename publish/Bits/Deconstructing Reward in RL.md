@@ -1,15 +1,7 @@
 ---
 title: 'Deconstructing Reward in RL'
-date: '2026-05-13'
+date: '2026-05-10'
 ---
-
-
-
-
-
-
-
-
 
 ## Introduction
 
@@ -108,11 +100,3 @@ This brings us to a core confusion: "What does R truly depend on?" The question 
             1. The good news is we don't need to use `if...else` statements or temporarily modify formulas. Mature environments have usually encapsulated this for us. We just need to define which state is the terminal state, and the environment will understand the game rules. You need almost no extra operations.
             2. When a transition leads to the end of an episode, the environment's `step()` function returns a `done=True` (or `terminated=True`) signal. This signal implies that the value of the terminal state is 0, and it is generated automatically, connecting seamlessly with the existing calculation logic.
             3. By the way, the environment internally also relies on simple statements like `if...else` to achieve the seemingly effortless effects we see on the outside
-
-
-
-
-
-
-
-

@@ -106,5 +106,11 @@
   },
   "home_files.qmd": {
     "home_files.html": "0ea63730"
+  },
+  "publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.md": {
+    "What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html": "66d0e6a1"
+  },
+  "publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.md": {
+    "奖励函数到底依赖什么：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html": "0272a0c2"
   }
 }

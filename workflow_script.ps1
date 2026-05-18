@@ -161,6 +161,39 @@ function Invoke-RobocopyCapture {
     }
 }
 
+function Invoke-SourceSyncCapture {
+    param(
+        [Parameter(Mandatory = $true)][string]$Source,
+        [Parameter(Mandatory = $true)][string]$Destination
+    )
+
+    return Invoke-ProcessCapture -FilePath 'robocopy' -ArgumentList @(
+        $Source,
+        $Destination,
+        '*.md',
+        '*.png',
+        '*.jpg',
+        '*.jpeg',
+        '*.gif',
+        '*.webp',
+        '/MIR',
+        '/XF',
+        'publish.bat',
+        '/XD',
+        '.git',
+        '.obsidian',
+        '/NJH',
+        '/NJS',
+        '/NDL',
+        '/NC',
+        '/NS',
+        '/NP'
+    ) -FailurePredicate {
+        param($exitCode, $lines)
+        return ($exitCode -ge 8)
+    }
+}
+
 function ConvertTo-ProcessArgumentString {
     param([AllowEmptyCollection()][string[]]$ArgumentList = @())
 
@@ -273,6 +306,8 @@ try {
     $docsDir = Join-Path $ProjectPath 'docs'
     $docsIndexPath = Join-Path $docsDir 'index.html'
     $docsNoJekyllPath = Join-Path $docsDir '.nojekyll'
+    $sourceBlogDir = $env:BLOG_SOURCE
+    $publishDir = if ([string]::IsNullOrWhiteSpace($env:BLOG_PUBLISH)) { Join-Path $ProjectPath 'publish' } else { $env:BLOG_PUBLISH }
 
     Write-StageHeader -Step 1 -Total 6 -Title '清理环境'
     Get-Process python -ErrorAction SilentlyContinue | Stop-Process -Force
@@ -283,6 +318,16 @@ try {
     Write-Host ('[完成] 已清理 Python/Quarto 进程，TMP=' + $env:TMP) -ForegroundColor DarkGray
 
     Write-StageHeader -Step 2 -Total 6 -Title '同步 Obsidian 内容'
+    if (-not [string]::IsNullOrWhiteSpace($sourceBlogDir) -and (Test-Path -LiteralPath $sourceBlogDir)) {
+        $sourceSyncResult = Invoke-SourceSyncCapture -Source $sourceBlogDir -Destination $publishDir
+        Get-TailLines -Lines $sourceSyncResult.Lines -Count 12 | ForEach-Object { Write-Host ('  ' + $_) }
+        if ($sourceSyncResult.Failed) {
+            Fail-Workflow -Title '同步 Obsidian 原始文件' -Lines $sourceSyncResult.Lines
+        }
+    } else {
+        Write-Host '[跳过] 未检测到 BLOG_SOURCE，直接使用项目内 publish 目录。' -ForegroundColor DarkGray
+    }
+
     $syncResult = Invoke-ProcessCapture -FilePath 'powershell.exe' -ArgumentList @(
         '-NoProfile',
         '-ExecutionPolicy',

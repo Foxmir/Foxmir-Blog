@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-05-19">
 
-<title>Reports – Foxmir Blog</title>
+<title>What Does the Reward Function Depend On：R(s)、R(s')、R(s,a) 与 R(s,a,s')？ – Foxmir Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +24,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-24772959a0e306aba8d7698078628ce7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-24772959a0e306aba8d7698078628ce7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -58,35 +57,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-category-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-category-listing'] = new List('listing-category-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VQW94RHSBY"></script>
 
 <script type="text/javascript">
@@ -127,10 +97,10 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -299,7 +269,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Foxmir Blog</span>
     </a>
   </div>
@@ -309,29 +279,29 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./articles.html"> 
+    <a class="nav-link" href="../../articles.html"> 
 <span class="menu-text">Articles</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./bits.html"> 
+    <a class="nav-link" href="../../bits.html"> 
 <span class="menu-text">Bits</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./learn.html"> 
+    <a class="nav-link" href="../../learn.html"> 
 <span class="menu-text">Learn</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./notes.html"> 
+    <a class="nav-link" href="../../notes.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./reports.html" aria-current="page"> 
+    <a class="nav-link" href="../../reports.html"> 
 <span class="menu-text">Reports</span></a>
   </li>  
 </ul>
@@ -343,24 +313,30 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Reports</h1>
+<h1 class="title">What Does the Reward Function Depend On：<span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span>、<span class="math inline">\(R(s,a)\)</span> 与 <span class="math inline">\(R(s,a,s')\)</span>？</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 19, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -370,27 +346,98 @@ window.Quarto = {
 </header>
 
 
-<!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->
-<div id="listing-category-listing" class="quarto-listing quarto-listing-container-default">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778515200000" data-listing-file-modified-sort="1779125594895" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
-</h3>
-</div>
-<div class="metadata">
-<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">
-<div class="listing-date">
-May 12, 2026
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div>
-
+<ul>
+<li><p>The immediate reward <span class="math inline">\(r\)</span> returned by the environment during a transition can depend on different pieces of information: the current state <span class="math inline">\(s\)</span>, the next state <span class="math inline">\(s'\)</span>, the state-action pair <span class="math inline">\((s,a)\)</span>, or the full transition <span class="math inline">\((s,a,s')\)</span>.</p></li>
+<li><p>In a standard MDP formulation, the reward function <span class="math inline">\(R\)</span> describes the rule by which the environment gives the immediate reward <span class="math inline">\(r\)</span>. In its most general form, it can be written as <span class="math inline">\(R(s,a,s')\)</span>. If the reward only depends on part of the information, it can be simplified to <span class="math inline">\(R(s)\)</span>, <span class="math inline">\(R(s')\)</span>, or <span class="math inline">\(R(s,a)\)</span>. These simplified forms are still complete and valid descriptions in the right setting.</p></li>
+</ul>
+<hr>
+<p>The immediate reward <span class="math inline">\(r\)</span> is the value returned by the environment during one transition. The reward function <span class="math inline">\(R\)</span> describes how the environment produces this <span class="math inline">\(r\)</span>. Depending on the task, <span class="math inline">\(R\)</span> can take different forms.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 30%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Depends on</th>
+<th>Description</th>
+<th>When to use it</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(R(s)\)</span></td>
+<td>Current state</td>
+<td>When the agent needs to maintain a survival or operating state</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(R(s')\)</span></td>
+<td>Next state / resulting state</td>
+<td>When the agent needs to reach a target or destination</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(R(s,a)\)</span></td>
+<td>State and action</td>
+<td>For decision-making tasks: the same state requires different decisions, and the reward does not evaluate the outcome after the decision</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(R(s,a,s')\)</span></td>
+<td>Full one-step transition</td>
+<td>When the reward is given after the action is executed, based on the actual change caused by this step. The key idea is “settlement” or “post-action accounting”</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li><p><strong>State-based reward — current state: <span class="math inline">\(R(s)\)</span></strong></p>
+<ul>
+<li>The reward only depends on the state the agent is currently in. Once the agent is in a certain state, it receives the reward.</li>
+<li>Examples:
+<ul>
+<li>Staying in a dangerous area gives a penalty at every step.</li>
+<li>As long as the agent is alive, it receives points every second.</li>
+</ul></li>
+<li>Application: <strong>when the agent needs to maintain a survival or operating state</strong>.
+<ul>
+<li>Bipedal robot walking（Walker2D）/ ant locomotion（Ant）：standing or staying alive at each step gives a survival reward.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>State-based reward — next state: <span class="math inline">\(R(s')\)</span></strong></p>
+<ul>
+<li>The reward only depends on where the agent arrives after this step. Once it reaches a new state, it receives the reward.</li>
+<li>Example: reaching the goal gives a positive reward; falling into a trap gives a penalty.</li>
+<li>Application: <strong>when the agent needs to reach a target or destination</strong>.
+<ul>
+<li>FrozenLake: reaching the goal state gives <span class="math inline">\(+1\)</span> reward; reaching an ordinary tile or a hole gives <span class="math inline">\(0\)</span> reward.</li>
+<li>Maze game: finding the exit gives <span class="math inline">\(+100\)</span>.</li>
+<li>Robot charging station / agent health recovery: reaching a charging station or medical point immediately gives an energy or health reward.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>State-action reward: <span class="math inline">\(R(s,a)\)</span></strong></p>
+<ul>
+<li>The reward depends on “what action is taken in what state.” Even if the agent is in the same state, different actions may lead to different rewards.</li>
+<li>Example: braking at a red light is rewarded; running the red light is penalized.</li>
+<li>Application: <strong>for decision-making tasks, where the same situation requires different decisions, without evaluating the outcome after the decision</strong>.
+<ul>
+<li>Combat/game setting: when a soldier faces an enemy, attacking is rewarded, while retreating is penalized.</li>
+<li>Recommendation system: if the user is underage, recommending children’s products is rewarded, while recommending adult products is penalized. This does not require considering whether the user clicks.</li>
+<li>Pharmacy dispensing: under different prescription or medication-list tasks, the robot dispenses a drug. Dispensing the correct drug is rewarded; dispensing the wrong drug is penalized.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Transition-based reward: <span class="math inline">\(R(s,a,s')\)</span></strong></p>
+<ul>
+<li>The reward depends on the full one-step transition: which state the agent starts from, what action it takes, and which state it reaches.</li>
+<li>Example: different actions may have different costs; low-cost transitions are rewarded, while high-cost transitions are penalized. Different resulting states represent different consequences.</li>
+<li>Application: <strong>when the reward is given after the action is executed, based on the actual change caused by this step</strong>. The key idea is “<strong>settlement / post-action accounting</strong>”.
+<ul>
+<li>Logistics / travel planning: delivering a package or reaching a travel destination through different action plans can produce different costs, time consumption, and risks. Faster, cheaper, and safer plans receive rewards; more expensive and higher-risk plans receive penalties.</li>
+<li>Stock trading: after a buy/sell action, if the asset value increases, the agent receives a reward; if the asset value decreases, it receives a penalty.</li>
+<li>Medical treatment: based on the patient’s current condition, different treatment plans lead to different post-treatment physical states. Improvement is rewarded; deterioration is penalized.</li>
+<li>Recommendation system: on the same page, after recommending a certain product, a user click is rewarded, while closing the page or leaving is penalized.</li>
+<li>Survival scenario: after taking different actions, various indicators may change, such as food, stamina, health, and safety. If the chance of survival increases, the agent is rewarded; if it decreases, the agent is penalized.</li>
+</ul></li>
+</ul></li>
+</ol>
 
 
 

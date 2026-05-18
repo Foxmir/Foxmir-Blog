@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-05-19">
 
-<title>Reports – Foxmir Blog</title>
+<title>奖励函数到底依赖什么：R(s)、R(s')、R(s,a) 与 R(s,a,s')？ – Foxmir Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +24,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-24772959a0e306aba8d7698078628ce7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-24772959a0e306aba8d7698078628ce7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -58,35 +57,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-category-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-category-listing'] = new List('listing-category-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VQW94RHSBY"></script>
 
 <script type="text/javascript">
@@ -127,10 +97,10 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -299,7 +269,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Foxmir Blog</span>
     </a>
   </div>
@@ -309,29 +279,29 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./articles.html"> 
+    <a class="nav-link" href="../../articles.html"> 
 <span class="menu-text">Articles</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./bits.html"> 
+    <a class="nav-link" href="../../bits.html"> 
 <span class="menu-text">Bits</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./learn.html"> 
+    <a class="nav-link" href="../../learn.html"> 
 <span class="menu-text">Learn</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./notes.html"> 
+    <a class="nav-link" href="../../notes.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./reports.html" aria-current="page"> 
+    <a class="nav-link" href="../../reports.html"> 
 <span class="menu-text">Reports</span></a>
   </li>  
 </ul>
@@ -343,24 +313,30 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Reports</h1>
+<h1 class="title">奖励函数到底依赖什么：<span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span>、<span class="math inline">\(R(s,a)\)</span> 与 <span class="math inline">\(R(s,a,s')\)</span>？</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 19, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -370,27 +346,99 @@ window.Quarto = {
 </header>
 
 
-<!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->
-<div id="listing-category-listing" class="quarto-listing quarto-listing-container-default">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778515200000" data-listing-file-modified-sort="1779125594895" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
-</h3>
-</div>
-<div class="metadata">
-<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">
-<div class="listing-date">
-May 12, 2026
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div>
-
+<p>奖励函数到底依赖什么：<span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span>、<span class="math inline">\(R(s,a)\)</span> 与 <span class="math inline">\(R(s,a,s')\)</span>？</p>
+<ul>
+<li><p>环境在一次转移中返回的即时奖励 <span class="math inline">\(r\)</span>，到底是由哪些信息决定的：当前状态 <span class="math inline">\(s\)</span>、到达状态 <span class="math inline">\(s'\)</span>、状态-动作 <span class="math inline">\((s,a)\)</span>，还是完整转移 <span class="math inline">\((s,a,s')\)</span>？</p></li>
+<li><p>在常见 MDP 表达里，奖励函数 <span class="math inline">\(R\)</span> 用来描述环境给出即时奖励 <span class="math inline">\(r\)</span> 的规则；最一般可写为 <span class="math inline">\(R(s,a,s')\)</span>，如果奖励只依赖部分信息，就可分别简化为 <span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span> 或 <span class="math inline">\(R(s,a)\)</span>。简化形式在特定的场景中同样是完整、正当的表述。</p></li>
+</ul>
+<hr>
+<p>即时奖励 <span class="math inline">\(r\)</span> 是环境在一次转移中返回的数值；奖励函数 <span class="math inline">\(R\)</span> 用来描述环境如何给出这个 <span class="math inline">\(r\)</span>。根据任务不同，<span class="math inline">\(R\)</span> 可以有不同的依赖形式。</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 30%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>依赖于</th>
+<th>描述</th>
+<th>适用场景的判断逻辑</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(R(s)\)</span></td>
+<td>当前状态</td>
+<td>需要智能体维持生存/运行状态</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(R(s')\)</span></td>
+<td>到达状态</td>
+<td>适用于需要机器人到达目标/目的地</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(R(s,a)\)</span></td>
+<td>状态、动作</td>
+<td>适用于“决策任务”，即相同状态下需要不同决策，不看决策后果</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(R(s,a,s')\)</span></td>
+<td>一次完整转移</td>
+<td>适用于动作执行完后，根据这一步实际造成的变化来给奖励的场景，逻辑关键词是“结算/事后算账”</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li><strong>状态奖励-当前状态：<span class="math inline">\(R(s)\)</span></strong>
+<ul>
+<li>奖励只看智能体现在处在哪个状态。当智能体处在某个状态，就能获得奖励。</li>
+<li>例如：
+<ul>
+<li>待在危险区域，每一步扣分。</li>
+<li>只要活着，每一秒都给分。</li>
+</ul></li>
+<li>应用：<strong>需要智能体维持生存/运行状态</strong>。
+<ul>
+<li>双足机器人（Walker2D）/蚂蚁爬行（Ant）：站立的每一秒都有存活奖励。</li>
+</ul></li>
+</ul></li>
+<li><strong>状态奖励-到达状态：<span class="math inline">\(R(s')\)</span></strong>
+<ul>
+<li>奖励只看这一步到达了哪里。到达新位置，就能获得奖励。</li>
+<li>例如：到达终点加分，掉进陷阱减分。</li>
+<li>应用：<strong>适用于需要机器人到达目标/目的地</strong>。
+<ul>
+<li>冰面湖游戏（FrozenLake）：到达目标位置获得 <span class="math inline">\(+1\)</span> 分；到达普通区域/洞里，<span class="math inline">\(0\)</span> 分。</li>
+<li>迷宫游戏：找到出口 <span class="math inline">\(+100\)</span>。</li>
+<li>机器人充电站/智能体健康恢复：到达充电站/医疗点，立刻给电量/健康奖励。</li>
+</ul></li>
+</ul></li>
+<li><strong>状态-动作奖励：<span class="math inline">\(R(s,a)\)</span></strong>
+<ul>
+<li>奖励看“在什么状态下做了什么动作”。即使智能体处于相同的状态，不同的动作可能会导致不同的奖励。</li>
+<li>例如：红灯前刹车奖励，闯红灯惩罚。</li>
+<li>应用：<strong>适用于“决策任务”，即相同环境需要不同决策，不看决策后果</strong>。
+<ul>
+<li>对弈战斗：士兵面对敌人进攻获得奖励，逃跑获得惩罚。</li>
+<li>推荐系统：如果用户是未成年，推荐儿童商品获得奖励，推荐成人商品获得惩罚（不需要考虑用户是否点击）。</li>
+<li>药房配药：在不同的处方/用药清单任务下，机器人发出药品。发对奖励，发错惩罚。</li>
+</ul></li>
+</ul></li>
+<li><strong>转移奖励：<span class="math inline">\(R(s,a,s')\)</span></strong>
+<ul>
+<li>奖励看完整的一步转移：从哪个状态出发、做了什么、到了哪个状态。</li>
+<li>例如：不同动作，成本低给奖励，成本高给惩罚（不同的移动后状态即代表不同的后果）。</li>
+<li>应用：<strong>适用于动作执行完后，根据这一步实际造成的变化来给奖励的场景</strong>，逻辑关键词是“<strong>结算/事后算账</strong>”。
+<ul>
+<li>物流/旅行规划：运送包裹/到达旅游地采用不同的动作规划会产生不同的费用，时耗，风险。更快、更省、更安全的方案给予奖励；更昂贵、更高风险的方案给予惩罚。</li>
+<li>股票交易：买入/卖出动作后，如果资产增加，给予奖励；如果资产减少，给予惩罚。</li>
+<li>医疗治疗：根据患者当前情况，基于不同的治疗方案，根据治疗后的身体状态。病情改善奖励，恶化惩罚。</li>
+<li>推荐系统：同一个页面，推荐某个产品，用户点击获得奖励，用户关闭/离开获得惩罚。</li>
+<li>末日生存：采取不同行动后，各项指标如何变化：食物、体力、血量、安全性等。生存机会变大给予奖励，变小给予惩罚。</li>
+</ul></li>
+</ul></li>
+</ol>
 
 
 
