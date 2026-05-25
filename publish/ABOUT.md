@@ -1,11 +1,15 @@
 ---
 title: 'ABOUT'
-date: '2026-05-13'
+date: '2026-05-22'
 ---
 
 Thanks to RL for bringing us together.
 
-This is my personal blog. I write about RL-related theory, implementation, and reflections, including basic concepts, algorithm reproduction, training stability, experiment evaluation, result interpretation, as well as tools and side topics. Occasionally, I may also share other unrelated but interesting things.
+This is my personal blog. I write about RL-related theory, implementation, and reflections, including basic concepts, algorithm reproduction, training stability, experiment evaluation, result interpretation, as well as tools and side topics. 
+
+At this stage, I’ll also use this space to document my path from RL fundamentals and practice toward MARL (Multi-Agent Reinforcement Learning); over time, MARL-related topics will become a core focus.
+
+Occasionally, I may also share other unrelated but interesting things.
 
 ## Collaboration & Contact
 
@@ -22,5 +26,6 @@ Currently not accepting: Python/framework basics, environment setup, from-scratc
 
 If you would like to contact me, please briefly describe: the background of your problem, available materials, what you have already tried, and what kind of help you are looking for.
 
-* github: https://github.com/Foxmir
+* Github: https://github.com/Foxmir
 * Email: superuserisme@outlook.com
+* Twitter/X: https://x.com/Foxmir_RL

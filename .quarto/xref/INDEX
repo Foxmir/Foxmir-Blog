@@ -112,5 +112,11 @@
   },
   "publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.md": {
     "奖励函数到底依赖什么：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html": "0272a0c2"
+  },
+  "publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.md": {
+    "When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html": "81521924"
+  },
+  "publish/Bits/强化学习中何时需要处理奖励尺度：判断依据与常用方法.md": {
+    "强化学习中何时需要处理奖励尺度：判断依据与常用方法.html": "2c0ad189"
   }
 }

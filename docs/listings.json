@@ -8,6 +8,8 @@
   {
     "listing": "/bits.html",
     "items": [
+      "/publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html",
+      "/publish/Bits/强化学习中何时需要处理奖励尺度：判断依据与常用方法.html",
       "/publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html",
       "/publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html",
       "/publish/Bits/Deconstructing Reward in RL.html",
@@ -17,6 +19,8 @@
   {
     "listing": "/index.html",
     "items": [
+      "/publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html",
+      "/publish/Bits/强化学习中何时需要处理奖励尺度：判断依据与常用方法.html",
       "/publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html",
       "/publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html",
       "/publish/Reports/Statistical Analysis of DQN on CartPole v1.html",

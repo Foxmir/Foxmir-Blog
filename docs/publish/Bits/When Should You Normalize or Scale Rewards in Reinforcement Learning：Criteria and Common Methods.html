@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-05-22">
+<meta name="dcterms.date" content="2026-05-26">
 
-<title>ABOUT – Foxmir Blog</title>
+<title>When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods – Foxmir Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,24 +24,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-24772959a0e306aba8d7698078628ce7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-24772959a0e306aba8d7698078628ce7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -67,8 +67,37 @@ gtag('js', new Date());
 gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="../styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -240,7 +269,7 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Foxmir Blog</span>
     </a>
   </div>
@@ -250,29 +279,29 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../articles.html"> 
+    <a class="nav-link" href="../../articles.html"> 
 <span class="menu-text">Articles</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../bits.html"> 
+    <a class="nav-link" href="../../bits.html"> 
 <span class="menu-text">Bits</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../learn.html"> 
+    <a class="nav-link" href="../../learn.html"> 
 <span class="menu-text">Learn</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../notes.html"> 
+    <a class="nav-link" href="../../notes.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../reports.html"> 
+    <a class="nav-link" href="../../reports.html"> 
 <span class="menu-text">Reports</span></a>
   </li>  
 </ul>
@@ -294,7 +323,7 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">ABOUT</h1>
+<h1 class="title">When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods</h1>
 </div>
 
 
@@ -305,7 +334,7 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 22, 2026</p>
+      <p class="date">May 26, 2026</p>
     </div>
   </div>
   
@@ -317,29 +346,112 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 </header>
 
 
-<p>Thanks to RL for bringing us together.</p>
-<p>This is my personal blog. I write about RL-related theory, implementation, and reflections, including basic concepts, algorithm reproduction, training stability, experiment evaluation, result interpretation, as well as tools and side topics.</p>
-<p>At this stage, I’ll also use this space to document my path from RL fundamentals and practice toward MARL (Multi-Agent Reinforcement Learning); over time, MARL-related topics will become a core focus.</p>
-<p>Occasionally, I may also share other unrelated but interesting things.</p>
-<section id="collaboration-contact" class="level2">
-<h2 class="anchored" data-anchor-id="collaboration-contact">Collaboration &amp; Contact</h2>
-<p>I am currently open to a small number of RL-related collaboration inquiries, especially:</p>
 <ul>
-<li>RL project diagnosis and debugging review</li>
-<li>Experiment design and evaluation protocol review</li>
-<li>Reproduction review, training log analysis, and result interpretation</li>
-<li>Structured feedback for existing RL practice projects</li>
+<li>For commonly used values of the discount factor <span class="math inline">\(\gamma\)</span>, whether the action space is continuous or discrete: if <strong>the absolute magnitude of single-step rewards is too large</strong> or <strong>the variance of single-step rewards is very high</strong>, then as long as either condition holds, it is generally recommended to perform <strong>reward scale adjustment</strong>.</li>
 </ul>
-<p>It is a good fit if you already have code, configs, logs, training curves, experiment reports, or a clear problem description, and you want help with triage, review, and prioritizing the next debugging steps.</p>
-<p>Currently not accepting: Python/framework basics, environment setup, from-scratch beginner Q&amp;A, or real-time chat-style coaching.</p>
-<p>If you would like to contact me, please briefly describe: the background of your problem, available materials, what you have already tried, and what kind of help you are looking for.</p>
+<hr>
+<section id="why" class="level2">
+<h2 class="anchored" data-anchor-id="why">Why</h2>
 <ul>
-<li>Github: https://github.com/Foxmir</li>
-<li>Email: superuserisme@outlook.com</li>
-<li>Twitter/X: https://x.com/Foxmir_RL</li>
+<li><p><strong>The reward scale directly affects the numerical scale of returns, V/Q targets, TD errors, or policy update signals, and therefore affects the stability of loss functions and gradient updates.</strong> If the reward scale is too large or fluctuates too violently, it is more likely to cause issues such as overly large value losses, unstable gradients, and training oscillations.</p></li>
+<li><p>However, this is not a mandatory rule. In simple tasks, training may still work well even without reward scale adjustment. For example, numerical issues may be controlled by other techniques, such as:</p>
+<ul>
+<li>adjusting the learning rate</li>
+<li>gradient / value / reward clipping</li>
+<li>advantage normalization</li>
+<li>reasonable network initialization</li>
+<li>adaptive scaling from the optimizer</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="prerequisite-from-single-step-rewards-to-the-scale-of-vq-targets" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisite-from-single-step-rewards-to-the-scale-of-vq-targets">Prerequisite: From Single-Step Rewards to the Scale of V/Q Targets</h2>
+<ul>
+<li><p>What we truly care about is <strong>the accuracy and stability of V/Q during training</strong>. We should reason from this perspective when judging the importance of other variables.</p></li>
+<li><p><strong>One role of <span class="math inline">\(\gamma\)</span> is to control how much future rewards contribute to the current value</strong></p>
+<ul>
+<li>In infinite-horizon problems, if the single-step reward is bounded and <span class="math inline">\(\gamma &lt; 1\)</span>, then the discounted return has a finite upper bound and will not grow infinitely just because the time horizon is infinite.</li>
+<li>In finite-length episodes, the return is a finite sum, so there is no convergence issue like in the infinite-horizon case. However, the numerical scale of the return is still jointly affected by three factors: 1. the magnitude of the single-step reward 2. the episode length 3. the discount factor <span class="math inline">\(\gamma\)</span></li>
+</ul></li>
+<li><p><strong>The single-step reward, episode length, and <span class="math inline">\(\gamma\)</span> jointly determine the numerical scale of the V/Q target</strong></p>
+<ul>
+<li><strong>A mathematical example</strong>: when the single-step reward is constantly <span class="math inline">\(r=1\)</span> and <span class="math inline">\(\gamma=0.99\)</span>:
+<ul>
+<li>If the episode has infinitely many time steps, the theoretical limit of the <span class="math inline">\(V\)</span> value is given by the sum of an infinite geometric series: <span class="math inline">\(V_{max} = \frac{r}{1 - \gamma} = \frac{1}{1 - 0.99} = 100\)</span></li>
+<li>If the episode has finitely many time steps, then the <span class="math inline">\(V\)</span> value is only a truncated version of this infinite geometric series; the longer the episode, the closer it gets to this upper bound.</li>
+<li>Note: mathematically speaking, if the single-step reward is unbounded, then this formula is not suitable as a global bound. But the engineering logic remains the same: the judgment still comes back to the two dimensions of “single-step reward magnitude” and “reward fluctuation.”</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Scenario analysis</strong>:</p>
+<ol type="1">
+<li><strong>The single-step reward is not large, but the raw cumulative reward of one episode is large</strong>: this may simply be because the episode is long. For example, if each step gives <span class="math inline">\(+1\)</span> and the raw cumulative reward of one episode is <span class="math inline">\(10000\)</span>, then under <span class="math inline">\(\gamma=0.99\)</span>, the V/Q target will not become <span class="math inline">\(10000\)</span>; instead, it will be roughly limited to the scale of <span class="math inline">\(100\)</span>. Therefore, this does not pose an extreme threat to the computation of V/Q.</li>
+<li><strong>The single-step reward itself is large</strong>: for example, if each-step reward is <span class="math inline">\(100\)</span> and <span class="math inline">\(\gamma=0.99\)</span>, then the V/Q target may approach the scale of <span class="math inline">\(10000\)</span>. This may cause issues such as overly large value/Q targets, overly large losses, and overly large gradient scales, so reward scale adjustment is worth considering.</li>
+<li><strong>The mean of the single-step reward is not large, but very large rewards or penalties occasionally appear</strong>: this can cause some V/Q values to suddenly become very large, leading to unstable value/Q targets and making training difficult. In this case, reward scale adjustment is also worth considering.</li>
+</ol></li>
+</ul>
+<hr>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="method-1-z-score-standardization-of-single-step-rewards" class="level3">
+<h3 class="anchored" data-anchor-id="method-1-z-score-standardization-of-single-step-rewards">Method 1: Z-score Standardization of Single-Step Rewards</h3>
+<ul>
+<li>The underlying formula is <strong>Z-score standardization</strong>, which is also commonly referred to as “reward normalization” in informal usage:</li>
+</ul>
+<p><span class="math display">\[
+r_t' = \frac{r_t - \mu_r}{\sqrt{\sigma_r^2+\epsilon}}
+\]</span></p>
+<ul>
+<li>Unlike traditional static datasets, rewards in RL are dynamically generated through sampling. Therefore, the <strong>Welford online algorithm</strong> is commonly used to maintain running statistics:
+<ul>
+<li>it does not store all historical rewards;</li>
+<li>it only maintains the current mean <span class="math inline">\(\mu_r\)</span>, variance <span class="math inline">\(\sigma_r^2\)</span>, and sample count <span class="math inline">\(N\)</span>;</li>
+<li>whenever a new batch / rollout is collected, the statistics are updated using <strong>recursive update formulas</strong>.</li>
+</ul></li>
+<li>In implementation, the following practice is usually followed:
+<ul>
+<li>accumulate statistics globally;</li>
+<li>update the statistics only during the <strong>sampling phase</strong>;</li>
+<li>during the training phase, use the already frozen <span class="math inline">\(\mu_r,\sigma_r^2\)</span>, and do not keep updating them while training. For example, in PPO, a batch of data is collected and then trained on multiple times. If the reward-normalization parameters were updated during those repeated training passes, that would clearly be incorrect.</li>
+</ul></li>
+<li><strong>Issue</strong>: because this method subtracts the mean in its formula, it changes the zero point of the reward. As a result, the semantic meaning of zero in the normalized reward changes.</li>
+</ul>
+</section>
+<section id="method-2-reward-scaling-based-on-the-discounted-return-scale" class="level3">
+<h3 class="anchored" data-anchor-id="method-2-reward-scaling-based-on-the-discounted-return-scale">Method 2: Reward Scaling Based on the Discounted-Return Scale</h3>
+<ul>
+<li>This method first estimates the scale of a “discounted accumulated quantity,” and then uses that scale to rescale the current reward.</li>
+</ul>
+<ol type="1">
+<li>The algorithm <strong>maintains a forward-recursive discounted accumulated quantity</strong>, for example: <span class="math inline">\(\tilde R_t = \gamma \tilde R_{t-1} + r_t\)</span></li>
+<li>It then <strong>maintains the running variance <span class="math inline">\(\operatorname{Var}(\tilde R)\)</span> of <span class="math inline">\(\tilde R_t\)</span>, and uses it to scale the current reward</strong>:</li>
+</ol>
+<p><span class="math display">\[
+r_t^{\text{scaled}} = \frac{r_t}{\sqrt{\operatorname{Var}(\tilde R)+\epsilon}}
+\]</span></p>
+<ul>
+<li><p>If there are multiple parallel environments, each environment maintains its own <span class="math inline">\(\tilde R_t\)</span>.</p></li>
+<li><p>When an episode ends, the corresponding environment’s <span class="math inline">\(\tilde R_t\)</span> should be reset to zero.</p>
+<ul>
+<li>The reward at the done step should still be used to update <span class="math inline">\(\tilde R_t\)</span> and the running statistics first; after processing that step, <span class="math inline">\(\tilde R_t\)</span> is then reset to zero.</li>
+</ul></li>
+<li><p><strong>Note</strong>: the symbol <span class="math inline">\(\tilde R_t\)</span> here may look similar to the return in GAE / return computation, but its meaning is completely different. It is not the training target itself; it is only a running statistic used to estimate the “discounted-return scale.”</p></li>
+<li><p>This method usually <strong>only divides by the standard deviation and does not subtract the mean</strong>, so it is more accurately described as reward scaling rather than Z-score standardization. It rescales the numerical magnitude of the reward, but does not change the semantic meaning of the reward’s zero point.</p></li>
+</ul>
+</section>
+<section id="other-reward-scale-adjustment-methods" class="level3">
+<h3 class="anchored" data-anchor-id="other-reward-scale-adjustment-methods">Other Reward Scale Adjustment Methods</h3>
+<ul>
+<li><strong>Reward clipping</strong>: limit the reward to a fixed range, such as <span class="math inline">\([-1, 1]\)</span>. The advantage is that it can forcibly suppress extreme values; the disadvantage is that it changes the relative magnitudes between different rewards and may alter the task semantics.</li>
+<li><strong>Constant scaling</strong>: directly set <span class="math inline">\(r' = r / c\)</span>, for example dividing all rewards by 10, 100, or 1000. This is simple to implement and causes relatively small semantic changes, but the scaling coefficient must be chosen manually.</li>
+<li><strong>Nonlinear transformation</strong>: for example, using functions such as tanh to compress very large rewards. This is suitable when rewards grow exponentially or have heavy-tailed distributions, but it significantly changes the shape of the reward.</li>
+<li><strong>Advantage normalization</strong>: commonly used in policy gradient methods such as PPO / A2C. It normalizes the advantage rather than the reward itself; it can stabilize policy updates, but it does not directly change the original scale of the V/Q target.</li>
+<li><strong>Value / return normalization</strong>: normalize the return or value target, such as with methods like PopArt. This handles the scale of the value target, rather than directly modifying the reward.</li>
 </ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

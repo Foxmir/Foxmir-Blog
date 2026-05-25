@@ -6,19 +6,23 @@
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/LOG.html</loc>
-    <lastmod>2026-05-18T17:33:14.272Z</lastmod>
+    <lastmod>2026-05-25T16:25:50.654Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/解构奖励的含义及常见误解.html</loc>
-    <lastmod>2026-05-18T17:33:14.112Z</lastmod>
+    <lastmod>2026-05-25T16:25:50.405Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s&#39;)$、$R(s,a)$ 与 $R(s,a,s&#39;)$？.html</loc>
+    <lastmod>2026-05-25T16:25:50.281Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s&#39;)$、$R(s,a)$ 与 $R(s,a,s&#39;)$？.html</loc>
-    <lastmod>2026-05-18T17:33:14.055Z</lastmod>
+    <lastmod>2026-05-25T16:25:50.155Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/ABOUT.html</loc>
-    <lastmod>2026-05-18T17:33:14.217Z</lastmod>
+    <lastmod>2026-05-25T16:25:50.550Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/learn.html</loc>
@@ -30,7 +34,7 @@
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/about.html</loc>
-    <lastmod>2026-05-18T17:31:29.233Z</lastmod>
+    <lastmod>2026-05-25T16:25:55.959Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/articles.html</loc>
@@ -46,18 +50,22 @@
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/Deconstructing Reward in RL.html</loc>
-    <lastmod>2026-05-18T17:33:13.946Z</lastmod>
+    <lastmod>2026-05-25T16:25:50.118Z</lastmod>
   </url>
   <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s&#39;)$、$R(s,a)$ 与 $R(s,a,s&#39;)$？.html</loc>
-    <lastmod>2026-05-18T17:33:14.075Z</lastmod>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html</loc>
+    <lastmod>2026-05-25T16:25:50.225Z</lastmod>
+  </url>
+  <url>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/强化学习中何时需要处理奖励尺度：判断依据与常用方法.html</loc>
+    <lastmod>2026-05-25T16:25:50.357Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/HOME.html</loc>
-    <lastmod>2026-05-18T17:33:14.250Z</lastmod>
+    <lastmod>2026-05-25T16:25:50.598Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/Reports/Statistical Analysis of DQN on CartPole v1.html</loc>
-    <lastmod>2026-05-18T17:33:14.895Z</lastmod>
+    <lastmod>2026-05-25T16:25:52.287Z</lastmod>
   </url>
 </urlset>
