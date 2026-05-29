@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-05-29">
 
-<title>Reports – Foxmir Blog</title>
+<title>Early Reflections on Benchmark Design – Foxmir Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +24,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-24772959a0e306aba8d7698078628ce7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-24772959a0e306aba8d7698078628ce7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -58,35 +57,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-category-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-category-listing'] = new List('listing-category-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VQW94RHSBY"></script>
 
 <script type="text/javascript">
@@ -97,40 +67,11 @@ gtag('js', new Date());
 gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -299,7 +240,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Foxmir Blog</span>
     </a>
   </div>
@@ -309,29 +250,29 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./articles.html"> 
+    <a class="nav-link" href="../../articles.html"> 
 <span class="menu-text">Articles</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./bits.html"> 
+    <a class="nav-link" href="../../bits.html"> 
 <span class="menu-text">Bits</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./learn.html"> 
+    <a class="nav-link" href="../../learn.html"> 
 <span class="menu-text">Learn</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./notes.html"> 
+    <a class="nav-link" href="../../notes.html"> 
 <span class="menu-text">Notes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./reports.html" aria-current="page"> 
+    <a class="nav-link" href="../../reports.html"> 
 <span class="menu-text">Reports</span></a>
   </li>  
 </ul>
@@ -343,24 +284,30 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Reports</h1>
+<h1 class="title">Early Reflections on Benchmark Design</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 29, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -370,29 +317,77 @@ window.Quarto = {
 </header>
 
 
-<!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->
-<div id="listing-category-listing" class="quarto-listing quarto-listing-container-default">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778515200000" data-listing-file-modified-sort="1780069322844" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
-</h3>
-</div>
-<div class="metadata">
-<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">
-<div class="listing-date">
-May 12, 2026
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div>
+<section id="i-didnt-think-too-much-at-first-i-had-to-reconsider-my-purpose" class="level2">
+<h2 class="anchored" data-anchor-id="i-didnt-think-too-much-at-first-i-had-to-reconsider-my-purpose">I Didn’t Think Too Much at First → I Had to Reconsider My Purpose</h2>
+<p>Before I started learning PPO and SAC, I had already set myself the task of writing a final “comparison report.” I didn’t think too much about it at the time; I simply followed my previous project habit and continued pushing forward with a new algorithm on a new environment. After I finally manually completed the code implementation and full training for Walker2D-v4 on PPO and Ant-v5 on SAC, I began working on this report.</p>
+<p><strong>Only then did I realize that my current situation made this comparison report difficult to carry out</strong> — not in terms of analytical difficulty, but in terms of the value of forcing such a comparison under the current conditions. <strong>This forced me to start taking the word “benchmark” seriously</strong>.</p>
+<p><strong>My current situation</strong>: 1. Both algorithms belong to the AC architecture, and both are self-implemented versions of classic algorithms 2. Both environments use continuous actions 3. The same environment interaction step budget 4. The same number and values of random seeds（multiple seeds） 5. Both refer to the parameter configurations from RL SB3 Zoo 6. Neither has an additional hyperparameter-tuning budget 7. Nearly identical values for shared hyperparameters（such as learning rate, discount factor, etc. But there are also differences, such as network parameters and batch size, which will be mentioned again below） 8. Nearly identical evaluation protocols（the evaluation frequency is different: the PPO project evaluates at the end of each rollout, while SAC evaluates every ten thousand timesteps, which will be mentioned again below）</p>
+<p><strong>Unfortunately, however: the two different algorithms are based on two different training environments</strong>（Walker2D-v4 and Ant-v5）. We are not facing a situation with as close to a single controlled variable as possible. This means that, whether I want to compare the algorithms’ performance in the environment, sample efficiency, computational efficiency, stability, or other metrics, <strong>I cannot make an interpretable conclusion</strong>. Because you cannot attribute the difference to the algorithm itself, or to the environment itself — not to mention the differences caused by various implementation details and each algorithm’s unique hyperparameters.</p>
+<hr>
+</section>
+<section id="lets-put-the-new-plan-into-action-immediately-next-week" class="level2">
+<h2 class="anchored" data-anchor-id="lets-put-the-new-plan-into-action-immediately-next-week">Let’s Put the New Plan into Action Immediately, Next Week!</h2>
+<p>I had to temporarily abandon the previous task setting and <strong>make a new plan</strong>. 1. <strong>Today</strong>, I want to write about the <strong>experience</strong> and <strong>thoughts</strong> produced by these interesting moments of “<strong>sudden realization</strong>” 2. <strong>Over the next two weeks</strong>, I plan to <strong>formally move closer to “benchmarking”</strong> 1. <strong>Repositioning</strong>: a small-scale fixed-configuration benchmark based on Ant-v5 on PPO and Ant-v5 on SAC 2. <strong>The current code-engineering cost I face</strong>: I need to re-optimize the logical details of the existing PPO implementation, consider readjusting some parameters, and then run full training again 3. <strong>The key point is</strong>: I need to reduce the confounding factors that lead to differences in the results as much as possible. Simply put, I will keep everything that can be kept consistent as consistent as possible, in order to improve interpretability.（There may be more details beyond surface-level numerical consistency, which is very interesting, and I look forward to experiencing this during the comparison） 4. <strong>Comparison details</strong>: for example, the main metric and so on — we need to settle these first next week, and then analyze them.（Interestingly, you can even define a “failure metric” you like, such as how many training seeds completely failed to learn）</p>
+<hr>
+</section>
+<section id="when-i-try-to-move-closer-to-benchmarking-i-feel-dizzy-and-dissatisfied-in-all-kinds-of-ways" class="level2">
+<h2 class="anchored" data-anchor-id="when-i-try-to-move-closer-to-benchmarking-i-feel-dizzy-and-dissatisfied-in-all-kinds-of-ways">When I Try to Move Closer to Benchmarking, I Feel Dizzy and Dissatisfied in All Kinds of Ways</h2>
+<ol type="1">
+<li>I feel dizzy because too many kinds of comparisons under different contexts can all be called benchmarks — aha? One word?</li>
+<li>I feel dissatisfied in all kinds of ways because I can always easily pick out problems — this is not fair! Your conclusion is not reliable!</li>
+</ol>
+<p>It was not until I started learning more, more, and more information that I corrected my feelings. Now I would say: yes! 1. <strong>We can indeed talk about benchmarks under different contexts, but this does not automatically mean that they have the same interpretability or the same strength of causal inference</strong>. 2. <strong>Most of the benchmarks we face are not absolutely fair</strong>. 1. They are often a balance point among multiple dimensions such as interpretability, training cost, fairness, and so on 2. <strong>Fairness has a cost</strong>: stronger interpretability / causal inference often requires a higher comparison cost（even an exponential cost, such as grid search）</p>
+<hr>
+</section>
+<section id="the-reality-we-face-is-relative-fairness-explicit-boundaries" class="level2">
+<h2 class="anchored" data-anchor-id="the-reality-we-face-is-relative-fairness-explicit-boundaries">The Reality We Face Is: <strong>Relative Fairness + Explicit Boundaries</strong></h2>
+<p>You have to accept this messiness and this “real-world compromise,” but that does not mean our conclusions must be messy — as long as you make the applicable boundaries of the conclusions explicit!</p>
+<ol type="1">
+<li>First, of course, is to <strong>honestly</strong> disclose the important comparison details</li>
+<li>Second, of course, is to <strong>have enough experience to understand which things will affect your boundaries, and how they will affect them</strong>
+<ol type="1">
+<li>This is like the fact that humans naturally have “confirmation bias.” You do not need to deliberately make your understanding go astray, but if you are not sensitive enough to correct it, you will almost always go astray!</li>
+</ol></li>
+<li>Third, <strong>when describing your conclusion, attach a long and clear description of its boundaries</strong>
+<ol type="1">
+<li>Like this: <strong>These two algorithms, under a specific environment-version, a specific set of hyperparameters, a specific training budget, a specific evaluation protocol, and a specific metric, perform as XXX</strong>. I think it is roughly like this.</li>
+<li>Boundaries are the prerequisite for the reliability of a conclusion! When you can provide a conclusion with clear boundaries, you do not need to be afraid that it is “not beautiful enough.” <strong>A limited but honest conclusion is more valuable than a seemingly strong conclusion with vague boundaries</strong>.</li>
+</ol></li>
+</ol>
+<hr>
+</section>
+<section id="when-we-talk-about-benchmarks-what-can-we-compare" class="level2">
+<h2 class="anchored" data-anchor-id="when-we-talk-about-benchmarks-what-can-we-compare">When We Talk About Benchmarks, What Can We Compare?</h2>
+<p>Hmm. <strong>Almost. Everything. As long as you are interested</strong>. * Same environment, different algorithms * Same algorithm, different environments * Same algorithm, different configurations * Same algorithm, different frameworks * ……</p>
+<p>This is almost as broad as the question of “oh, I want to compare something” itself. But <strong>a broad purpose does not mean loose methods</strong>. You still need to follow fairness and scientific rigor in experimental design. This means that <strong>different “questions” will face different design costs</strong> — obviously, some questions are easier to answer.</p>
+<p><strong>Unfortunately, however, questions that are easy to answer are not necessarily good questions worth caring about</strong>. When I could not directly write the comparison report because of my current situation and had to update the plan, I thought: ah, two algorithms, two environments — this won’t work. Since we want to do the kind of benchmark that everyone recognizes, why not just retrain? Ah, that sounds simple: isn’t it just a matter of changing the environment name in the SAC code I just finished writing? After all, Gym uses a standard interface!（At this thought, I felt that things had suddenly taken a turn for the better）</p>
+<p>But very soon, I realized this would not work. If I made the comparison this way, I would be doing Walker2D-v4 on SAC vs.&nbsp;Ant-v5 on SAC, and the comparative conclusion would reflect the differences between the two game environments — why should I care about that!（Of course, other people might care）</p>
+<p>Clearly, for advanced learning, understanding the performance differences between different algorithms is more valuable for my later learning. So I readjusted the plan and prepared to do Ant-v5 on PPO vs.&nbsp;Ant-v5 on SAC. I need to go back and check the various details and parameters of the two algorithms, and I may also need to optimize the existing code in advance, but it is worth it.</p>
+<hr>
+</section>
+<section id="when-talking-about-algorithm-comparison-what-are-we-talking-about" class="level2">
+<h2 class="anchored" data-anchor-id="when-talking-about-algorithm-comparison-what-are-we-talking-about">When Talking About Algorithm Comparison, What Are We Talking About?</h2>
+<ol type="1">
+<li><strong>The same algorithm can also have multiple variants — which means the boundaries of the conclusion are different</strong>
+<ol type="1">
+<li>Examples:
+<ol type="1">
+<li>Same algorithm, different parameters</li>
+<li>Same algorithm, different logical details</li>
+<li>Same algorithm, different budget / different preprocessing / different number of training seeds……</li>
+</ol></li>
+<li><strong>The class-and-instance analogy</strong>: you may generally think that when you and your colleague talk about “standard PPO,” you are talking about exactly the same algorithm. But in fact, you are talking about a “<strong>PPO class object</strong>.” When this algorithm is placed into a concrete application scenario, it often means a “<strong>PPO instance object</strong>.” In other words, <strong>when it is in an application scenario, the algorithm becomes concrete, unique, and begins to affect the boundaries of the conclusion</strong>.</li>
+<li><strong>The calibration function of boundaries for understanding</strong>: this means that when a benchmark enters the algorithmic area you care about, you should not only look at what the conclusion says, but also <strong>pay attention to how much your boundaries overlap with / differ from theirs, so as to recalibrate the value of that conclusion for your current project</strong>.</li>
+</ol></li>
+<li><strong>Different algorithms represent different structures and characteristics</strong>.
+<ol type="1">
+<li>This means they cannot simply be listed as “better algorithms / worse algorithms.” <strong>There is almost no algorithm that can dominate all tasks</strong>, and we should not make benchmarking bear such a burden（if you have this ambition, of course you can try, but the cost of finding it may be immeasurable）, nor should this make you feel slightly dissatisfied with algorithm benchmarks.</li>
+<li>One <strong>pragmatic goal</strong> you can pursue is: <strong>matching specific algorithms with their suitable contexts</strong>. This once again brings our attention back to the “boundaries of the conclusion.”</li>
+</ol></li>
+</ol>
 
 
-
+</section>
 
 </main> <!-- /main -->
 <script>

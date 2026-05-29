@@ -14,6 +14,55 @@
     "text": "============================================================ 时间: 2026-05-26 00:28:17 标题: 推送到 GitHub 结论: 网络解析失败，Git 无法解析 GitHub 地址。 详情: fatal: unable to access ‘https://github.com/Foxmir/Foxmir-Blog.git/’: Could not resolve host: github.com ============================================================"
   },
   {
+    "objectID": "publish/Learn/Early Reflections on Benchmark Design.html",
+    "href": "publish/Learn/Early Reflections on Benchmark Design.html",
+    "title": "Early Reflections on Benchmark Design",
+    "section": "",
+    "text": "Before I started learning PPO and SAC, I had already set myself the task of writing a final “comparison report.” I didn’t think too much about it at the time; I simply followed my previous project habit and continued pushing forward with a new algorithm on a new environment. After I finally manually completed the code implementation and full training for Walker2D-v4 on PPO and Ant-v5 on SAC, I began working on this report.\nOnly then did I realize that my current situation made this comparison report difficult to carry out — not in terms of analytical difficulty, but in terms of the value of forcing such a comparison under the current conditions. This forced me to start taking the word “benchmark” seriously.\nMy current situation: 1. Both algorithms belong to the AC architecture, and both are self-implemented versions of classic algorithms 2. Both environments use continuous actions 3. The same environment interaction step budget 4. The same number and values of random seeds（multiple seeds） 5. Both refer to the parameter configurations from RL SB3 Zoo 6. Neither has an additional hyperparameter-tuning budget 7. Nearly identical values for shared hyperparameters（such as learning rate, discount factor, etc. But there are also differences, such as network parameters and batch size, which will be mentioned again below） 8. Nearly identical evaluation protocols（the evaluation frequency is different: the PPO project evaluates at the end of each rollout, while SAC evaluates every ten thousand timesteps, which will be mentioned again below）\nUnfortunately, however: the two different algorithms are based on two different training environments（Walker2D-v4 and Ant-v5）. We are not facing a situation with as close to a single controlled variable as possible. This means that, whether I want to compare the algorithms’ performance in the environment, sample efficiency, computational efficiency, stability, or other metrics, I cannot make an interpretable conclusion. Because you cannot attribute the difference to the algorithm itself, or to the environment itself — not to mention the differences caused by various implementation details and each algorithm’s unique hyperparameters."
+  },
+  {
+    "objectID": "publish/Learn/Early Reflections on Benchmark Design.html#i-didnt-think-too-much-at-first-i-had-to-reconsider-my-purpose",
+    "href": "publish/Learn/Early Reflections on Benchmark Design.html#i-didnt-think-too-much-at-first-i-had-to-reconsider-my-purpose",
+    "title": "Early Reflections on Benchmark Design",
+    "section": "",
+    "text": "Before I started learning PPO and SAC, I had already set myself the task of writing a final “comparison report.” I didn’t think too much about it at the time; I simply followed my previous project habit and continued pushing forward with a new algorithm on a new environment. After I finally manually completed the code implementation and full training for Walker2D-v4 on PPO and Ant-v5 on SAC, I began working on this report.\nOnly then did I realize that my current situation made this comparison report difficult to carry out — not in terms of analytical difficulty, but in terms of the value of forcing such a comparison under the current conditions. This forced me to start taking the word “benchmark” seriously.\nMy current situation: 1. Both algorithms belong to the AC architecture, and both are self-implemented versions of classic algorithms 2. Both environments use continuous actions 3. The same environment interaction step budget 4. The same number and values of random seeds（multiple seeds） 5. Both refer to the parameter configurations from RL SB3 Zoo 6. Neither has an additional hyperparameter-tuning budget 7. Nearly identical values for shared hyperparameters（such as learning rate, discount factor, etc. But there are also differences, such as network parameters and batch size, which will be mentioned again below） 8. Nearly identical evaluation protocols（the evaluation frequency is different: the PPO project evaluates at the end of each rollout, while SAC evaluates every ten thousand timesteps, which will be mentioned again below）\nUnfortunately, however: the two different algorithms are based on two different training environments（Walker2D-v4 and Ant-v5）. We are not facing a situation with as close to a single controlled variable as possible. This means that, whether I want to compare the algorithms’ performance in the environment, sample efficiency, computational efficiency, stability, or other metrics, I cannot make an interpretable conclusion. Because you cannot attribute the difference to the algorithm itself, or to the environment itself — not to mention the differences caused by various implementation details and each algorithm’s unique hyperparameters."
+  },
+  {
+    "objectID": "publish/Learn/Early Reflections on Benchmark Design.html#lets-put-the-new-plan-into-action-immediately-next-week",
+    "href": "publish/Learn/Early Reflections on Benchmark Design.html#lets-put-the-new-plan-into-action-immediately-next-week",
+    "title": "Early Reflections on Benchmark Design",
+    "section": "Let’s Put the New Plan into Action Immediately, Next Week!",
+    "text": "Let’s Put the New Plan into Action Immediately, Next Week!\nI had to temporarily abandon the previous task setting and make a new plan. 1. Today, I want to write about the experience and thoughts produced by these interesting moments of “sudden realization” 2. Over the next two weeks, I plan to formally move closer to “benchmarking” 1. Repositioning: a small-scale fixed-configuration benchmark based on Ant-v5 on PPO and Ant-v5 on SAC 2. The current code-engineering cost I face: I need to re-optimize the logical details of the existing PPO implementation, consider readjusting some parameters, and then run full training again 3. The key point is: I need to reduce the confounding factors that lead to differences in the results as much as possible. Simply put, I will keep everything that can be kept consistent as consistent as possible, in order to improve interpretability.（There may be more details beyond surface-level numerical consistency, which is very interesting, and I look forward to experiencing this during the comparison） 4. Comparison details: for example, the main metric and so on — we need to settle these first next week, and then analyze them.（Interestingly, you can even define a “failure metric” you like, such as how many training seeds completely failed to learn）"
+  },
+  {
+    "objectID": "publish/Learn/Early Reflections on Benchmark Design.html#when-i-try-to-move-closer-to-benchmarking-i-feel-dizzy-and-dissatisfied-in-all-kinds-of-ways",
+    "href": "publish/Learn/Early Reflections on Benchmark Design.html#when-i-try-to-move-closer-to-benchmarking-i-feel-dizzy-and-dissatisfied-in-all-kinds-of-ways",
+    "title": "Early Reflections on Benchmark Design",
+    "section": "When I Try to Move Closer to Benchmarking, I Feel Dizzy and Dissatisfied in All Kinds of Ways",
+    "text": "When I Try to Move Closer to Benchmarking, I Feel Dizzy and Dissatisfied in All Kinds of Ways\n\nI feel dizzy because too many kinds of comparisons under different contexts can all be called benchmarks — aha? One word?\nI feel dissatisfied in all kinds of ways because I can always easily pick out problems — this is not fair! Your conclusion is not reliable!\n\nIt was not until I started learning more, more, and more information that I corrected my feelings. Now I would say: yes! 1. We can indeed talk about benchmarks under different contexts, but this does not automatically mean that they have the same interpretability or the same strength of causal inference. 2. Most of the benchmarks we face are not absolutely fair. 1. They are often a balance point among multiple dimensions such as interpretability, training cost, fairness, and so on 2. Fairness has a cost: stronger interpretability / causal inference often requires a higher comparison cost（even an exponential cost, such as grid search）"
+  },
+  {
+    "objectID": "publish/Learn/Early Reflections on Benchmark Design.html#the-reality-we-face-is-relative-fairness-explicit-boundaries",
+    "href": "publish/Learn/Early Reflections on Benchmark Design.html#the-reality-we-face-is-relative-fairness-explicit-boundaries",
+    "title": "Early Reflections on Benchmark Design",
+    "section": "The Reality We Face Is: Relative Fairness + Explicit Boundaries",
+    "text": "The Reality We Face Is: Relative Fairness + Explicit Boundaries\nYou have to accept this messiness and this “real-world compromise,” but that does not mean our conclusions must be messy — as long as you make the applicable boundaries of the conclusions explicit!\n\nFirst, of course, is to honestly disclose the important comparison details\nSecond, of course, is to have enough experience to understand which things will affect your boundaries, and how they will affect them\n\nThis is like the fact that humans naturally have “confirmation bias.” You do not need to deliberately make your understanding go astray, but if you are not sensitive enough to correct it, you will almost always go astray!\n\nThird, when describing your conclusion, attach a long and clear description of its boundaries\n\nLike this: These two algorithms, under a specific environment-version, a specific set of hyperparameters, a specific training budget, a specific evaluation protocol, and a specific metric, perform as XXX. I think it is roughly like this.\nBoundaries are the prerequisite for the reliability of a conclusion! When you can provide a conclusion with clear boundaries, you do not need to be afraid that it is “not beautiful enough.” A limited but honest conclusion is more valuable than a seemingly strong conclusion with vague boundaries."
+  },
+  {
+    "objectID": "publish/Learn/Early Reflections on Benchmark Design.html#when-we-talk-about-benchmarks-what-can-we-compare",
+    "href": "publish/Learn/Early Reflections on Benchmark Design.html#when-we-talk-about-benchmarks-what-can-we-compare",
+    "title": "Early Reflections on Benchmark Design",
+    "section": "When We Talk About Benchmarks, What Can We Compare?",
+    "text": "When We Talk About Benchmarks, What Can We Compare?\nHmm. Almost. Everything. As long as you are interested. * Same environment, different algorithms * Same algorithm, different environments * Same algorithm, different configurations * Same algorithm, different frameworks * ……\nThis is almost as broad as the question of “oh, I want to compare something” itself. But a broad purpose does not mean loose methods. You still need to follow fairness and scientific rigor in experimental design. This means that different “questions” will face different design costs — obviously, some questions are easier to answer.\nUnfortunately, however, questions that are easy to answer are not necessarily good questions worth caring about. When I could not directly write the comparison report because of my current situation and had to update the plan, I thought: ah, two algorithms, two environments — this won’t work. Since we want to do the kind of benchmark that everyone recognizes, why not just retrain? Ah, that sounds simple: isn’t it just a matter of changing the environment name in the SAC code I just finished writing? After all, Gym uses a standard interface!（At this thought, I felt that things had suddenly taken a turn for the better）\nBut very soon, I realized this would not work. If I made the comparison this way, I would be doing Walker2D-v4 on SAC vs. Ant-v5 on SAC, and the comparative conclusion would reflect the differences between the two game environments — why should I care about that!（Of course, other people might care）\nClearly, for advanced learning, understanding the performance differences between different algorithms is more valuable for my later learning. So I readjusted the plan and prepared to do Ant-v5 on PPO vs. Ant-v5 on SAC. I need to go back and check the various details and parameters of the two algorithms, and I may also need to optimize the existing code in advance, but it is worth it."
+  },
+  {
+    "objectID": "publish/Learn/Early Reflections on Benchmark Design.html#when-talking-about-algorithm-comparison-what-are-we-talking-about",
+    "href": "publish/Learn/Early Reflections on Benchmark Design.html#when-talking-about-algorithm-comparison-what-are-we-talking-about",
+    "title": "Early Reflections on Benchmark Design",
+    "section": "When Talking About Algorithm Comparison, What Are We Talking About?",
+    "text": "When Talking About Algorithm Comparison, What Are We Talking About?\n\nThe same algorithm can also have multiple variants — which means the boundaries of the conclusion are different\n\nExamples:\n\nSame algorithm, different parameters\nSame algorithm, different logical details\nSame algorithm, different budget / different preprocessing / different number of training seeds……\n\nThe class-and-instance analogy: you may generally think that when you and your colleague talk about “standard PPO,” you are talking about exactly the same algorithm. But in fact, you are talking about a “PPO class object.” When this algorithm is placed into a concrete application scenario, it often means a “PPO instance object.” In other words, when it is in an application scenario, the algorithm becomes concrete, unique, and begins to affect the boundaries of the conclusion.\nThe calibration function of boundaries for understanding: this means that when a benchmark enters the algorithmic area you care about, you should not only look at what the conclusion says, but also pay attention to how much your boundaries overlap with / differ from theirs, so as to recalibrate the value of that conclusion for your current project.\n\nDifferent algorithms represent different structures and characteristics.\n\nThis means they cannot simply be listed as “better algorithms / worse algorithms.” There is almost no algorithm that can dominate all tasks, and we should not make benchmarking bear such a burden（if you have this ambition, of course you can try, but the cost of finding it may be immeasurable）, nor should this make you feel slightly dissatisfied with algorithm benchmarks.\nOne pragmatic goal you can pursue is: matching specific algorithms with their suitable contexts. This once again brings our attention back to the “boundaries of the conclusion.”"
+  },
+  {
     "objectID": "publish/Bits/解构奖励的含义及常见误解.html",
     "href": "publish/Bits/解构奖励的含义及常见误解.html",
     "title": "解构奖励的含义及常见误解",
@@ -88,7 +137,7 @@
     "href": "learn.html",
     "title": "Learn",
     "section": "",
-    "text": "No posts in this category yet."
+    "text": "Early Reflections on Benchmark Design\n\n\n\n\n\nMay 29, 2026\n\n\n\n\n\n\n\n初涉benchmark的设计反思\n\n\n\n\n\nMay 29, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "bits.html",
@@ -123,7 +172,7 @@
     "href": "index.html",
     "title": "Foxmir Blog",
     "section": "",
-    "text": "FOXMIR\n\n\nRL is fun, isn’t it?\nIf not, let me show you.\nIf yes, let’s talk.\n\n\n\n\n\n\nLatest\n\n\n\n\n\n\n\nWhen Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods\n\n\n\n\n\nMay 26, 2026\n\n\n\n\n\n\n\n强化学习中何时需要处理奖励尺度：判断依据与常用方法\n\n\n\n\n\nMay 26, 2026\n\n\n\n\n\n\n\nWhat Does the Reward Function Depend On：\\(R(s)\\)、\\(R(s')\\)、\\(R(s,a)\\) 与 \\(R(s,a,s')\\)？\n\n\n\n\n\nMay 19, 2026\n\n\n\n\n\n\n\n奖励函数到底依赖什么：\\(R(s)\\)、\\(R(s')\\)、\\(R(s,a)\\) 与 \\(R(s,a,s')\\)？\n\n\n\n\n\nMay 19, 2026\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 12, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n\n\nArticles\n\n\n\nNo posts yet.\n\n\n\n\n\nBits\n\n\n\n\n\n\n\nWhen Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods\n\n\n\n\n\nMay 26, 2026\n\n\n\n\n\n\n\n强化学习中何时需要处理奖励尺度：判断依据与常用方法\n\n\n\n\n\nMay 26, 2026\n\n\n\n\n\n\n\nWhat Does the Reward Function Depend On：\\(R(s)\\)、\\(R(s')\\)、\\(R(s,a)\\) 与 \\(R(s,a,s')\\)？\n\n\n\n\n\nMay 19, 2026\n\n\n\n\n\n\n\n奖励函数到底依赖什么：\\(R(s)\\)、\\(R(s')\\)、\\(R(s,a)\\) 与 \\(R(s,a,s')\\)？\n\n\n\n\n\nMay 19, 2026\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\nLearn\n\n\n\nNo posts yet.\n\n\n\n\n\nNotes\n\n\n\nNo posts yet.\n\n\n\n\n\nReports\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 12, 2026\n\n\n\n\n\nNo matching items"
+    "text": "FOXMIR\n\n\nRL is fun, isn’t it?\nIf not, let me show you.\nIf yes, let’s talk.\n\n\n\n\n\n\nLatest\n\n\n\n\n\n\n\nEarly Reflections on Benchmark Design\n\n\n\n\n\nMay 29, 2026\n\n\n\n\n\n\n\n初涉benchmark的设计反思\n\n\n\n\n\nMay 29, 2026\n\n\n\n\n\n\n\nWhen Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods\n\n\n\n\n\nMay 26, 2026\n\n\n\n\n\n\n\n强化学习中何时需要处理奖励尺度：判断依据与常用方法\n\n\n\n\n\nMay 26, 2026\n\n\n\n\n\n\n\nWhat Does the Reward Function Depend On：\\(R(s)\\)、\\(R(s')\\)、\\(R(s,a)\\) 与 \\(R(s,a,s')\\)？\n\n\n\n\n\nMay 19, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n\n\nArticles\n\n\n\nNo posts yet.\n\n\n\n\n\nBits\n\n\n\n\n\n\n\nWhen Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods\n\n\n\n\n\nMay 26, 2026\n\n\n\n\n\n\n\n强化学习中何时需要处理奖励尺度：判断依据与常用方法\n\n\n\n\n\nMay 26, 2026\n\n\n\n\n\n\n\nWhat Does the Reward Function Depend On：\\(R(s)\\)、\\(R(s')\\)、\\(R(s,a)\\) 与 \\(R(s,a,s')\\)？\n\n\n\n\n\nMay 19, 2026\n\n\n\n\n\n\n\n奖励函数到底依赖什么：\\(R(s)\\)、\\(R(s')\\)、\\(R(s,a)\\) 与 \\(R(s,a,s')\\)？\n\n\n\n\n\nMay 19, 2026\n\n\n\n\n\n\n\nDeconstructing Reward in RL\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\n\n\n解构奖励的含义及常见误解\n\n\n\n\n\nMay 10, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\nLearn\n\n\n\n\n\n\n\nEarly Reflections on Benchmark Design\n\n\n\n\n\nMay 29, 2026\n\n\n\n\n\n\n\n初涉benchmark的设计反思\n\n\n\n\n\nMay 29, 2026\n\n\n\n\n\nNo matching items\n\n\n\n\n\nNotes\n\n\n\nNo posts yet.\n\n\n\n\n\nReports\n\n\n\n\n\n\n\nStatistical Analysis of DQN on CartPole v1\n\n\n\n\n\nMay 12, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "notes.html",
@@ -236,6 +285,55 @@
     "title": "HOME",
     "section": "",
     "text": "RL is fun, isn’t it?\nIf not, let me show you.\nIf yes, let’s talk."
+  },
+  {
+    "objectID": "publish/Learn/初涉benchmark的设计反思.html",
+    "href": "publish/Learn/初涉benchmark的设计反思.html",
+    "title": "初涉benchmark的设计反思",
+    "section": "",
+    "text": "在开始学习PPO和SAC之前，我就定下了最后要写一篇“对比报告”的任务。我当时没想太多，只是按照以前的项目习惯，继续在新环境上推进新算法。当我终于手动完成了 Walker2D-v4 on PPO 和 Ant-v5 on SAC 的代码编写和正式训练后，我开始着手这篇报告。\n这时候我才发现我目前的情境使得这篇对比报告变得难以进行，我不是指分析难度，而是在现有情境下强行对比的价值。这使得我不得不开始认真对待“benchmark”这个单词。\n我目前的情况： 1. 两个算法都属于AC架构，都是经典算法的自实现版本 2. 两个环境都是连续动作 3. 相同的环境交互步数预算 4. 相同的随机种子数量和数值（多种子） 5. 都参考了 RL SB3 zoo 的参数配置 6. 都没有额外的调参预算 7. 近乎相同的共有超参数数值（比如学习率，折扣因子等。但也有不同的比如网络参数和批次大小，下文会再次提及） 8. 近乎相同的评估协议（评估频率不同，PPO项目在一个rollout结束时评估，SAC每一万时间步评估一次，下文会再次提及）\n但可惜的是：两个不同的算法，是基于两个不同的训练环境（Walker2D-v4和Ant-v5）。我们不是尽可能面临了单一对照变量。这使得无论我想要比较算法在环境中的表现，或者样本效率，计算效率，或稳定性等指标时，无法做出可解释性的结论表述。因为你无法把这种差异归因于是算法本身的差异，还是环境本身的差异，更用不着提及各种实现细节以及算法自身独特超参数导致的差异了。"
+  },
+  {
+    "objectID": "publish/Learn/初涉benchmark的设计反思.html#我一开始没想太多我不得不重新考虑我的目的",
+    "href": "publish/Learn/初涉benchmark的设计反思.html#我一开始没想太多我不得不重新考虑我的目的",
+    "title": "初涉benchmark的设计反思",
+    "section": "",
+    "text": "在开始学习PPO和SAC之前，我就定下了最后要写一篇“对比报告”的任务。我当时没想太多，只是按照以前的项目习惯，继续在新环境上推进新算法。当我终于手动完成了 Walker2D-v4 on PPO 和 Ant-v5 on SAC 的代码编写和正式训练后，我开始着手这篇报告。\n这时候我才发现我目前的情境使得这篇对比报告变得难以进行，我不是指分析难度，而是在现有情境下强行对比的价值。这使得我不得不开始认真对待“benchmark”这个单词。\n我目前的情况： 1. 两个算法都属于AC架构，都是经典算法的自实现版本 2. 两个环境都是连续动作 3. 相同的环境交互步数预算 4. 相同的随机种子数量和数值（多种子） 5. 都参考了 RL SB3 zoo 的参数配置 6. 都没有额外的调参预算 7. 近乎相同的共有超参数数值（比如学习率，折扣因子等。但也有不同的比如网络参数和批次大小，下文会再次提及） 8. 近乎相同的评估协议（评估频率不同，PPO项目在一个rollout结束时评估，SAC每一万时间步评估一次，下文会再次提及）\n但可惜的是：两个不同的算法，是基于两个不同的训练环境（Walker2D-v4和Ant-v5）。我们不是尽可能面临了单一对照变量。这使得无论我想要比较算法在环境中的表现，或者样本效率，计算效率，或稳定性等指标时，无法做出可解释性的结论表述。因为你无法把这种差异归因于是算法本身的差异，还是环境本身的差异，更用不着提及各种实现细节以及算法自身独特超参数导致的差异了。"
+  },
+  {
+    "objectID": "publish/Learn/初涉benchmark的设计反思.html#让我们立刻落实新计划就在下周",
+    "href": "publish/Learn/初涉benchmark的设计反思.html#让我们立刻落实新计划就在下周",
+    "title": "初涉benchmark的设计反思",
+    "section": "让我们立刻落实新计划，就在下周！",
+    "text": "让我们立刻落实新计划，就在下周！\n我不得不临时打消之前的任务设定，重新制定计划。 1. 今天我想写一写这些有趣的“幡然醒悟”的时刻所产生的经验和思考 2. 后面两周，我打算正式靠拢“benchmark” 1. 重新定位：基于 Ant-v5 on PPO 和 Ant-v5 on SAC 的小规模固定配置的benchmark 2. 目前面临的代码工程成本：我需要重新优化现有的PPO的逻辑细节，并考虑重新调整部分参数，重新正式训练 3. 重点在于：我需要尽可能让导致两者结果差异的混淆因素减少，简单说，能一致的地方我尽量一致以便于提高可解释性。（可能有更多细节超越表面的数值一致，这很有趣，期待在对比的过程中感受到这一点） 4. 对比细节：比如主指标等，我们下周需要先敲定，再分析。（有意思的是，你甚至可以设定一个你喜欢的“失败指标”，比如有多少训练种子完全没学会）"
+  },
+  {
+    "objectID": "publish/Learn/初涉benchmark的设计反思.html#当我试图靠近benchmark我感到眩晕和各种不满意",
+    "href": "publish/Learn/初涉benchmark的设计反思.html#当我试图靠近benchmark我感到眩晕和各种不满意",
+    "title": "初涉benchmark的设计反思",
+    "section": "当我试图靠近benchmark，我感到眩晕和各种不满意",
+    "text": "当我试图靠近benchmark，我感到眩晕和各种不满意\n\n感到眩晕是因为，这里有太多种不同情境下的对比都可以被称为 benchmark——啊哈？一个词？\n感到各种不满意是因为，我总是能轻易就挑出问题——这不公平！你的结论不可靠！\n\n直到我开始了解更多，更多，更多信息，我才纠正了我的感受。我现在会说，是的！ 1. 我们确实可以在不同情境下都谈及benchmark，但这不自然地等同于它们具有相同的可解释性，和因果推断的强度。 2. 我们面临的大部分benchmark都不是绝对公平的。 1. 往往是基于可解释性，训练成本，公平性等多维度取舍的平衡点 2. 公平是有代价的：更强的可解释性/因果推断往往需要更高的对比成本（甚至是指数级的成本，比如网格搜索）"
+  },
+  {
+    "objectID": "publish/Learn/初涉benchmark的设计反思.html#我们面临的现实是相对公平明确边界",
+    "href": "publish/Learn/初涉benchmark的设计反思.html#我们面临的现实是相对公平明确边界",
+    "title": "初涉benchmark的设计反思",
+    "section": "我们面临的现实是：相对公平+明确边界",
+    "text": "我们面临的现实是：相对公平+明确边界\n你不得不接受这种混乱，和这种“现实的妥协性”，但这并不表明我们的结论一定是混乱的 —— 只要你明确结论的适用边界！\n\n第一当然是诚实地披露重要的对比细节\n第二当然是，有足够的经验明白哪些内容会影响你的边界，会如何影响\n\n这就好像，人天生会有“自我确认偏差”一样，你不必刻意让你的理解走歪，但假设你不足够敏感地纠正它，你几乎总是走歪！\n\n第三，当描述你的结论时，请附带长长的，清晰的边界描述\n\n就像这样：这两个算法，在某个具体的环境-版本，某套超参数，某种训练预算，某种评估协议，某个指标下表现为XXX。我想大概就是这样。\n边界是结论可靠性的前提！当你能提供边界清晰的结论时，就不用害怕它“不够漂亮”。一个有限但诚实的结论，比一个看似强烈但边界模糊的结论更有价值。"
+  },
+  {
+    "objectID": "publish/Learn/初涉benchmark的设计反思.html#当我们谈及benchmark时我们可以比较什么",
+    "href": "publish/Learn/初涉benchmark的设计反思.html#当我们谈及benchmark时我们可以比较什么",
+    "title": "初涉benchmark的设计反思",
+    "section": "当我们谈及benchmark时，我们可以比较什么？",
+    "text": "当我们谈及benchmark时，我们可以比较什么？\n嗯。几乎是。所有东西。只要你感兴趣。 * 相同环境，不同算法 * 同一算法，不同环境 * 相同算法，不同配置 * 相同算法，不同框架 * ……\n这几乎就和“哦我想比较点什么”，这个问题本身一样宽泛。但目的宽泛不意味着手段宽松。你依然要遵守公平性，科学性的实验设计。这意味着，不同的“问题”，将面临不同的设计成本 —— 很显然有些问题更容易被回答。\n不过很可惜，容易被回答的问题，未必是值得关心的好问题。我因为当前的情境无法直接写对比报告，不得不更新计划时，我在想：诶呀，两个算法，两个环境，这样不行，既然我们要做大家都认可的那种benchmark，干脆重新训练。啊，听起来很简单，只要把当前刚刚写完的SAC代码换个环境名称不就好了？反正gym都是标准接口！（想到这里我感到峰回路转）\n但是很快，我就发现这样不行。如果这样比较，我就是在做Walker2D-v4 on SAC VS. Ant-v5 on SAC，对比结论反映的就是两个游戏环境的差异 —— 我为什么要在乎这个！（当然，其他人可能会在乎）\n很显然，对于进阶学习来说，了解不同算法之间的性能差异对我后期的学习更有价值，所以我重新调整了计划，准备做 Ant-v5 on PPO VS. Ant-v5 on SAC。需要再去校对下两个算法的各种细节和参数，也可能要提前优化好现有代码，但这是值得的。"
+  },
+  {
+    "objectID": "publish/Learn/初涉benchmark的设计反思.html#当谈及算法的比较时我们在谈及什么",
+    "href": "publish/Learn/初涉benchmark的设计反思.html#当谈及算法的比较时我们在谈及什么",
+    "title": "初涉benchmark的设计反思",
+    "section": "当谈及算法的比较时，我们在谈及什么？",
+    "text": "当谈及算法的比较时，我们在谈及什么？\n\n同一种算法，也会有多种变体 —— 这意味着结论边界不同\n\n举例：\n\n同一算法，不同参数\n同一算法，不同逻辑细节\n同一算法，不同预算/不同的预处理/不同训练种子数量……\n\n类与实例的比喻：你可能会笼统地认为，当你和你的同事谈及“标准PPO”时，你们谈及的是完全一样的算法。但实际上，你们是在谈论“PPO类对象”，而当这种算法，落到具体的应用场景里时，它往往意味着“PPO实例对象”。也就是说，当处在一个应用场景时，算法会变得具体，独特，开始影响结论边界。\n边界对理解的校准功能：这意味着，当benchmark来到你关心的算法领域，你不仅要看到结论说了什么，还要留意你们的边界有多大程度的重叠/不同，从而再次校准该结论对你当前项目的价值。\n\n不同算法代表不同的结构和特点。\n\n这意味它们不能单纯地被列为“更好的算法/更糟的算法”。几乎不存在一种算法能通吃所有任务，也不应当让benchmark这一行为承担如此重担（如果你有此志向，当然也可以，但寻找到它的成本可能是无法估量的），或者令你对算法的benchmark感到略微不爽。\n你可以寻求的一个务实目标是：匹配特定的算法和它的适用情境。这会再度把我们的关注点拉回到“结论的边界”上来。"
   },
   {
     "objectID": "publish/Reports/Statistical Analysis of DQN on CartPole v1.html",

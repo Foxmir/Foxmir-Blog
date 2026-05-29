@@ -1,10 +1,18 @@
 ---
 title: 'Learn'
 page-layout: full
+listing:
+  id: category-listing
+  contents: publish/Learn
+  sort: "date desc"
+  type: default
+  fields: [date, title]
+  categories: false
+  sort-ui: false
+  filter-ui: false
 ---
 
 <!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->
 
-::: {.category-empty}
-No posts in this category yet.
+:::{#category-listing}
 :::

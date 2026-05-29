@@ -24,6 +24,14 @@ listing:
     categories: false
     sort-ui: false
     filter-ui: false
+  - id: learn-listing
+    contents: publish/Learn
+    sort: "date desc"
+    type: default
+    fields: [date, title]
+    categories: false
+    sort-ui: false
+    filter-ui: false
   - id: reports-listing
     contents: publish/Reports
     sort: "date desc"
@@ -88,8 +96,7 @@ No posts yet.
 <section class="home-band-panel" data-panel="learn">
   <div class="hbp-label">Learn</div>
   <div class="hbp-main">
-::: {.hbp-empty}
-No posts yet.
+:::{#learn-listing}
 :::
   </div>
 </section>

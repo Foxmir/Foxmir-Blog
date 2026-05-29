@@ -117,6 +117,34 @@ ul.task-list li input[type="checkbox"] {
   
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-learn-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-learn-listing'] = new List('listing-learn-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
     const listingTargetEl = window.document.querySelector('#listing-reports-listing .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
@@ -446,7 +474,35 @@ window.Quarto = {
 <div class="home-latest-main">
 <div id="listing-latest-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1779726575236" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779984000000" data-listing-file-modified-sort="1780069321757" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1494">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./publish/Learn/Early Reflections on Benchmark Design.html" class="no-external">Early Reflections on Benchmark Design</a>
+</h3>
+</div>
+<div class="metadata">
+<a href="./publish/Learn/Early Reflections on Benchmark Design.html" class="no-external">
+<div class="listing-date">
+May 29, 2026
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779984000000" data-listing-file-modified-sort="1780069321797" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="90">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./publish/Learn/初涉benchmark的设计反思.html" class="no-external">初涉benchmark的设计反思</a>
+</h3>
+</div>
+<div class="metadata">
+<a href="./publish/Learn/初涉benchmark的设计反思.html" class="no-external">
+<div class="listing-date">
+May 29, 2026
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1780069321593" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html" class="no-external">When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods</a>
@@ -460,7 +516,7 @@ May 26, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1779726575277" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="239">
+<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1780069321663" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="239">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/强化学习中何时需要处理奖励尺度：判断依据与常用方法.html" class="no-external">强化学习中何时需要处理奖励尺度：判断依据与常用方法</a>
@@ -474,7 +530,7 @@ May 26, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1779726575214" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="776">
+<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1780069321525" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="776">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html" class="no-external">What Does the Reward Function Depend On：<span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span>、<span class="math inline">\(R(s,a)\)</span> 与 <span class="math inline">\(R(s,a,s')\)</span>？</a>
@@ -484,34 +540,6 @@ May 26, 2026
 <a href="./publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html" class="no-external">
 <div class="listing-date">
 May 19, 2026
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1779726575257" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="97">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html" class="no-external">奖励函数到底依赖什么：<span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span>、<span class="math inline">\(R(s,a)\)</span> 与 <span class="math inline">\(R(s,a,s')\)</span>？</a>
-</h3>
-</div>
-<div class="metadata">
-<a href="./publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html" class="no-external">
-<div class="listing-date">
-May 19, 2026
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1778515200000" data-listing-file-modified-sort="1779726576166" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
-</h3>
-</div>
-<div class="metadata">
-<a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">
-<div class="listing-date">
-May 12, 2026
 </div>
 </a>
 </div>
@@ -544,7 +572,7 @@ Bits
 <div class="hbp-main">
 <div id="listing-bits-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1779726575236" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1780069321593" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html" class="no-external">When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods</a>
@@ -558,7 +586,7 @@ May 26, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1779726575277" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="239">
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1780069321663" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="239">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/强化学习中何时需要处理奖励尺度：判断依据与常用方法.html" class="no-external">强化学习中何时需要处理奖励尺度：判断依据与常用方法</a>
@@ -572,7 +600,7 @@ May 26, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1779726575214" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="776">
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1780069321525" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="776">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html" class="no-external">What Does the Reward Function Depend On：<span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span>、<span class="math inline">\(R(s,a)\)</span> 与 <span class="math inline">\(R(s,a,s')\)</span>？</a>
@@ -586,7 +614,7 @@ May 19, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1779726575257" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="97">
+<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1780069321615" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="97">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html" class="no-external">奖励函数到底依赖什么：<span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span>、<span class="math inline">\(R(s,a)\)</span> 与 <span class="math inline">\(R(s,a,s')\)</span>？</a>
@@ -600,7 +628,7 @@ May 19, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1779726575174" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
+<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1780069321462" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">Deconstructing Reward in RL</a>
@@ -614,7 +642,7 @@ May 10, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1779726575325" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="165">
+<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1780069321707" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="165">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/解构奖励的含义及常见误解.html" class="no-external">解构奖励的含义及常见误解</a>
@@ -638,8 +666,38 @@ May 10, 2026
 Learn
 </div>
 <div class="hbp-main">
-<div class="hbp-empty">
-<p>No posts yet.</p>
+<div id="listing-learn-listing" class="quarto-listing quarto-listing-container-default">
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779984000000" data-listing-file-modified-sort="1780069321757" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1494">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./publish/Learn/Early Reflections on Benchmark Design.html" class="no-external">Early Reflections on Benchmark Design</a>
+</h3>
+</div>
+<div class="metadata">
+<a href="./publish/Learn/Early Reflections on Benchmark Design.html" class="no-external">
+<div class="listing-date">
+May 29, 2026
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779984000000" data-listing-file-modified-sort="1780069321797" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="90">
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./publish/Learn/初涉benchmark的设计反思.html" class="no-external">初涉benchmark的设计反思</a>
+</h3>
+</div>
+<div class="metadata">
+<a href="./publish/Learn/初涉benchmark的设计反思.html" class="no-external">
+<div class="listing-date">
+May 29, 2026
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
 </div>
 </div>
 </section>
@@ -660,7 +718,7 @@ Reports
 <div class="hbp-main">
 <div id="listing-reports-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778515200000" data-listing-file-modified-sort="1779726576166" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1778515200000" data-listing-file-modified-sort="1780069322844" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
