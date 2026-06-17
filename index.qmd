@@ -9,7 +9,6 @@ listing:
       - publish/Learn
       - publish/Notes
       - publish/Reports
-      - publish/WeeklyLog
     sort: "date desc"
     type: default
     fields: [date, title]
@@ -113,14 +112,6 @@ No posts yet.
   <div class="hbp-label">Reports</div>
   <div class="hbp-main">
 :::{#reports-listing}
-:::
-  </div>
-</section>
-<section class="home-band-panel" data-panel="weeklylog">
-  <div class="hbp-label">WeeklyLog</div>
-  <div class="hbp-main">
-::: {.hbp-empty}
-No posts yet.
 :::
   </div>
 </section>

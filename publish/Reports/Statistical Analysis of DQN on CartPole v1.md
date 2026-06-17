@@ -1,11 +1,11 @@
 ---
 title: 'Statistical Analysis of DQN on CartPole v1'
-date: '2026-05-12'
+date: '2026-06-17'
 ---
 
 （Written on January 2, 2026 and completed on January 15, 2026）
 
-Code: [https://github.com/Foxmir/xxx](https://github.com/Foxmir/CartPole_DQN)
+Code: [https://github.com/Foxmir/CartPole_DQN](https://github.com/Foxmir/CartPole_DQN)
 
 ---
 

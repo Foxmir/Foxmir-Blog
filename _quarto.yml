@@ -22,8 +22,6 @@ website:
         text: 'Notes'
       - href: reports.qmd
         text: 'Reports'
-      - href: weeklylog.qmd
-        text: 'WeeklyLog'
 
 format:
   html:

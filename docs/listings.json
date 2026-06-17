@@ -1,40 +1,32 @@
 [
   {
+    "listing": "/reports.html",
+    "items": [
+      "/publish/Reports/Statistical Analysis of DQN on CartPole v1.html"
+    ]
+  },
+  {
     "listing": "/index.html",
     "items": [
-      "/publish/Learn/Early Reflections on Benchmark Design.html",
-      "/publish/Learn/初涉benchmark的设计反思.html",
-      "/publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html",
-      "/publish/Bits/强化学习中何时需要处理奖励尺度：判断依据与常用方法.html",
-      "/publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html",
-      "/publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html",
       "/publish/Reports/Statistical Analysis of DQN on CartPole v1.html",
-      "/publish/Bits/Deconstructing Reward in RL.html",
-      "/publish/Bits/解构奖励的含义及常见误解.html"
+      "/publish/Learn/Early Reflections on Benchmark Design.html",
+      "/publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html",
+      "/publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html",
+      "/publish/Bits/Deconstructing Reward in RL.html"
     ]
   },
   {
     "listing": "/bits.html",
     "items": [
       "/publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html",
-      "/publish/Bits/强化学习中何时需要处理奖励尺度：判断依据与常用方法.html",
       "/publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html",
-      "/publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html",
-      "/publish/Bits/Deconstructing Reward in RL.html",
-      "/publish/Bits/解构奖励的含义及常见误解.html"
+      "/publish/Bits/Deconstructing Reward in RL.html"
     ]
   },
   {
     "listing": "/learn.html",
     "items": [
-      "/publish/Learn/Early Reflections on Benchmark Design.html",
-      "/publish/Learn/初涉benchmark的设计反思.html"
-    ]
-  },
-  {
-    "listing": "/reports.html",
-    "items": [
-      "/publish/Reports/Statistical Analysis of DQN on CartPole v1.html"
+      "/publish/Learn/Early Reflections on Benchmark Design.html"
     ]
   }
 ]

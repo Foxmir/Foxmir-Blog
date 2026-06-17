@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/weeklylog.html</loc>
-    <lastmod>2026-06-17T12:03:00.499Z</lastmod>
+    <loc>https://foxmir.github.io/Foxmir-Blog/reports.html</loc>
+    <lastmod>2026-05-12T15:43:04.583Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/Reports/Statistical Analysis of DQN on CartPole v1.html</loc>
-    <lastmod>2026-06-17T12:02:59.927Z</lastmod>
+    <lastmod>2026-06-17T16:38:00.852Z</lastmod>
   </url>
   <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Learn/初涉benchmark的设计反思.html</loc>
-    <lastmod>2026-06-17T12:02:59.004Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/HOME.html</loc>
-    <lastmod>2026-06-17T12:02:59.145Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/强化学习中何时需要处理奖励尺度：判断依据与常用方法.html</loc>
-    <lastmod>2026-06-17T12:02:58.886Z</lastmod>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Learn/Early Reflections on Benchmark Design.html</loc>
+    <lastmod>2026-06-17T16:38:00.004Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html</loc>
-    <lastmod>2026-06-17T12:02:58.807Z</lastmod>
+    <lastmod>2026-06-17T16:37:59.956Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/Deconstructing Reward in RL.html</loc>
-    <lastmod>2026-06-17T12:02:58.694Z</lastmod>
+    <lastmod>2026-06-17T16:37:59.864Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/notes.html</loc>
@@ -34,7 +26,7 @@
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/index.html</loc>
-    <lastmod>2026-06-17T12:03:00.760Z</lastmod>
+    <lastmod>2026-06-17T16:38:01.671Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/articles.html</loc>
@@ -54,30 +46,22 @@
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/ABOUT.html</loc>
-    <lastmod>2026-06-17T12:02:59.115Z</lastmod>
+    <lastmod>2026-06-17T16:38:00.130Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s&#39;)$、$R(s,a)$ 与 $R(s,a,s&#39;)$？.html</loc>
-    <lastmod>2026-06-17T12:02:58.748Z</lastmod>
+    <lastmod>2026-06-17T16:37:59.896Z</lastmod>
   </url>
   <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/奖励函数到底依赖什么：$R(s)$、$R(s&#39;)$、$R(s,a)$ 与 $R(s,a,s&#39;)$？.html</loc>
-    <lastmod>2026-06-17T12:02:58.844Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Bits/解构奖励的含义及常见误解.html</loc>
-    <lastmod>2026-06-17T12:02:58.920Z</lastmod>
-  </url>
-  <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/publish/Learn/Early Reflections on Benchmark Design.html</loc>
-    <lastmod>2026-06-17T12:02:58.970Z</lastmod>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/HOME.html</loc>
+    <lastmod>2026-06-17T16:38:00.145Z</lastmod>
   </url>
   <url>
     <loc>https://foxmir.github.io/Foxmir-Blog/publish/LOG.html</loc>
-    <lastmod>2026-06-17T12:02:59.162Z</lastmod>
+    <lastmod>2026-06-17T16:38:00.186Z</lastmod>
   </url>
   <url>
-    <loc>https://foxmir.github.io/Foxmir-Blog/reports.html</loc>
-    <lastmod>2026-05-12T15:43:04.583Z</lastmod>
+    <loc>https://foxmir.github.io/Foxmir-Blog/publish/WEEKLYLOG.html</loc>
+    <lastmod>2026-06-17T16:38:00.221Z</lastmod>
   </url>
 </urlset>
