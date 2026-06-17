@@ -14,6 +14,8 @@ At this stage, I’ll also use this space to document my path from RL fundamenta
 
 Occasionally, I may also share other unrelated but interesting things.
 
+I also keep a **Weekly Log** ( usually on Monday ) as a public progress record of my ongoing RL-related work. Each entry may include what I worked on, what was completed, what failed or changed, and what I plan to do next. It is not limited to finished results; it is meant to make the process, iterations, and direction of my work visible over time.
+
 ## Collaboration & Contact
 
 I am currently open to a small number of RL-related collaboration inquiries, especially:

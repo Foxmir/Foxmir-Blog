@@ -1,0 +1,10 @@
+---
+title: 'WeeklyLog'
+page-layout: full
+---
+
+<!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->
+
+::: {.category-empty}
+No posts in this category yet.
+:::

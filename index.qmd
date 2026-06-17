@@ -9,6 +9,7 @@ listing:
       - publish/Learn
       - publish/Notes
       - publish/Reports
+      - publish/WeeklyLog
     sort: "date desc"
     type: default
     fields: [date, title]
@@ -112,6 +113,14 @@ No posts yet.
   <div class="hbp-label">Reports</div>
   <div class="hbp-main">
 :::{#reports-listing}
+:::
+  </div>
+</section>
+<section class="home-band-panel" data-panel="weeklylog">
+  <div class="hbp-label">WeeklyLog</div>
+  <div class="hbp-main">
+::: {.hbp-empty}
+No posts yet.
 :::
   </div>
 </section>
@@ -306,7 +315,7 @@ body.quarto-dark .home-content-layer {
 
   function setGeometry(){
     const vh = window.innerHeight;
-    // 鍔ㄦ€佽绠?Latest section 搴旇闇插嚭鐨勯珮搴︼紙1.5琛岋級
+    // 动态计算 Latest section 应该露出的高度（1.5行）
     const latest = document.querySelector(".home-latest-section");
     if(cl && latest){
       const firstTitle = latest.querySelector(".listing-title, .listing-title a, h3");
