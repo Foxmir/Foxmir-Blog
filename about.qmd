@@ -1,9 +1,9 @@
 ---
-title: "About"
+title: 'About'
 page-layout: full
 ---
 
-<!-- AUTO-GENERATED-ABOUT-PAGE: edit the root About.md in Obsidian, not this file. -->
+<!-- AUTO-GENERATED-ROOT-PAGE: edit root Markdown pages in Obsidian, not this file. -->
 
 
 Thanks to RL for bringing us together.

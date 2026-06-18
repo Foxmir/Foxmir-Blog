@@ -10,7 +10,9 @@ website:
   navbar:
     left:
       - href: about.qmd
-        text: About
+        text: 'About'
+      - href: log.qmd
+        text: 'LOG'
     right:
       - href: articles.qmd
         text: 'Articles'

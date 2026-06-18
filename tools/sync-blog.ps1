@@ -5,6 +5,7 @@ $publish = $env:BLOG_PUBLISH
 $blogSource = $env:BLOG_SOURCE
 $siteUrl = 'https://foxmir.github.io/Foxmir-Blog/'
 $googleAnalyticsId = 'G-VQW94RHSBY'
+$excludedRootPageNames = @('HOME', 'ERROR')
 
 if ([string]::IsNullOrWhiteSpace($project)) {
     $project = 'D:\Quarto\Foxmir_blog'
@@ -159,6 +160,79 @@ function Get-RootMarkdownContent {
     }
 
     return Get-MarkdownBodyLines -Path $candidate.FullName
+}
+
+function ConvertTo-DisplayTitle {
+    param([Parameter(Mandatory = $true)][string]$Name)
+
+    $specialTitles = @{
+        'ABOUT' = 'About'
+        'LOG' = 'LOG'
+        'WEEKLYLOG' = 'LOG'
+    }
+    $upperName = $Name.ToUpperInvariant()
+    if ($specialTitles.ContainsKey($upperName)) {
+        return $specialTitles[$upperName]
+    }
+
+    $words = [regex]::Matches($Name, '[A-Z]+(?=[A-Z][a-z]|\d|$)|[A-Z]?[a-z]+|\d+') |
+        ForEach-Object { $_.Value }
+    if (@($words).Count -eq 0) {
+        return $Name
+    }
+
+    return (@($words | ForEach-Object {
+        if ($_.Length -le 1) {
+            $_.ToUpperInvariant()
+        } else {
+            $_.Substring(0, 1).ToUpperInvariant() + $_.Substring(1).ToLowerInvariant()
+        }
+    }) -join ' ')
+}
+
+function Get-RootPages {
+    param([Parameter(Mandatory = $true)][string]$Directory)
+
+    $rootMarkdownFiles = @(
+        Get-ChildItem -LiteralPath $Directory -File -Filter '*.md' -ErrorAction SilentlyContinue |
+            Where-Object { $excludedRootPageNames -notcontains $_.BaseName.ToUpperInvariant() }
+    )
+
+    $hasNewLogPage = @($rootMarkdownFiles | Where-Object {
+        $_.BaseName.Equals('LOG', [System.StringComparison]::OrdinalIgnoreCase)
+    }).Count -gt 0
+
+    return @(
+        $rootMarkdownFiles |
+            Where-Object {
+                if ($hasNewLogPage) {
+                    -not $_.BaseName.Equals('WEEKLYLOG', [System.StringComparison]::OrdinalIgnoreCase)
+                } else {
+                    -not $_.BaseName.Equals('LOG', [System.StringComparison]::OrdinalIgnoreCase)
+                }
+            } |
+            ForEach-Object {
+                $canonicalBaseName = if ($_.BaseName.Equals('WEEKLYLOG', [System.StringComparison]::OrdinalIgnoreCase)) {
+                    'LOG'
+                } else {
+                    $_.BaseName
+                }
+                [pscustomobject]@{
+                    SourcePath = $_.FullName
+                    SourceBaseName = $_.BaseName
+                    BaseName = $canonicalBaseName
+                    Slug = ConvertTo-Slug $canonicalBaseName
+                    Title = ConvertTo-DisplayTitle -Name $canonicalBaseName
+                    BodyLines = @(Get-MarkdownBodyLines -Path $_.FullName)
+                    SortKey = switch ($canonicalBaseName.ToUpperInvariant()) {
+                        'ABOUT' { '000-about' }
+                        'LOG' { '010-log' }
+                        default { '100-' + $canonicalBaseName.ToLowerInvariant() }
+                    }
+                }
+            } |
+            Sort-Object SortKey, BaseName
+    )
 }
 
 function Get-RelativePath {
@@ -424,16 +498,37 @@ if ($copiedAttachmentTargets.Count -gt 0) {
     Write-Host ('Resolved attachments: ' + $copiedAttachmentTargets.Count)
 }
 
+$rootErrorMarkdownPath = Join-Path $publish 'ERROR.md'
+if (Test-Path -LiteralPath $rootErrorMarkdownPath) {
+    Remove-Item -LiteralPath $rootErrorMarkdownPath -Force
+}
+
+$rootLogMarkdownPath = Join-Path $publish 'LOG.md'
+$rootWeeklyLogMarkdownPath = Join-Path $publish 'WEEKLYLOG.md'
+if ((Test-Path -LiteralPath $rootLogMarkdownPath) -and (Test-Path -LiteralPath $rootWeeklyLogMarkdownPath)) {
+    Remove-Item -LiteralPath $rootLogMarkdownPath -Force
+}
+
+Get-ChildItem -LiteralPath $publish -File -Filter '*.html' -ErrorAction SilentlyContinue |
+    Remove-Item -Force
+Get-ChildItem -LiteralPath $publish -Directory -ErrorAction SilentlyContinue |
+    Where-Object { $_.Name -match '_files$' } |
+    Remove-Item -Recurse -Force
+
 $dirs = @(
     Get-ChildItem $publish -Directory |
-    Where-Object { $_.Name -notmatch '^[._]' } |
+    Where-Object { $_.Name -notmatch '^[._]' -and $_.Name -notmatch '_files$' } |
     Sort-Object Name
 )
 $items = @()
 $used = @{}
 $generatedCategoryPaths = New-Object System.Collections.Generic.HashSet[string] ([System.StringComparer]::OrdinalIgnoreCase)
+$generatedRootPagePaths = New-Object System.Collections.Generic.HashSet[string] ([System.StringComparer]::OrdinalIgnoreCase)
 $homeContentLines = Get-RootMarkdownContent -Directory $publish -BaseName 'Home'
-$aboutContentLines = Get-RootMarkdownContent -Directory $publish -BaseName 'About'
+$rootPages = @(Get-RootPages -Directory $publish)
+
+Get-ChildItem -LiteralPath $publish -File -Filter '*.md' -ErrorAction SilentlyContinue |
+    Remove-Item -Force
 
 foreach ($dir in $dirs) {
     $slug = ConvertTo-Slug $dir.Name
@@ -496,6 +591,34 @@ Get-ChildItem $project -Filter '*.qmd' -File |
     Where-Object {
         $_.FullName -notin $generatedCategoryPaths -and
         ((Get-Content $_.FullName -Raw -ErrorAction SilentlyContinue) -match 'AUTO-GENERATED-CATEGORY-PAGE')
+    } |
+    Remove-Item -Force
+
+foreach ($rootPage in $rootPages) {
+    $rootPageLines = @(
+        '---'
+        'title: ' + (ConvertTo-YamlSingleQuoted $rootPage.Title)
+        'page-layout: full'
+        '---'
+        ''
+        '<!-- AUTO-GENERATED-ROOT-PAGE: edit root Markdown pages in Obsidian, not this file. -->'
+    )
+
+    if ($rootPage.BodyLines.Count -gt 0) {
+        $rootPageLines += ''
+        $rootPageLines += $rootPage.BodyLines
+    }
+
+    $rootPagePath = Join-Path $project ($rootPage.Slug + '.qmd')
+    $generatedRootPagePaths.Add($rootPagePath) | Out-Null
+    Write-Utf8File -Path $rootPagePath -Lines $rootPageLines | Out-Null
+}
+
+Get-ChildItem $project -Filter '*.qmd' -File |
+    Where-Object {
+        $_.Name -ne 'index.qmd' -and
+        $_.FullName -notin $generatedRootPagePaths -and
+        ((Get-Content $_.FullName -Raw -ErrorAction SilentlyContinue) -match 'AUTO-GENERATED-(ROOT|ABOUT)-PAGE')
     } |
     Remove-Item -Force
 
@@ -880,22 +1003,6 @@ $homePage += @(
 
 Write-Utf8File -Path (Join-Path $project 'index.qmd') -Lines $homePage | Out-Null
 
-$aboutPage = @(
-    '---'
-    'title: "About"'
-    'page-layout: full'
-    '---'
-    ''
-    '<!-- AUTO-GENERATED-ABOUT-PAGE: edit the root About.md in Obsidian, not this file. -->'
-)
-
-if ($aboutContentLines.Count -gt 0) {
-    $aboutPage += ''
-    $aboutPage += $aboutContentLines
-}
-
-Write-Utf8File -Path (Join-Path $project 'about.qmd') -Lines $aboutPage | Out-Null
-
 $config = @(
     'project:'
     '  type: website'
@@ -908,10 +1015,14 @@ $config = @(
     '  search: false'
     '  navbar:'
     '    left:'
-    '      - href: about.qmd'
-    '        text: About'
-    '    right:'
 )
+
+foreach ($rootPage in $rootPages) {
+    $config += '      - href: ' + $rootPage.Slug + '.qmd'
+    $config += '        text: ' + (ConvertTo-YamlSingleQuoted $rootPage.Title)
+}
+
+$config += '    right:'
 
 foreach ($item in $items) {
     $config += '      - href: ' + $item.Slug + '.qmd'

@@ -6,13 +6,9 @@
     ]
   },
   {
-    "listing": "/index.html",
+    "listing": "/learn.html",
     "items": [
-      "/publish/Reports/Statistical Analysis of DQN on CartPole v1.html",
-      "/publish/Learn/Early Reflections on Benchmark Design.html",
-      "/publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html",
-      "/publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html",
-      "/publish/Bits/Deconstructing Reward in RL.html"
+      "/publish/Learn/Early Reflections on Benchmark Design.html"
     ]
   },
   {
@@ -24,9 +20,13 @@
     ]
   },
   {
-    "listing": "/learn.html",
+    "listing": "/index.html",
     "items": [
-      "/publish/Learn/Early Reflections on Benchmark Design.html"
+      "/publish/Reports/Statistical Analysis of DQN on CartPole v1.html",
+      "/publish/Learn/Early Reflections on Benchmark Design.html",
+      "/publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html",
+      "/publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html",
+      "/publish/Bits/Deconstructing Reward in RL.html"
     ]
   }
 ]

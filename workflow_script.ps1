@@ -1,6 +1,6 @@
 ﻿param(
     [string]$ProjectPath = 'D:\Quarto\Foxmir_blog',
-    [string]$LogPath = 'C:\Users\李勇\OneDrive\Markdown\1-Work\Blog\LOG.md',
+    [string]$LogPath = 'C:\Users\李勇\OneDrive\Markdown\1-Work\Blog\ERROR.md',
     [string]$CommitMessage = 'Update blog content',
     [switch]$NoPush
 )
@@ -9,6 +9,15 @@ $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
 $OutputEncoding = [Console]::OutputEncoding
 $script:FailureLogged = $false
+
+if ([System.IO.Path]::GetFileName($LogPath).Equals('LOG.md', [System.StringComparison]::OrdinalIgnoreCase)) {
+    $logDirectory = if (-not [string]::IsNullOrWhiteSpace($env:BLOG_SOURCE) -and (Test-Path -LiteralPath $env:BLOG_SOURCE)) {
+        $env:BLOG_SOURCE
+    } else {
+        Split-Path -Parent $LogPath
+    }
+    $LogPath = Join-Path $logDirectory 'ERROR.md'
+}
 
 function Write-StageHeader {
     param(
@@ -167,7 +176,17 @@ function Invoke-SourceSyncCapture {
         [Parameter(Mandatory = $true)][string]$Destination
     )
 
-    return Invoke-ProcessCapture -FilePath 'robocopy' -ArgumentList @(
+    $excludedFiles = @('publish.bat', 'ERROR.md')
+    $sourceErrorLogPath = Join-Path $Source 'ERROR.md'
+    $sourceLegacyErrorLogPath = Join-Path $Source 'LOG.md'
+    $sourceLegacyWeeklyLogPath = Join-Path $Source 'WEEKLYLOG.md'
+    if ((-not (Test-Path -LiteralPath $sourceErrorLogPath)) -and
+        (Test-Path -LiteralPath $sourceLegacyErrorLogPath) -and
+        (Test-Path -LiteralPath $sourceLegacyWeeklyLogPath)) {
+        $excludedFiles += 'LOG.md'
+    }
+
+    $arguments = @(
         $Source,
         $Destination,
         '*.md',
@@ -177,8 +196,8 @@ function Invoke-SourceSyncCapture {
         '*.gif',
         '*.webp',
         '/MIR',
-        '/XF',
-        'publish.bat',
+        '/XF'
+    ) + $excludedFiles + @(
         '/XD',
         '.git',
         '.obsidian',
@@ -188,7 +207,9 @@ function Invoke-SourceSyncCapture {
         '/NC',
         '/NS',
         '/NP'
-    ) -FailurePredicate {
+    )
+
+    return Invoke-ProcessCapture -FilePath 'robocopy' -ArgumentList $arguments -FailurePredicate {
         param($exitCode, $lines)
         return ($exitCode -ge 8)
     }
@@ -270,6 +291,7 @@ function Get-ChineseReason {
 
     $text = ([string]::Join("`n", ($Lines | ForEach-Object { $_ })))
     switch -Regex ($text) {
+        'Recv failure|Connection was reset|Failed to connect|Connection reset' { return 'GitHub 推送连接被重置，通常是网络、代理、防火墙或 GitHub HTTPS 连接不稳定。已完成本地同步、渲染和提交时，可稍后再次点击发布重试推送。' }
         'Connection timed out|timed out' { return 'Git 推送超时，通常是网络、代理、DNS 或 GitHub 连接异常。' }
         'Authentication failed|could not read Username|repository not found|Permission denied' { return 'Git 推送认证失败，请检查账号凭据、令牌或远程仓库权限。' }
         'Could not resolve host' { return '网络解析失败，Git 无法解析 GitHub 地址。' }
@@ -282,6 +304,13 @@ function Get-ChineseReason {
         'index\.html not found|index.html 未生成' { return '站点首页未生成，说明渲染结果不完整。' }
         default { return ($Stage + '失败，请查看详情输出。') }
     }
+}
+
+function Test-TransientGitPushFailure {
+    param([AllowNull()][string[]]$Lines)
+
+    $text = [string]::Join("`n", @($Lines))
+    return ($text -match 'Recv failure|Connection was reset|Failed to connect|Connection reset|Connection timed out|timed out|Could not resolve host')
 }
 
 function Fail-Workflow {
@@ -371,7 +400,7 @@ try {
 
     if ($NoPush) {
         Write-Host '[完成] --no-push 模式：已完成同步、渲染和 docs 更新，跳过 Git 提交与推送。' -ForegroundColor Yellow
-        Write-Host "`n######################## 发布流程结束：--no-push，未写入 LOG ########################" -ForegroundColor Green
+        Write-Host "`n######################## 发布流程结束：--no-push，未写入 ERROR ########################" -ForegroundColor Green
         return
     }
 
@@ -382,7 +411,7 @@ try {
     }
     if ($statusResult.Lines.Count -eq 0) {
         Write-Host '[完成] 没有检测到文件变化，本次跳过提交和推送。' -ForegroundColor Yellow
-        Write-Host "`n######################## 发布流程结束：无变更，无需写入 LOG ########################" -ForegroundColor Green
+        Write-Host "`n######################## 发布流程结束：无变更，无需写入 ERROR ########################" -ForegroundColor Green
         return
     }
     $statusResult.Lines | ForEach-Object { Write-Host ('  ' + $_) }
@@ -399,13 +428,31 @@ try {
     }
 
     Write-StageHeader -Step 6 -Total 6 -Title '推送到 GitHub'
-    $pushResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList @('push', 'origin', 'main')
-    Get-TailLines -Lines $pushResult.Lines -Count 12 | ForEach-Object { Write-Host ('  ' + $_) }
+    $pushResult = $null
+    $pushLines = @()
+    $maxPushAttempts = 3
+    for ($attempt = 1; $attempt -le $maxPushAttempts; $attempt++) {
+        Write-Host ('[尝试] Git push {0}/{1}' -f $attempt, $maxPushAttempts) -ForegroundColor DarkGray
+        $pushResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList @('push', 'origin', 'main')
+        $pushLines += ('Git push attempt {0}/{1}, exit code {2}' -f $attempt, $maxPushAttempts, $pushResult.ExitCode)
+        $pushLines += $pushResult.Lines
+        Get-TailLines -Lines $pushResult.Lines -Count 12 | ForEach-Object { Write-Host ('  ' + $_) }
+
+        if (-not $pushResult.Failed) {
+            break
+        }
+
+        if ($attempt -ge $maxPushAttempts -or -not (Test-TransientGitPushFailure -Lines $pushResult.Lines)) {
+            break
+        }
+
+        Start-Sleep -Seconds (4 * $attempt)
+    }
     if ($pushResult.Failed) {
-        Fail-Workflow -Title '推送到 GitHub' -Lines $pushResult.Lines
+        Fail-Workflow -Title '推送到 GitHub' -Lines $pushLines
     }
 
-    Write-Host "`n######################## 发布成功：本次未写入 LOG ########################" -ForegroundColor Green
+    Write-Host "`n######################## 发布成功：本次未写入 ERROR ########################" -ForegroundColor Green
 } catch {
     if (-not $script:FailureLogged) {
         $unexpectedLines = Convert-OutputLines -Output @(

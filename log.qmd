@@ -1,7 +1,10 @@
 ---
-title: 'WEEKLYLOG'
-date: '2026-06-18'
+title: 'LOG'
+page-layout: full
 ---
+
+<!-- AUTO-GENERATED-ROOT-PAGE: edit root Markdown pages in Obsidian, not this file. -->
+
 
 * **2026-06-15**: PPO vs SAC benchmark
 	* [ ] PPO code review + benchmark-based code optimization
@@ -22,4 +25,5 @@ date: '2026-06-18'
 		* Non-mainline tasks: ✔
 		* Uncontrollable factors
 	- **Handling**: Continue with the original mainline.
+
 
