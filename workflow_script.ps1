@@ -283,6 +283,95 @@ function Invoke-ProcessCapture {
     }
 }
 
+function Test-TcpPortOpen {
+    param(
+        [Parameter(Mandatory = $true)][string]$HostName,
+        [Parameter(Mandatory = $true)][int]$Port,
+        [int]$TimeoutMilliseconds = 700
+    )
+
+    $client = New-Object System.Net.Sockets.TcpClient
+    try {
+        $asyncResult = $client.BeginConnect($HostName, $Port, $null, $null)
+        if (-not $asyncResult.AsyncWaitHandle.WaitOne($TimeoutMilliseconds, $false)) {
+            return $false
+        }
+        $client.EndConnect($asyncResult)
+        return $client.Connected
+    } catch {
+        return $false
+    } finally {
+        $client.Close()
+    }
+}
+
+function Get-GitProxyArguments {
+    $explicitProxy = $env:BLOG_GIT_PROXY
+    $proxyCandidates = @()
+    if (-not [string]::IsNullOrWhiteSpace($explicitProxy)) {
+        $proxyCandidates += $explicitProxy.Trim()
+    }
+    $proxyCandidates += @(
+        'http://127.0.0.1:17890',
+        'socks5h://127.0.0.1:12333',
+        'http://127.0.0.1:7890',
+        'socks5h://127.0.0.1:7891',
+        'socks5h://127.0.0.1:10808',
+        'http://127.0.0.1:10809'
+    )
+
+    foreach ($proxy in ($proxyCandidates | Select-Object -Unique)) {
+        if ($proxy -notmatch '^(?<scheme>https?|socks5h?)://(?<host>[^:/]+):(?<port>\d+)$') {
+            continue
+        }
+
+        $hostName = $Matches['host']
+        $port = [int]$Matches['port']
+        if (-not (Test-TcpPortOpen -HostName $hostName -Port $port)) {
+            continue
+        }
+
+        $probeArgs = @(
+            '-c', ('http.proxy=' + $proxy),
+            '-c', ('https.proxy=' + $proxy),
+            'ls-remote',
+            '--heads',
+            'origin',
+            'main'
+        )
+        $probeResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList $probeArgs
+        if (-not $probeResult.Failed) {
+            Write-Host ('[网络] GitHub 将通过本地代理 ' + $proxy + ' 访问。') -ForegroundColor DarkGray
+            return @(
+                '-c', ('http.proxy=' + $proxy),
+                '-c', ('https.proxy=' + $proxy)
+            )
+        }
+    }
+
+    Write-Host '[网络] 未检测到可用 GitHub 本地代理，Git 将尝试直连。' -ForegroundColor Yellow
+    return @()
+}
+
+function Get-LocalAheadCount {
+    $aheadResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList @(
+        'rev-list',
+        '--left-right',
+        '--count',
+        'origin/main...HEAD'
+    )
+    if ($aheadResult.Failed -or $aheadResult.Lines.Count -eq 0) {
+        return 0
+    }
+
+    $parts = ($aheadResult.Lines[0] -split '\s+') | Where-Object { $_ -ne '' }
+    if ($parts.Count -lt 2) {
+        return 0
+    }
+
+    return [int]$parts[1]
+}
+
 function Get-ChineseReason {
     param(
         [Parameter(Mandatory = $true)][string]$Stage,
@@ -409,31 +498,41 @@ try {
     if ($statusResult.Failed) {
         Fail-Workflow -Title '检查 Git 状态' -Lines $statusResult.Lines
     }
-    if ($statusResult.Lines.Count -eq 0) {
+    $localAheadCount = Get-LocalAheadCount
+    if ($statusResult.Lines.Count -eq 0 -and $localAheadCount -le 0) {
         Write-Host '[完成] 没有检测到文件变化，本次跳过提交和推送。' -ForegroundColor Yellow
         Write-Host "`n######################## 发布流程结束：无变更，无需写入 ERROR ########################" -ForegroundColor Green
         return
     }
-    $statusResult.Lines | ForEach-Object { Write-Host ('  ' + $_) }
+    if ($statusResult.Lines.Count -eq 0) {
+        Write-Host ('[继续] 工作区无新变化，但本地还有 ' + $localAheadCount + ' 个提交未推送。') -ForegroundColor Yellow
+    } else {
+        $statusResult.Lines | ForEach-Object { Write-Host ('  ' + $_) }
+    }
 
     Write-StageHeader -Step 5 -Total 6 -Title '提交 Git 变更'
-    $addResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList @('add', '-A')
-    if ($addResult.Failed) {
-        Fail-Workflow -Title '暂存 Git 变更' -Lines $addResult.Lines
-    }
-    $commitResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList @('commit', '-m', $CommitMessage)
-    Get-TailLines -Lines $commitResult.Lines -Count 12 | ForEach-Object { Write-Host ('  ' + $_) }
-    if ($commitResult.Failed) {
-        Fail-Workflow -Title '提交 Git 变更' -Lines $commitResult.Lines
+    if ($statusResult.Lines.Count -gt 0) {
+        $addResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList @('add', '-A')
+        if ($addResult.Failed) {
+            Fail-Workflow -Title '暂存 Git 变更' -Lines $addResult.Lines
+        }
+        $commitResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList @('commit', '-m', $CommitMessage)
+        Get-TailLines -Lines $commitResult.Lines -Count 12 | ForEach-Object { Write-Host ('  ' + $_) }
+        if ($commitResult.Failed) {
+            Fail-Workflow -Title '提交 Git 变更' -Lines $commitResult.Lines
+        }
+    } else {
+        Write-Host '[跳过] 工作区无新变化，直接推送已有本地提交。' -ForegroundColor Yellow
     }
 
     Write-StageHeader -Step 6 -Total 6 -Title '推送到 GitHub'
+    $gitProxyArgs = @(Get-GitProxyArguments)
     $pushResult = $null
     $pushLines = @()
     $maxPushAttempts = 3
     for ($attempt = 1; $attempt -le $maxPushAttempts; $attempt++) {
         Write-Host ('[尝试] Git push {0}/{1}' -f $attempt, $maxPushAttempts) -ForegroundColor DarkGray
-        $pushResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList @('push', 'origin', 'main')
+        $pushResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList ($gitProxyArgs + @('push', 'origin', 'main'))
         $pushLines += ('Git push attempt {0}/{1}, exit code {2}' -f $attempt, $maxPushAttempts, $pushResult.ExitCode)
         $pushLines += $pushResult.Lines
         Get-TailLines -Lines $pushResult.Lines -Count 12 | ForEach-Object { Write-Host ('  ' + $_) }
