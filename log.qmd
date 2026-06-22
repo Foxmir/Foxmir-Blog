@@ -6,11 +6,30 @@ page-layout: full
 <!-- AUTO-GENERATED-ROOT-PAGE: edit root Markdown pages in Obsidian, not this file. -->
 
 
+* **2026-06-22**: PPO vs SAC benchmark
+	* [ ] PPO code review + benchmark-based code optimization
+	* [ ] SAC code review + benchmark-based code optimization
+	* [ ] Training
+	* [ ] Decision gate:
+		* [ ] Valid results → Report V0
+		* [ ] Invalid/unstable results → debugging pass + rerun plan
+
+---
+
 * **2026-06-15**: PPO vs SAC benchmark
 	* [ ] PPO code review + benchmark-based code optimization
 	* [ ] SAC code review + benchmark-based code optimization
 	* [ ] Training
 	* [ ] Report V0
+	- **Plan Variance**:
+		* Execution underfill: ✔
+		* Mainline overrun: 
+		* Mainline change: ✔ Add and finished the new task: transition from the old project to the new one + initialize the new project + optimize the workflow.
+		* Non-mainline tasks:
+		* Uncontrollable factors
+	- **Handling**: Continue with the original mainline.
+
+---
 
 * **2026-06-08**: PPO vs SAC benchmark
 	* [x] Completed benchmark protocol
@@ -20,6 +39,7 @@ page-layout: full
 	* [ ] Training
 	* [ ] Report V0
 	- **Plan Variance**:
+		* Execution underfill
 		* Mainline overrun: ✔
 		* Mainline change
 		* Non-mainline tasks: ✔
