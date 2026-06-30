@@ -6,13 +6,32 @@ page-layout: full
 <!-- AUTO-GENERATED-ROOT-PAGE: edit root Markdown pages in Obsidian, not this file. -->
 
 
-* **2026-06-22**: PPO vs SAC benchmark
-	* [ ] PPO code review + benchmark-based code optimization
-	* [ ] SAC code review + benchmark-based code optimization
-	* [ ] Training
+* **2026-06-29**: PPO vs SAC benchmark debugging + rerun planning
+	* [ ] Review first formal PPO/SAC training results
+	* [ ] Diagnose PPO failure mode
+	* [ ] Design and run minimal diagnostic experiments
+	* [ ] Fix or adjust the identified issue
+	* [ ] Training-run2
 	* [ ] Decision gate:
-		* [ ] Valid results → Report V0
-		* [ ] Invalid/unstable results → debugging pass + rerun plan
+		* [ ] Valid/stable results → Report V0
+		* [ ] Invalid/unstable results → continue debugging pass
+
+---
+
+* **2026-06-22**: PPO vs SAC benchmark
+	* [x] PPO code review + benchmark-based code optimization
+	* [x] SAC code review + benchmark-based code optimization
+	* [x] Training-run1
+	* [x] Decision gate outcome:
+		* Valid results → Report V0
+		* Invalid/unstable results → debugging pass + rerun plan 🎯
+	- **Plan Variance**:
+		* Execution underfill: ✔
+		* Mainline overrun: 
+		* Mainline change: ✔After the formal training run, PPO produced invalid results  across three seeds, suggesting that an unresolved issue still needs to be diagnosed.
+		* Non-mainline tasks
+		* Uncontrollable factors
+	- **Handling**:  Continue with PPO debugging and rerun the training after the issue is fixed or controlled. If the rerun produces valid and stable results, proceed to Report V0.
 
 ---
 
