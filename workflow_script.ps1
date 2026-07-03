@@ -396,6 +396,9 @@ function Get-ChineseReason {
         'Missing attachments' { return '存在缺失附件，发布已中止。' }
         'Conflicting attachments' { return '存在同名附件冲突，无法确定应引用哪一个文件。' }
         'index\.html not found|index.html 未生成' { return '站点首页未生成，说明渲染结果不完整。' }
+        'GitHub Pages deployment failed|Deployment state: failure|Deployment state: error' { return 'Git 推送已成功，但 GitHub Pages 云端部署失败。代码已经到 main，但线上站点仍会停留在上一次成功部署的版本。' }
+        'Timed out waiting for GitHub Pages deployment' { return 'Git 推送已成功，但等待 GitHub Pages 云端部署超时。请到 GitHub Actions / Pages 检查部署是否仍在排队或失败。' }
+        'Unable to verify GitHub Pages deployment' { return 'Git 推送已成功，但本地脚本无法确认 GitHub Pages 云端部署状态。请到 GitHub Actions / Pages 检查最终上线状态。' }
         default { return ($Stage + '失败，请查看详情输出。') }
     }
 }
@@ -405,6 +408,119 @@ function Test-TransientGitPushFailure {
 
     $text = [string]::Join("`n", @($Lines))
     return ($text -match 'Recv failure|Connection was reset|Failed to connect|Connection reset|Connection timed out|timed out|Could not resolve host|unable to rewind rpc post data|RPC failed|curl 65|unexpected disconnect')
+}
+
+function Get-GitHubRepositorySlug {
+    $remoteResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList @('remote', 'get-url', 'origin')
+    if ($remoteResult.Failed -or $remoteResult.Lines.Count -eq 0) {
+        return $null
+    }
+
+    $remoteUrl = $remoteResult.Lines[0].Trim()
+    if ($remoteUrl -match 'github\.com[:/](?<owner>[^/]+)/(?<repo>[^/]+?)(?:\.git)?/?$') {
+        return ($Matches['owner'] + '/' + $Matches['repo'])
+    }
+
+    return $null
+}
+
+function Invoke-GitHubJson {
+    param([Parameter(Mandatory = $true)][string]$Uri)
+
+    $headers = @{
+        'Accept' = 'application/vnd.github+json'
+        'User-Agent' = 'Foxmir-Blog-Publish'
+    }
+
+    return Invoke-RestMethod -Uri $Uri -Headers $headers -TimeoutSec 20 -ErrorAction Stop
+}
+
+function Wait-GitHubPagesDeployment {
+    param(
+        [Parameter(Mandatory = $true)][string]$HeadSha,
+        [int]$TimeoutSeconds = 900,
+        [int]$PollSeconds = 15
+    )
+
+    $repoSlug = Get-GitHubRepositorySlug
+    if ([string]::IsNullOrWhiteSpace($repoSlug)) {
+        return [pscustomobject]@{
+            State = 'unknown'
+            Lines = @('Unable to verify GitHub Pages deployment: cannot parse GitHub origin remote.')
+        }
+    }
+
+    $apiRoot = 'https://api.github.com/repos/' + $repoSlug
+    $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
+    $lastLines = @()
+
+    while ((Get-Date) -lt $deadline) {
+        try {
+            $deployments = @(Invoke-GitHubJson -Uri ($apiRoot + '/deployments?environment=github-pages&per_page=20'))
+            $deployment = @($deployments | Where-Object {
+                $_.sha -eq $HeadSha -and $_.environment -eq 'github-pages'
+            } | Select-Object -First 1)
+
+            if ($deployment.Count -eq 0) {
+                $lastLines = @('Waiting for GitHub Pages deployment to be created for ' + $HeadSha)
+                Write-Host ('[等待] GitHub Pages 尚未为提交 ' + $HeadSha.Substring(0, 7) + ' 创建部署。') -ForegroundColor DarkGray
+                Start-Sleep -Seconds $PollSeconds
+                continue
+            }
+
+            $statuses = @(Invoke-GitHubJson -Uri $deployment[0].statuses_url)
+            $latestStatus = @($statuses | Select-Object -First 1)
+            if ($latestStatus.Count -eq 0) {
+                $lastLines = @('Waiting for GitHub Pages deployment status for deployment ' + $deployment[0].id)
+                Write-Host ('[等待] GitHub Pages 部署已创建，等待状态返回。') -ForegroundColor DarkGray
+                Start-Sleep -Seconds $PollSeconds
+                continue
+            }
+
+            $state = [string]$latestStatus[0].state
+            $logUrl = [string]$latestStatus[0].log_url
+            $environmentUrl = [string]$latestStatus[0].environment_url
+            $lastLines = @(
+                ('Deployment state: ' + $state),
+                ('Deployment id: ' + $deployment[0].id),
+                ('Deployment sha: ' + $deployment[0].sha),
+                ('Log URL: ' + $logUrl),
+                ('Environment URL: ' + $environmentUrl)
+            )
+
+            switch ($state) {
+                'success' {
+                    return [pscustomobject]@{
+                        State = 'success'
+                        Lines = $lastLines
+                    }
+                }
+                { $_ -in @('failure', 'error', 'inactive') } {
+                    return [pscustomobject]@{
+                        State = 'failure'
+                        Lines = @('GitHub Pages deployment failed.') + $lastLines
+                    }
+                }
+                default {
+                    Write-Host ('[等待] GitHub Pages 部署状态: ' + $state) -ForegroundColor DarkGray
+                    Start-Sleep -Seconds $PollSeconds
+                }
+            }
+        } catch {
+            return [pscustomobject]@{
+                State = 'unknown'
+                Lines = @(
+                    'Unable to verify GitHub Pages deployment.',
+                    $_.Exception.Message
+                )
+            }
+        }
+    }
+
+    return [pscustomobject]@{
+        State = 'timeout'
+        Lines = @('Timed out waiting for GitHub Pages deployment.') + $lastLines
+    }
 }
 
 function Fail-Workflow {
@@ -555,6 +671,19 @@ try {
     if ($pushResult.Failed) {
         Fail-Workflow -Title '推送到 GitHub' -Lines $pushLines
     }
+
+    $headResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList @('rev-parse', 'HEAD')
+    if ($headResult.Failed -or $headResult.Lines.Count -eq 0) {
+        Fail-Workflow -Title '确认 GitHub Pages 云端部署' -Lines @('Unable to verify GitHub Pages deployment: cannot resolve local HEAD.')
+    }
+
+    $headSha = $headResult.Lines[0].Trim()
+    Write-Host ('[等待] Git push 已成功，继续确认 GitHub Pages 云端部署: ' + $headSha.Substring(0, 7)) -ForegroundColor DarkGray
+    $pagesDeploymentResult = Wait-GitHubPagesDeployment -HeadSha $headSha
+    if ($pagesDeploymentResult.State -ne 'success') {
+        Fail-Workflow -Title '确认 GitHub Pages 云端部署' -Lines $pagesDeploymentResult.Lines
+    }
+    Get-TailLines -Lines $pagesDeploymentResult.Lines -Count 8 | ForEach-Object { Write-Host ('  ' + $_) }
 
     Write-Host "`n######################## 发布成功：本次未写入 ERROR ########################" -ForegroundColor Green
 } catch {
