@@ -31,7 +31,7 @@ Currently not accepting: Python/framework basics, environment setup, from-scratc
 
 If you would like to contact me, please briefly describe: the background of your problem, available materials, what you have already tried, and what kind of help you are looking for.
 
-* Github: https://github.com/Foxmir
+* Github: [https://github.com/Foxmir](https://github.com/Foxmir)
 * Email: superuserisme@outlook.com
-* Twitter/X: https://x.com/Foxmir_RL
+* Twitter/X: [https://x.com/Foxmir_RL](https://x.com/Foxmir_RL) 
 

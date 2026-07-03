@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fox Divider Probe</title>
+  <style>
+    :root {
+      --paper: #fbfaf7;
+      --ink: #141312;
+      --muted: #6d665f;
+      --line: #d8c6b7;
+      --grid: rgba(185, 142, 105, 0.08);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #15130f;
+        --ink: #f4eee4;
+        --muted: #b6aa9b;
+        --line: #5a493d;
+        --grid: rgba(255, 205, 155, 0.055);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+        var(--paper);
+      background-size: 84px 84px;
+    }
+
+    main {
+      width: min(1120px, calc(100vw - 48px));
+      margin: 0 auto;
+      padding: 72px 0 96px;
+    }
+
+    .quiet-block {
+      min-height: 220px;
+      display: grid;
+      align-content: end;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 58%, transparent);
+      padding-bottom: 32px;
+    }
+
+    .quiet-block:last-child {
+      min-height: 260px;
+      align-content: start;
+      border-bottom: 0;
+      border-top: 1px solid color-mix(in srgb, var(--line) 32%, transparent);
+      padding-top: 36px;
+    }
+
+    .kicker {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 750;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .sample-lines {
+      display: grid;
+      gap: 10px;
+      max-width: 780px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.25rem, 2.2vw, 2.05rem);
+      line-height: 1.12;
+    }
+
+    .map-suggestions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .map-suggestions li {
+      min-height: 92px;
+      border-top: 2px solid color-mix(in srgb, var(--ink) 72%, transparent);
+      padding-top: 14px;
+    }
+
+    .map-suggestions strong {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 1.06rem;
+    }
+
+    .map-suggestions span {
+      color: var(--muted);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .fox-divider {
+      position: relative;
+      height: 122px;
+      overflow: hidden;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .fox-divider::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 68px;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        color-mix(in srgb, var(--line) 54%, transparent) 11%,
+        color-mix(in srgb, var(--line) 54%, transparent) 89%,
+        transparent
+      );
+    }
+
+    .runner {
+      --fox-w: 72px;
+      --fox-h: 67px;
+      --fox-sheet-w: 720px;
+      position: absolute;
+      top: 23px;
+      left: 0;
+      width: var(--fox-w);
+      height: var(--fox-h);
+      z-index: 2;
+      will-change: transform;
+    }
+
+    .fox-sprite {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-image: url("assets/fox-divider-walk/fox-divider-walk-sprite.png");
+      background-repeat: no-repeat;
+      background-size: var(--fox-sheet-w) 100%;
+      background-position: 0 0;
+      filter: drop-shadow(0 5px 2px rgba(67, 32, 12, 0.1));
+    }
+
+    .fox-divider.is-paused .fox-sprite {
+      filter: drop-shadow(0 5px 2px rgba(67, 32, 12, 0.1)) saturate(0.88);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .runner {
+        left: 18%;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      main {
+        width: min(100% - 28px, 1120px);
+        padding-top: 44px;
+      }
+
+      .quiet-block {
+        min-height: 180px;
+      }
+
+      .fox-divider {
+        height: 108px;
+      }
+
+      .runner {
+        --fox-w: 64px;
+        --fox-h: 60px;
+        --fox-sheet-w: 640px;
+      }
+
+      .map-suggestions {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="quiet-block" aria-label="Upper page context">
+      <p class="kicker">Latest</p>
+      <ul class="sample-lines">
+        <li>Long titles should keep enough horizontal air.</li>
+        <li>Dates and categories stay secondary.</li>
+      </ul>
+    </section>
+
+    <div class="fox-divider" tabindex="0" aria-label="Animated divider fox. Click to pause or resume.">
+      <span class="runner" aria-hidden="true">
+        <span class="fox-sprite"></span>
+      </span>
+    </div>
+
+    <section class="quiet-block" aria-label="Lower page context">
+      <p class="kicker">Content Map</p>
+      <ul class="map-suggestions">
+        <li><strong>Bits</strong><span>Short answers and criteria.</span></li>
+        <li><strong>Learn</strong><span>Records and reflections.</span></li>
+        <li><strong>Reports</strong><span>Experiments and results.</span></li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const divider = document.querySelector(".fox-divider");
+    const runner = divider.querySelector(".runner");
+    const sprite = divider.querySelector(".fox-sprite");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const gait = {
+      frameCount: 10,
+      frameMs: 185,
+      stridePx: 24,
+      nativeFrameWidth: 264,
+      contactXByFrame: [143, 141, 141, 131, null, null, 124, 109, 93, 76],
+      yByFrame: [0, 0, -1, 0, 0, 0, -1, 0, 0, 0]
+    };
+
+    let frameIndex = 0;
+    let cycleIndex = 0;
+    let originX = 0;
+    let visualX = 0;
+    let frameStartedAt = performance.now();
+    let manualPaused = false;
+    let hoverPaused = false;
+
+    const frameWidth = () => runner.getBoundingClientRect().width;
+
+    const resetRunner = () => {
+      const width = frameWidth();
+      originX = Math.max(-width - 24, -116);
+      cycleIndex = 0;
+      frameIndex = 0;
+      visualX = targetXForFrame(frameIndex);
+      frameStartedAt = performance.now();
+      paint(visualX);
+    };
+
+    const paint = (currentX) => {
+      const width = frameWidth();
+      const visibleFrame = frameIndex % gait.frameCount;
+      const y = gait.yByFrame[visibleFrame] || 0;
+      runner.style.transform = `translate3d(${Math.round(currentX)}px, ${y}px, 0)`;
+      sprite.style.backgroundPositionX = `${-visibleFrame * width}px`;
+    };
+
+    const isPaused = () => manualPaused || hoverPaused || reducedMotion.matches;
+
+    const scaledContactX = (visibleFrame) => {
+      const contact = gait.contactXByFrame[visibleFrame];
+      if (contact == null) return null;
+      return contact * (frameWidth() / gait.nativeFrameWidth);
+    };
+
+    const targetXForFrame = (absoluteFrame) => {
+      const visibleFrame = absoluteFrame % gait.frameCount;
+      const cycle = Math.floor(absoluteFrame / gait.frameCount);
+      const stride = gait.stridePx * (frameWidth() / 88);
+      const plantedWorldX = originX + cycle * stride;
+      const contact = scaledContactX(visibleFrame);
+
+      if (contact != null) {
+        return plantedWorldX - contact;
+      }
+
+      const previousFrame = absoluteFrame - 1;
+      const nextFrame = absoluteFrame + 1;
+      const previousContact = scaledContactX((previousFrame + gait.frameCount) % gait.frameCount);
+      const nextContact = scaledContactX(nextFrame % gait.frameCount);
+      const previousCycle = Math.floor(previousFrame / gait.frameCount);
+      const nextCycle = Math.floor(nextFrame / gait.frameCount);
+      const previousX = previousContact == null ? visualX : originX + previousCycle * stride - previousContact;
+      const nextX = nextContact == null ? previousX + stride / gait.frameCount : originX + nextCycle * stride - nextContact;
+      return previousX + (nextX - previousX) * 0.5;
+    };
+
+    const advanceFrame = (now) => {
+      const width = frameWidth();
+      const rightEdge = divider.clientWidth + width + 24;
+      if (visualX > rightEdge) {
+        originX = -width - 24 + (scaledContactX(0) || 0);
+        cycleIndex = 0;
+        frameIndex = 0;
+        frameStartedAt = now;
+        visualX = targetXForFrame(frameIndex);
+        return;
+      }
+
+      frameStartedAt = now;
+      visualX = Math.max(visualX, targetXForFrame(frameIndex));
+    };
+
+    const tick = (now) => {
+      if (!isPaused()) {
+        let elapsed = now - frameStartedAt;
+
+        while (elapsed >= gait.frameMs) {
+          frameIndex += 1;
+          cycleIndex = Math.floor(frameIndex / gait.frameCount);
+          advanceFrame(frameStartedAt + gait.frameMs);
+          elapsed = now - frameStartedAt;
+        }
+
+        paint(visualX);
+      } else {
+        frameStartedAt = now - Math.min(gait.frameMs, Math.max(0, now - frameStartedAt));
+        paint(visualX);
+      }
+
+      requestAnimationFrame(tick);
+    };
+
+    divider.addEventListener("click", () => {
+      manualPaused = !manualPaused;
+      divider.classList.toggle("is-paused", manualPaused || hoverPaused);
+    });
+
+    divider.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        manualPaused = !manualPaused;
+        divider.classList.toggle("is-paused", manualPaused || hoverPaused);
+      }
+    });
+
+    divider.addEventListener("pointerenter", () => {
+      hoverPaused = true;
+      divider.classList.add("is-paused");
+    });
+
+    divider.addEventListener("pointerleave", () => {
+      hoverPaused = false;
+      divider.classList.toggle("is-paused", manualPaused);
+    });
+
+    reducedMotion.addEventListener("change", resetRunner);
+    window.addEventListener("resize", resetRunner);
+
+    resetRunner();
+    requestAnimationFrame(tick);
+  </script>
+</body>
+</html>

@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Foxmir Blog Design Probe</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #fbfaf7;
+      --paper: #fffefb;
+      --ink: #161513;
+      --muted: #67615a;
+      --faint: #ddd6cc;
+      --line: #cfc5b8;
+      --header-bg: rgba(251, 250, 247, 0.9);
+      --grid-line: rgba(216, 100, 28, 0.035);
+      --avatar-border: rgba(22, 21, 19, 0.12);
+      --fox: #d8641c;
+      --melon: #d9362b;
+      --rind: #2f7d35;
+      --seed: #2b211b;
+      --max: 1080px;
+      --measure: 700px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --bg: #141311;
+        --paper: #1b1916;
+        --ink: #f2ece4;
+        --muted: #b7aca0;
+        --faint: #342e28;
+        --line: #463b32;
+        --header-bg: rgba(20, 19, 17, 0.9);
+        --grid-line: rgba(255, 143, 72, 0.045);
+        --avatar-border: rgba(242, 236, 228, 0.16);
+        --fox: #ff9147;
+        --melon: #ff6b5d;
+        --rind: #72b36c;
+        --seed: #120f0d;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #141311;
+      --paper: #1b1916;
+      --ink: #f2ece4;
+      --muted: #b7aca0;
+      --faint: #342e28;
+      --line: #463b32;
+      --header-bg: rgba(20, 19, 17, 0.9);
+      --grid-line: rgba(255, 143, 72, 0.045);
+      --avatar-border: rgba(242, 236, 228, 0.16);
+      --fox: #ff9147;
+      --melon: #ff6b5d;
+      --rind: #72b36c;
+      --seed: #120f0d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px 100%),
+        var(--bg);
+      background-size: 64px 64px;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: var(--fox);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.18em;
+    }
+
+    a:hover {
+      color: var(--melon);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+      background: var(--header-bg);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      max-width: var(--max);
+      min-height: 64px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      font-weight: 720;
+      text-decoration: none;
+    }
+
+    .fox-mark {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+    }
+
+    .fox-mark img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--avatar-border);
+      transform-origin: 56% 58%;
+      transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .fox-mark::before,
+    .fox-mark::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate3d(0, 0, 0) scale(0.7);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+    }
+
+    .fox-mark::before {
+      right: -6px;
+      top: 8px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--melon);
+      box-shadow: 9px -4px 0 -1px var(--melon), 12px 8px 0 -1px var(--seed);
+    }
+
+    .fox-mark::after {
+      right: -10px;
+      bottom: 7px;
+      width: 7px;
+      height: 3px;
+      border-radius: 999px;
+      background: var(--rind);
+    }
+
+    .brand:hover .fox-mark img,
+    .brand:focus-visible .fox-mark img,
+    .fox-mark:hover img,
+    .fox-mark:focus-visible img,
+    .avatar-note:hover .fox-mark img,
+    .avatar-note:focus .fox-mark img,
+    .avatar-note:focus-within .fox-mark img {
+      animation: fox-nibble 0.42s ease both;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--fox) 16%, transparent);
+      filter: saturate(1.05);
+    }
+
+    .brand:hover .fox-mark::before,
+    .brand:hover .fox-mark::after,
+    .brand:focus-visible .fox-mark::before,
+    .brand:focus-visible .fox-mark::after,
+    .fox-mark:hover::before,
+    .fox-mark:hover::after,
+    .fox-mark:focus-visible::before,
+    .fox-mark:focus-visible::after,
+    .avatar-note:hover .fox-mark::before,
+    .avatar-note:hover .fox-mark::after,
+    .avatar-note:focus .fox-mark::before,
+    .avatar-note:focus .fox-mark::after,
+    .avatar-note:focus-within .fox-mark::before,
+    .avatar-note:focus-within .fox-mark::after {
+      opacity: 1;
+      transform: translate3d(2px, -1px, 0) scale(1);
+    }
+
+    @keyframes fox-nibble {
+      0% { transform: rotate(0deg) scale(1); }
+      35% { transform: rotate(-4deg) scale(1.035); }
+      70% { transform: rotate(3deg) scale(0.99); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 18px;
+      font-size: 13px;
+      font-weight: 650;
+      text-transform: uppercase;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--fox);
+    }
+
+    .theme-toggle {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--paper);
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      transition: color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    }
+
+    .theme-toggle:hover,
+    .theme-toggle:focus-visible {
+      color: var(--fox);
+      border-color: color-mix(in srgb, var(--fox) 54%, var(--line));
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle::before {
+      content: "";
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: inset -5px -4px 0 0 var(--paper);
+    }
+
+    :root[data-theme="dark"] .theme-toggle::before {
+      box-shadow: inset 5px 0 0 0 var(--paper);
+    }
+
+    main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 240px;
+      gap: 56px;
+      align-items: end;
+      min-height: 430px;
+      padding-bottom: 56px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--rind);
+      font-size: 13px;
+      font-weight: 760;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 10ch;
+      margin: 0;
+      font-size: 64px;
+      line-height: 0.98;
+      font-weight: 760;
+    }
+
+    .lead {
+      max-width: 560px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-family: "Iowan Old Style", "Charter", "Source Serif Pro", Georgia, serif;
+      font-size: 22px;
+      line-height: 1.55;
+    }
+
+    .avatar-note {
+      align-self: center;
+      padding-left: 22px;
+      border-left: 2px solid rgba(216, 100, 28, 0.3);
+    }
+
+    .avatar-note:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--fox) 36%, transparent);
+      outline-offset: 8px;
+    }
+
+    .avatar-note .fox-mark {
+      width: 112px;
+      height: 112px;
+    }
+
+    .avatar-note .fox-mark img {
+      width: 112px;
+      height: 112px;
+      display: block;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--line);
+    }
+
+    .avatar-note .fox-mark::before {
+      right: -11px;
+      top: 27px;
+      width: 6px;
+      height: 6px;
+      box-shadow: 15px -7px 0 -1px var(--melon), 21px 12px 0 -2px var(--seed);
+    }
+
+    .avatar-note .fox-mark::after {
+      right: -15px;
+      bottom: 28px;
+      width: 13px;
+      height: 5px;
+    }
+
+    .avatar-note p {
+      max-width: 180px;
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .section {
+      display: grid;
+      grid-template-columns: 132px minmax(0, 1fr);
+      gap: 36px;
+      padding: 42px 0;
+      border-bottom: 1px solid rgba(207, 197, 184, 0.8);
+    }
+
+    .section-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 760;
+      text-transform: uppercase;
+    }
+
+    .post-list {
+      display: grid;
+      gap: 22px;
+    }
+
+    .post {
+      display: grid;
+      grid-template-columns: 104px minmax(0, 1fr);
+      gap: 26px;
+      align-items: start;
+    }
+
+    .date {
+      padding-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 690;
+      text-transform: uppercase;
+    }
+
+    .post h2 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.16;
+      font-weight: 690;
+    }
+
+    .post h2 a {
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.16s ease, text-shadow 0.16s ease;
+    }
+
+    .post h2 a:hover {
+      color: var(--fox);
+      text-shadow: 0.035em 0 color-mix(in srgb, var(--melon) 18%, transparent);
+    }
+
+    .post p {
+      max-width: 62ch;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-family: "Iowan Old Style", "Charter", "Source Serif Pro", Georgia, serif;
+      font-size: 17px;
+      line-height: 1.62;
+    }
+
+    .article-preview {
+      max-width: var(--measure);
+    }
+
+    .article-preview h2 {
+      margin: 0 0 18px;
+      font-size: 40px;
+      line-height: 1.08;
+      font-weight: 720;
+    }
+
+    .article-preview p,
+    .article-preview li {
+      font-family: "Iowan Old Style", "Charter", "Source Serif Pro", Georgia, serif;
+      font-size: 19px;
+      line-height: 1.76;
+    }
+
+    .article-preview blockquote {
+      margin: 28px 0;
+      padding: 2px 0 2px 18px;
+      border-left: 3px solid var(--melon);
+      color: var(--muted);
+    }
+
+    .tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tagline::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--fox), var(--melon) 52%, var(--rind) 53%);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+        gap: 14px;
+      }
+
+      .theme-toggle {
+        position: absolute;
+        top: 14px;
+        right: 24px;
+      }
+
+      main {
+        padding-top: 36px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 34px;
+        min-height: 0;
+      }
+
+      h1 {
+        font-size: 48px;
+      }
+
+      .lead {
+        font-size: 20px;
+      }
+
+      .avatar-note {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding-left: 0;
+        border-left: 0;
+      }
+
+      .avatar-note .fox-mark,
+      .avatar-note .fox-mark img {
+        width: 72px;
+        height: 72px;
+      }
+
+      .avatar-note p {
+        margin: 0;
+      }
+
+      .section,
+      .post {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .post h2 {
+        font-size: 24px;
+      }
+
+      .article-preview h2 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="#">
+        <span class="fox-mark" aria-hidden="true"><img src="assets/foxmir-avatar.png" alt=""></span>
+        <span>Foxmir Blog</span>
+      </a>
+      <div class="nav-links">
+        <a href="#">About</a>
+        <a href="#">Log</a>
+        <a href="#">Articles</a>
+        <a href="#">Bits</a>
+        <a href="#">Learn</a>
+        <a href="#">Reports</a>
+      </div>
+      <button class="theme-toggle" type="button" aria-label="Toggle color mode"></button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Reinforcement learning notes</p>
+        <h1>Foxmir Blog</h1>
+        <p class="lead">Theory, implementation notes, experiment reports, and the parts of RL that become clearer only after something breaks.</p>
+        <span class="tagline">Content first, with a little fox-colored edge.</span>
+      </div>
+      <aside class="avatar-note" aria-label="Visual note" tabindex="0">
+        <span class="fox-mark" aria-hidden="true"><img src="assets/foxmir-avatar.png" alt=""></span>
+        <p>The avatar stays playful. The page answers with restraint.</p>
+      </aside>
+    </section>
+
+    <section class="section">
+      <h2 class="section-label">Latest</h2>
+      <div class="post-list">
+        <article class="post">
+          <time class="date">Jun 17, 2026</time>
+          <div>
+            <h2><a href="#">Statistical Analysis of DQN on CartPole v1</a></h2>
+            <p>A report-shaped post should feel steady before it feels stylish. The list gives the title room without turning every item into a card.</p>
+          </div>
+        </article>
+        <article class="post">
+          <time class="date">May 29, 2026</time>
+          <div>
+            <h2><a href="#">Early Reflections on Benchmark Design</a></h2>
+            <p>Small labels, direct titles, and muted summaries create a reading index rather than a portfolio grid.</p>
+          </div>
+        </article>
+        <article class="post">
+          <time class="date">May 26, 2026</time>
+          <div>
+            <h2><a href="#">When Should You Normalize or Scale Rewards in Reinforcement Learning?</a></h2>
+            <p>Long technical titles need calmer type and more forgiving line breaks than the current homepage gives them.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-label">Reading</h2>
+      <article class="article-preview">
+        <h2>Statistical Analysis of DQN on CartPole v1</h2>
+        <p>Under constrained computational budgets, reinforcement learning experiments often face a severe conflict between statistical rigor and resource consumption.</p>
+        <p>This preview uses a serif reading face, quieter headings, and a narrower measure. The goal is not to look literary; it is to make long technical paragraphs less mechanical.</p>
+        <blockquote>
+          The personal style is allowed to appear in accents and rhythm, but it should not become the subject of the page.
+        </blockquote>
+        <p>Figures, code blocks, tables, and equations would keep the same plain structure, with color reserved for links, marks, and active navigation.</p>
+      </article>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const toggle = document.querySelector(".theme-toggle");
+      const saved = localStorage.getItem("foxmir-probe-theme");
+
+      if (saved === "light" || saved === "dark") {
+        root.dataset.theme = saved;
+      }
+
+      const currentTheme = () => {
+        if (root.dataset.theme) return root.dataset.theme;
+        return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      };
+
+      const sync = () => {
+        if (!toggle) return;
+        const next = currentTheme() === "dark" ? "Switch to light mode" : "Switch to dark mode";
+        toggle.setAttribute("aria-label", next);
+        toggle.setAttribute("title", next);
+      };
+
+      toggle?.addEventListener("click", () => {
+        const next = currentTheme() === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        localStorage.setItem("foxmir-probe-theme", next);
+        sync();
+      });
+
+      sync();
+    })();
+  </script>
+</body>
+</html>
