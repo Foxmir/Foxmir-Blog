@@ -273,7 +273,8 @@ window.Quarto = {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -286,6 +287,14 @@ window.Quarto = {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -299,6 +308,10 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./assets/foxmir-avatar.png" alt="" class="navbar-logo light-content">
+    <img src="./assets/foxmir-avatar.png" alt="" class="navbar-logo dark-content">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Foxmir Blog</span>
     </a>
@@ -377,7 +390,7 @@ window.Quarto = {
 <!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->
 <div id="listing-category-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1783048039366" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1783058920882" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html" class="no-external">When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods</a>
@@ -391,7 +404,7 @@ May 26, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1783048039295" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="776">
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1783058920861" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="776">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html" class="no-external">What Does the Reward Function Depend On：<span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span>、<span class="math inline">\(R(s,a)\)</span> 与 <span class="math inline">\(R(s,a,s')\)</span>？</a>
@@ -405,7 +418,7 @@ May 19, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1783048039250" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1783058920821" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">Deconstructing Reward in RL</a>

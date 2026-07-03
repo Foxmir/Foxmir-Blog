@@ -357,7 +357,8 @@ window.Quarto = {
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -370,6 +371,14 @@ window.Quarto = {
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -383,6 +392,10 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./assets/foxmir-avatar.png" alt="" class="navbar-logo light-content">
+    <img src="./assets/foxmir-avatar.png" alt="" class="navbar-logo dark-content">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Foxmir Blog</span>
     </a>
@@ -458,27 +471,31 @@ window.Quarto = {
 </header>
 
 
-<!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian, not this file. -->
-<div class="home-stage">
-<div class="home-title">
-<p>FOXMIR</p>
+<!-- AUTO-GENERATED-HOMEPAGE: edit folders/posts in Obsidian; edit homepage layout in tools/sync-blog.ps1, not this file. -->
+<div class="home-page">
+<div class="home-hero">
+<section id="foxmir" class="level1 home-title-scene">
+<h1>Foxmir</h1>
+<div class="home-avatar-note" tabindex="0" aria-label="Foxmir">
+<div class="fox-mark" aria-hidden="true">
+<p><img src="assets/foxmir-avatar.png" class="img-fluid"></p>
 </div>
-<div class="home-stage-intro">
+</div>
+</section>
+<div class="home-lines">
 <p><strong>RL is fun, isn’t it?</strong><br>
 <strong>If not, let me show you.</strong><br>
 <strong>If yes, let’s talk.</strong></p>
 </div>
 </div>
-<div class="home-content-layer">
-<div class="home-sections-wrap">
-<div class="home-latest-section">
-<div class="home-latest-label">
+<div class="home-section home-latest-section">
+<div class="home-section-label">
 <p>Latest</p>
 </div>
-<div class="home-latest-main">
+<div class="home-section-main">
 <div id="listing-latest-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1781625600000" data-listing-file-modified-sort="1783048040179" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1781625600000" data-listing-file-modified-sort="1783058921759" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
@@ -492,7 +509,7 @@ Jun 17, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779984000000" data-listing-file-modified-sort="1783048039418" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1494">
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779984000000" data-listing-file-modified-sort="1783058920940" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1494">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Learn/Early Reflections on Benchmark Design.html" class="no-external">Early Reflections on Benchmark Design</a>
@@ -506,7 +523,7 @@ May 29, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1783048039366" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1783058920882" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html" class="no-external">When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods</a>
@@ -520,7 +537,7 @@ May 26, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1783048039295" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="776">
+<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1783058920861" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="776">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html" class="no-external">What Does the Reward Function Depend On：<span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span>、<span class="math inline">\(R(s,a)\)</span> 与 <span class="math inline">\(R(s,a,s')\)</span>？</a>
@@ -534,7 +551,7 @@ May 19, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1783048039250" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
+<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1783058920821" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">Deconstructing Reward in RL</a>
@@ -553,30 +570,21 @@ May 10, 2026
 </div>
 </div>
 </div>
-<div class="home-band-divider">
+<div class="home-color-divider" aria-hidden="true">
 
 </div>
-<div class="home-band">
-<div class="home-band-sticky">
-<div class="home-band-track">
-<section class="home-band-panel" data-panel="articles">
-<div class="hbp-label">
-Articles
+<div class="home-map">
+<div class="map-item map-item-bits">
+<div class="map-item-head">
+<p><a href="./bits.html">Bits</a></p>
 </div>
-<div class="hbp-main">
-<div class="hbp-empty">
-<p>No posts yet.</p>
+<div class="map-item-note">
+<p>Criteria, definitions, and short technical answers.</p>
 </div>
-</div>
-</section>
-<section class="home-band-panel" data-panel="bits">
-<div class="hbp-label">
-Bits
-</div>
-<div class="hbp-main">
+<div class="map-item-latest">
 <div id="listing-bits-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1783048039366" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1783058920882" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html" class="no-external">When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods</a>
@@ -590,47 +598,22 @@ May 26, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1783048039295" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="776">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html" class="no-external">What Does the Reward Function Depend On：<span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span>、<span class="math inline">\(R(s,a)\)</span> 与 <span class="math inline">\(R(s,a,s')\)</span>？</a>
-</h3>
-</div>
-<div class="metadata">
-<a href="./publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html" class="no-external">
-<div class="listing-date">
-May 19, 2026
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1783048039250" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">Deconstructing Reward in RL</a>
-</h3>
-</div>
-<div class="metadata">
-<a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">
-<div class="listing-date">
-May 10, 2026
-</div>
-</a>
-</div>
-</div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
 </div>
-</section>
-<section class="home-band-panel" data-panel="learn">
-<div class="hbp-label">
-Learn
 </div>
-<div class="hbp-main">
+<div class="map-item map-item-learn">
+<div class="map-item-head">
+<p><a href="./learn.html">Learn</a></p>
+</div>
+<div class="map-item-note">
+<p>Learning records and design reflections.</p>
+</div>
+<div class="map-item-latest">
 <div id="listing-learn-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779984000000" data-listing-file-modified-sort="1783048039418" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1494">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779984000000" data-listing-file-modified-sort="1783058920940" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1494">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Learn/Early Reflections on Benchmark Design.html" class="no-external">Early Reflections on Benchmark Design</a>
@@ -648,25 +631,18 @@ May 29, 2026
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
 </div>
-</section>
-<section class="home-band-panel" data-panel="notes">
-<div class="hbp-label">
-Notes
 </div>
-<div class="hbp-main">
-<div class="hbp-empty">
-<p>No posts yet.</p>
+<div class="map-item map-item-reports">
+<div class="map-item-head">
+<p><a href="./reports.html">Reports</a></p>
 </div>
+<div class="map-item-note">
+<p>Experiment reports, statistics, and result reading.</p>
 </div>
-</section>
-<section class="home-band-panel" data-panel="reports">
-<div class="hbp-label">
-Reports
-</div>
-<div class="hbp-main">
+<div class="map-item-latest">
 <div id="listing-reports-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1781625600000" data-listing-file-modified-sort="1783048040179" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1781625600000" data-listing-file-modified-sort="1783058921759" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5083">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Reports/Statistical Analysis of DQN on CartPole v1.html" class="no-external">Statistical Analysis of DQN on CartPole v1</a>
@@ -684,266 +660,25 @@ Jun 17, 2026
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
 </div>
-</section>
+</div>
+<div class="map-item map-item-articles">
+<div class="map-item-head">
+<p><a href="./articles.html">Articles</a></p>
+</div>
+<div class="map-item-note">
+<p>Longer arguments when a question needs more room.</p>
+</div>
+</div>
+<div class="map-item map-item-notes">
+<div class="map-item-head">
+<p><a href="./notes.html">Notes</a></p>
+</div>
+<div class="map-item-note">
+<p>Loose fragments, sketches, and unfinished signals.</p>
 </div>
 </div>
 </div>
 </div>
-</div>
-<style>
-body:has(.home-stage) #title-block-header { display:none; }
-body:has(.home-stage) #quarto-content { max-width:min(1200px,calc(100vw - 3rem)); padding-top:0; }
-body:has(.home-stage) main.content { padding-top:0; }
-body:has(.home-stage) { overflow-x:hidden; }
-
-.home-stage {
-  position:fixed; inset:0; z-index:1;
-  display:grid; align-content:center; justify-items:center;
-  min-height:100vh;
-  padding:5rem 2rem 14rem;
-  text-align:center;
-  pointer-events:none;
-}
-.home-title {
-  margin:0;
-  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
-  font-size:clamp(5rem,14vw,10rem);
-  font-weight:800;
-  letter-spacing:-0.11em;
-  line-height:0.9;
-  text-transform:uppercase;
-  color:var(--site-text);
-  will-change:transform,filter,opacity;
-}
-.home-title p { margin:0; font-size:inherit; font-weight:inherit; color:inherit; letter-spacing:inherit; }
-
-.home-content-layer {
-  position:relative; z-index:2;
-  width:100vw;
-  margin-left:calc(50% - 50vw);
-  margin-top:var(--content-layer-margin-top, calc(100vh - 120px));
-  padding:2rem 0 0;
-  background:linear-gradient(180deg,transparent 0%,var(--site-bg) 14%,var(--site-bg) 100%);
-  overflow-x:clip;
-}
-body.quarto-dark .home-content-layer {
-  background:linear-gradient(180deg,transparent 0%,#111213 14%,#111213 100%);
-}
-.home-sections-wrap {
-  max-width:1080px;
-  margin:0 auto;
-  padding:0 2rem;
-}
-.home-stage-intro {
-  max-width:min(760px,100%);
-  margin-top:1rem;
-  text-align:center;
-  pointer-events:none;
-  will-change:transform,filter,opacity;
-}
-.home-stage-intro p {
-  margin:0;
-  font-size:clamp(1.04rem,1.8vw,1.24rem);
-  line-height:1.72;
-  color:var(--site-text-soft);
-}
-
-.home-latest-section {
-  display:grid;
-  grid-template-columns:minmax(80px,110px) 1fr;
-  gap:2rem;
-  align-items:start;
-  margin-top:2rem;
-  margin-bottom:4rem;
-}
-.home-band-divider {
-  width:100vw;
-  height:2px;
-  margin:0 0 2.1rem calc(50% - 50vw);
-  background:color-mix(in srgb,var(--site-text) 26%,transparent);
-}
-.home-latest-label {
-  padding-top:0.25rem;
-  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
-  font-size:0.75rem;
-  font-weight:700;
-  letter-spacing:0.18em;
-  text-transform:uppercase;
-  color:var(--site-text-soft);
-}
-.home-latest-main .quarto-listing,
-.home-latest-main .quarto-listing-container,
-.home-latest-main .quarto-listing-container-default,
-.home-latest-main .list,
-.home-latest-main .listing-item,
-.home-latest-main .quarto-post {
-  border:0!important; box-shadow:none!important; background:transparent!important; outline:0!important;
-}
-.home-latest-main .quarto-listing { margin-top:0; }
-.home-latest-main .list { display:grid; gap:1.2rem; }
-.home-latest-main .quarto-post { padding:0; }
-.home-latest-main .listing-title { margin:0; font-size:clamp(1.3rem,2vw,1.75rem); line-height:1.1; letter-spacing:-0.03em; }
-.home-latest-main .listing-title a { color:var(--site-text); text-decoration:none; }
-.home-latest-main .listing-title a:hover { color:var(--site-accent); }
-.home-latest-main .listing-date { margin-top:0.1rem; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--site-text-soft); }
-.home-latest-main .listing-description,.home-latest-main .description { display:none; }
-.home-latest-main .metadata { padding-top:0; }
-
-.home-band {
-  --band-peek:clamp(4rem,8vw,8rem);
-  position:relative;
-  margin-top:1rem;
-}
-.home-band-sticky {
-  position:sticky;
-  top:5rem;
-  overflow:hidden;
-  padding-right:var(--band-peek);
-}
-.home-band-track {
-  display:flex;
-  gap:clamp(1rem,2vw,2rem);
-  will-change:transform;
-}
-.home-band-panel {
-  flex:0 0 calc(100% - var(--band-peek));
-  width:calc(100% - var(--band-peek));
-  display:grid;
-  grid-template-columns:1fr;
-  align-content:start;
-  padding:0 0 2rem;
-}
-.hbp-label {
-  font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;
-  font-size:clamp(3rem,8vw,6.5rem);
-  font-weight:800;
-  letter-spacing:-0.09em;
-  line-height:0.88;
-  text-transform:uppercase;
-  color:color-mix(in srgb,var(--site-text) 10%,transparent);
-  margin-bottom:1.6rem;
-  pointer-events:none;
-  user-select:none;
-}
-.hbp-main .quarto-listing,
-.hbp-main .quarto-listing-container,
-.hbp-main .quarto-listing-container-default,
-.hbp-main .list,
-.hbp-main .listing-item,
-.hbp-main .quarto-post {
-  border:0!important; box-shadow:none!important; background:transparent!important; outline:0!important;
-}
-.hbp-main .quarto-listing { margin-top:0; }
-.hbp-main .list { display:grid; gap:1.4rem; }
-.hbp-main .quarto-post { padding:0; display:grid; grid-template-columns:minmax(100px,130px) 1fr; gap:1.2rem; align-items:start; }
-.hbp-main .metadata { grid-column:1; grid-row:1; }
-.hbp-main .body { grid-column:2; grid-row:1; margin-bottom:0; }
-.hbp-main .listing-title { margin:0; font-size:clamp(1.6rem,2.4vw,2.3rem); line-height:1.06; letter-spacing:-0.04em; }
-.hbp-main .listing-title a { color:var(--site-text); text-decoration:none; }
-.hbp-main .listing-title a:hover { color:var(--site-accent); }
-.hbp-main .listing-date { font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--site-text-soft); margin-top:0.1rem; }
-.hbp-main .hbp-empty { margin:0; font-size:0.98rem; color:var(--site-text-soft); }
-.category-empty { margin:2rem auto; max-width:720px; color:var(--site-text-soft); font-size:1.03rem; }
-
-@media(max-width:640px){
-  .home-stage{padding:3.5rem 1rem 8rem;}
-  .home-content-layer{margin-top:var(--content-layer-margin-top, calc(100vh - 100px));padding-top:1.2rem;}
-  .home-stage-intro{margin-top:0.8rem;}
-  .home-band-divider{margin:0 0 1.4rem calc(50% - 50vw);}
-  .home-latest-section{grid-template-columns:1fr;gap:0.6rem;}
-  .home-band-sticky{position:static;overflow:visible;}
-  .home-band-track{display:grid;transform:none!important;}
-  .home-band-panel{flex:none;width:100%;}
-  .hbp-main .quarto-post{grid-template-columns:1fr;gap:0.3rem;}
-  .hbp-main .metadata,.hbp-main .body{grid-column:auto;grid-row:auto;}
-}
-</style>
-<script>
-(function(){
-  const title = document.querySelector(".home-title");
-  const stageIntro = document.querySelector(".home-stage-intro");
-  const cl = document.querySelector(".home-content-layer");
-  const band = document.querySelector(".home-band");
-  const sticky = document.querySelector(".home-band-sticky");
-  const track = document.querySelector(".home-band-track");
-  const panels = Array.from(document.querySelectorAll(".home-band-panel"));
-  let ticking = false;
-  let cycleHeight = 1;
-  let ringCycles = 1;
-
-  function setGeometry(){
-    const vh = window.innerHeight;
-    // 动态计算 Latest section 应该露出的高度（1.5行）
-    const latest = document.querySelector(".home-latest-section");
-    if(cl && latest){
-      const firstTitle = latest.querySelector(".listing-title, .listing-title a, h3");
-      let lineHeight = 24;
-      if(firstTitle){
-        const titleStyle = window.getComputedStyle(firstTitle);
-        const lh = parseFloat(titleStyle.lineHeight);
-        if(!isNaN(lh)){
-          lineHeight = lh;
-        } else {
-          const fs = parseFloat(titleStyle.fontSize);
-          if(!isNaN(fs)) lineHeight = fs * 1.2;
-        }
-      }
-      const exposedHeight = Math.ceil(lineHeight * 1.5);
-      const desiredTop = vh - exposedHeight;
-      const currentTop = latest.getBoundingClientRect().top;
-      const currentMargin = parseFloat(window.getComputedStyle(cl).marginTop) || 0;
-      const calibratedMargin = Math.max(0, Math.round(currentMargin - (currentTop - desiredTop)));
-      document.documentElement.style.setProperty("--content-layer-margin-top", `${calibratedMargin}px`);
-    }
-    if(!band||!sticky||!track||!panels.length)return;
-    if(window.innerWidth<=640){
-      sticky.style.height="";
-      band.style.height="";
-      panels.forEach(p=>p.style.minHeight="");
-      return;
-    }
-    const ph = Math.max(...panels.map(p=>p.scrollHeight),300);
-    const stickyH = Math.min(ph, Math.floor(vh*0.72));
-    sticky.style.height = stickyH+"px";
-    panels.forEach(p=>p.style.minHeight=stickyH+"px");
-    const dist = Math.max(track.scrollWidth - sticky.clientWidth, 0);
-    cycleHeight = dist>0 ? Math.max(vh*0.58, stickyH*0.52) : 1;
-    ringCycles = dist>0 ? Math.max(panels.length + 2, 5) : 1;
-    const scrollRange = cycleHeight * ringCycles;
-    band.style.height = (stickyH + scrollRange)+"px";
-  }
-
-  function draw(){
-    const y = window.scrollY;
-    const fade = Math.min(y/380,1);
-    if(title){
-      title.style.transform=`translate3d(0,${y*0.16}px,0)`;
-      title.style.filter=`blur(${fade*16}px) grayscale(${fade*100}%)`;
-      title.style.opacity=Math.max(1-fade*1.6,0);
-    }
-    if(stageIntro){
-      stageIntro.style.transform=`translate3d(0,${y*0.16}px,0)`;
-      stageIntro.style.filter=`blur(${fade*10}px) grayscale(${fade*90}%)`;
-      stageIntro.style.opacity=Math.max(1-fade*1.5,0);
-    }
-    if(!band||!sticky||!track||!panels.length||window.innerWidth<=640)return;
-    const stickyTop = parseFloat(getComputedStyle(sticky).top)||0;
-    const start = band.offsetTop - stickyTop;
-    const span = Math.max(cycleHeight * ringCycles, 1);
-    const local = Math.min(Math.max(window.scrollY - start,0),span);
-    const phase = ((local / Math.max(cycleHeight,1)) % 1 + 1) % 1;
-    const dist = Math.max(track.scrollWidth - sticky.clientWidth, 0);
-    track.style.transform=`translate3d(${-phase*dist}px,0,0)`;
-  }
-
-  window.addEventListener("scroll",function(){
-    if(!ticking){requestAnimationFrame(function(){draw();ticking=false;});ticking=true;}
-  },{passive:true});
-
-  window.addEventListener("resize",function(){setGeometry();draw();});
-  setGeometry(); draw();
-})()
-</script>
 
 
 

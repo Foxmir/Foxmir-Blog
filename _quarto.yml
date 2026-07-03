@@ -8,6 +8,7 @@ website:
   google-analytics: 'G-VQW94RHSBY'
   search: false
   navbar:
+    logo: assets/foxmir-avatar.png
     left:
       - href: about.qmd
         text: 'About'
@@ -30,7 +31,7 @@ format:
     theme:
       light: flatly
       dark: darkly
-    respect-user-color-scheme: false
+    respect-user-color-scheme: true
     css: styles.css
     include-after-body: outline-sidebar.html
     toc: false

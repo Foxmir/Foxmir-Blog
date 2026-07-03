@@ -306,6 +306,9 @@ function Test-TcpPortOpen {
 }
 
 function Get-GitProxyArguments {
+    $commonGitHttpArgs = @(
+        '-c', 'http.postBuffer=524288000'
+    )
     $explicitProxy = $env:BLOG_GIT_PROXY
     $proxyCandidates = @()
     if (-not [string]::IsNullOrWhiteSpace($explicitProxy)) {
@@ -332,6 +335,7 @@ function Get-GitProxyArguments {
         }
 
         $probeArgs = @(
+            $commonGitHttpArgs
             '-c', ('http.proxy=' + $proxy),
             '-c', ('https.proxy=' + $proxy),
             'ls-remote',
@@ -343,6 +347,7 @@ function Get-GitProxyArguments {
         if (-not $probeResult.Failed) {
             Write-Host ('[网络] GitHub 将通过本地代理 ' + $proxy + ' 访问。') -ForegroundColor DarkGray
             return @(
+                $commonGitHttpArgs
                 '-c', ('http.proxy=' + $proxy),
                 '-c', ('https.proxy=' + $proxy)
             )
@@ -350,7 +355,7 @@ function Get-GitProxyArguments {
     }
 
     Write-Host '[网络] 未检测到可用 GitHub 本地代理，Git 将尝试直连。' -ForegroundColor Yellow
-    return @()
+    return $commonGitHttpArgs
 }
 
 function Get-LocalAheadCount {
@@ -399,7 +404,7 @@ function Test-TransientGitPushFailure {
     param([AllowNull()][string[]]$Lines)
 
     $text = [string]::Join("`n", @($Lines))
-    return ($text -match 'Recv failure|Connection was reset|Failed to connect|Connection reset|Connection timed out|timed out|Could not resolve host')
+    return ($text -match 'Recv failure|Connection was reset|Failed to connect|Connection reset|Connection timed out|timed out|Could not resolve host|unable to rewind rpc post data|RPC failed|curl 65|unexpected disconnect')
 }
 
 function Fail-Workflow {
