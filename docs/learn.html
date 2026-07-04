@@ -390,7 +390,7 @@ window.Quarto = {
 <!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->
 <div id="listing-category-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779984000000" data-listing-file-modified-sort="1783079373554" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1494">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779984000000" data-listing-file-modified-sort="1783131568473" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1494">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Learn/Early Reflections on Benchmark Design.html" class="no-external">Early Reflections on Benchmark Design</a>
@@ -417,11 +417,8 @@ May 29, 2026
 (() => {
 
   const articlePathPattern = /\/publish\/[^/]+\/[^/]+\.html$/i;
-
   const desktopMedia = window.matchMedia('(min-width: 1200px)');
-
-  const maxDepth = 3;
-
+  const maxDepth = 2;
   const backToTopThreshold = 0.65;
 
 
@@ -769,19 +766,13 @@ May 29, 2026
     if (!articlePathPattern.test(window.location.pathname)) return;
 
     const contentRoot = document.querySelector('#quarto-document-content');
-
     if (!contentRoot) return;
-
-
+    const pageTitle = (document.querySelector('.quarto-title .title')?.textContent || '').trim();
 
     const headings = Array.from(contentRoot.querySelectorAll('h1, h2, h3, h4')).filter((heading) => {
-
       const text = (heading.textContent || '').trim();
-
-      return text.length > 0;
-
+      return text.length > 0 && text !== pageTitle;
     });
-
     if (headings.length < 2) return;
 
 

@@ -477,11 +477,8 @@ r_t^{\text{scaled}} = \frac{r_t}{\sqrt{\operatorname{Var}(\tilde R)+\epsilon}}
 (() => {
 
   const articlePathPattern = /\/publish\/[^/]+\/[^/]+\.html$/i;
-
   const desktopMedia = window.matchMedia('(min-width: 1200px)');
-
-  const maxDepth = 3;
-
+  const maxDepth = 2;
   const backToTopThreshold = 0.65;
 
 
@@ -829,19 +826,13 @@ r_t^{\text{scaled}} = \frac{r_t}{\sqrt{\operatorname{Var}(\tilde R)+\epsilon}}
     if (!articlePathPattern.test(window.location.pathname)) return;
 
     const contentRoot = document.querySelector('#quarto-document-content');
-
     if (!contentRoot) return;
-
-
+    const pageTitle = (document.querySelector('.quarto-title .title')?.textContent || '').trim();
 
     const headings = Array.from(contentRoot.querySelectorAll('h1, h2, h3, h4')).filter((heading) => {
-
       const text = (heading.textContent || '').trim();
-
-      return text.length > 0;
-
+      return text.length > 0 && text !== pageTitle;
     });
-
     if (headings.length < 2) return;
 
 

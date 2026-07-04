@@ -9,6 +9,7 @@ $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
 $OutputEncoding = [Console]::OutputEncoding
 $script:FailureLogged = $false
+$script:GitHubApiProxy = $null
 
 if ([System.IO.Path]::GetFileName($LogPath).Equals('LOG.md', [System.StringComparison]::OrdinalIgnoreCase)) {
     $logDirectory = if (-not [string]::IsNullOrWhiteSpace($env:BLOG_SOURCE) -and (Test-Path -LiteralPath $env:BLOG_SOURCE)) {
@@ -345,6 +346,7 @@ function Get-GitProxyArguments {
         )
         $probeResult = Invoke-ProcessCapture -FilePath 'git' -ArgumentList $probeArgs
         if (-not $probeResult.Failed) {
+            $script:GitHubApiProxy = $proxy
             Write-Host ('[网络] GitHub 将通过本地代理 ' + $proxy + ' 访问。') -ForegroundColor DarkGray
             return @(
                 $commonGitHttpArgs
@@ -432,7 +434,34 @@ function Invoke-GitHubJson {
         'User-Agent' = 'Foxmir-Blog-Publish'
     }
 
-    return Invoke-RestMethod -Uri $Uri -Headers $headers -TimeoutSec 20 -ErrorAction Stop
+    $directError = $null
+    try {
+        return Invoke-RestMethod -Uri $Uri -Headers $headers -TimeoutSec 20 -ErrorAction Stop
+    } catch {
+        $directError = $_.Exception.Message
+    }
+
+    $curlArgs = @(
+        '-sS',
+        '--fail',
+        '-H',
+        'Accept: application/vnd.github+json',
+        '-H',
+        'User-Agent: Foxmir-Blog-Publish',
+        $Uri
+    )
+    if (-not [string]::IsNullOrWhiteSpace($script:GitHubApiProxy)) {
+        $curlArgs = @('--proxy', $script:GitHubApiProxy) + $curlArgs
+    }
+
+    $curlResult = Invoke-ProcessCapture -FilePath 'curl.exe' -ArgumentList $curlArgs
+    if (-not $curlResult.Failed -and $curlResult.Lines.Count -gt 0) {
+        $jsonText = [string]::Join([Environment]::NewLine, $curlResult.Lines)
+        return $jsonText | ConvertFrom-Json
+    }
+
+    $curlText = [string]::Join(' ', @($curlResult.Lines))
+    throw ('GitHub API request failed. Direct: ' + $directError + '; curl: ' + $curlText)
 }
 
 function Wait-GitHubPagesDeployment {
@@ -532,6 +561,7 @@ function Fail-Workflow {
     $tailLines = Get-TailLines -Lines $Lines -Count 20
     $reason = Get-ChineseReason -Stage $Title -Lines $tailLines
     Write-Host ('[失败] ' + $reason) -ForegroundColor Red
+    Get-TailLines -Lines $tailLines -Count 8 | ForEach-Object { Write-Host ('  ' + $_) -ForegroundColor DarkGray }
     Add-LogEntry -Title $Title -Summary $reason -Details $tailLines
     $script:FailureLogged = $true
     throw $reason

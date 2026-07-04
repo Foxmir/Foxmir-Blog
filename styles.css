@@ -12,9 +12,10 @@
 	--site-rind: #2f7d35;
 	--site-seed: #2b211b;
 	--site-max-width: 1080px;
-	--site-reading-width: 700px;
-	--site-wide-reading-width: 920px;
+	--site-reading-width: 780px;
+	--site-wide-reading-width: 1040px;
 	--site-radius-sm: 10px;
+	--site-color-rule-height: 0.28rem;
 }
 
 body.quarto-dark {
@@ -240,6 +241,17 @@ main.content,
 
 #quarto-document-content {
 	max-width: var(--site-reading-width);
+	margin-inline: auto;
+}
+
+body.has-context-outline #quarto-document-content {
+	margin-inline: 0;
+}
+
+body:not(.has-context-outline):not(:has(.home-page)) #title-block-header {
+	max-width: var(--site-reading-width);
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .quarto-title .title {
@@ -322,9 +334,10 @@ body:has(.home-page) #quarto-document-content {
 	left: 0;
 	right: 0;
 	bottom: -0.72rem;
-	height: 0.32rem;
+	height: var(--site-color-rule-height);
 	background: linear-gradient(90deg, var(--site-fox), var(--site-melon) 52%, var(--site-rind));
-	opacity: 0.88;
+	opacity: 0.86;
+	animation: home-color-divider-breathe 9.5s ease-in-out infinite;
 }
 
 .home-avatar-note {
@@ -427,12 +440,12 @@ body:has(.home-page) #quarto-document-content {
 .home-color-divider {
 	position: relative;
 	margin: 0 0 2.4rem;
-	height: 0.32rem;
+	height: var(--site-color-rule-height);
 	overflow: hidden;
 	background: linear-gradient(90deg, var(--site-fox), var(--site-melon) 52%, var(--site-rind));
-	opacity: 0.82;
+	opacity: 0.86;
 	transform-origin: center;
-	animation: home-color-divider-breathe 8.5s ease-in-out infinite;
+	animation: home-color-divider-breathe 9.5s ease-in-out infinite;
 }
 
 @keyframes home-color-divider-breathe {
@@ -449,9 +462,10 @@ body:has(.home-page) #quarto-document-content {
 }
 
 @media (prefers-reduced-motion: reduce) {
+	.home-title-scene::after,
 	.home-color-divider {
 		animation: none;
-		opacity: 0.88;
+		opacity: 0.86;
 		filter: none;
 	}
 }
@@ -790,7 +804,7 @@ table {
 
 .context-outline__inner {
 	border-left: 1px solid var(--site-line);
-	padding-left: 1rem;
+	padding-left: 0.9rem;
 }
 
 .context-outline__label {
@@ -804,35 +818,54 @@ table {
 .context-outline__nav ul {
 	display: flex;
 	flex-direction: column;
-	gap: 0.38rem;
+	gap: 0.34rem;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
 .context-outline__nav ul ul {
-	margin-top: 0.32rem;
-	padding-left: 0.9rem;
-	border-left: 1px solid var(--site-line);
+	margin-top: 0.28rem;
+	padding-left: 0.78rem;
+	border-left: 1px solid color-mix(in srgb, var(--site-line) 70%, transparent);
 }
 
 .context-outline__nav a {
 	display: block;
 	color: var(--site-muted);
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	text-decoration: none;
-	line-height: 1.45;
-	overflow-wrap: anywhere;
+	line-height: 1.34;
+	overflow-wrap: normal;
+	word-break: normal;
+	hyphens: auto;
+}
+
+.context-outline__item--level-0 > a {
+	color: var(--site-ink);
+	font-size: 0.86rem;
+	font-weight: 740;
+}
+
+.context-outline__item--level-1 > a {
+	color: color-mix(in srgb, var(--site-ink) 84%, var(--site-muted));
+	font-size: 0.8rem;
+	font-weight: 650;
 }
 
 .context-outline__item--level-2 > a {
-	color: var(--site-ink);
-	font-size: 0.92rem;
-	font-weight: 700;
+	font-size: 0.74rem;
 }
 
 .context-outline__item--level-3 > a,
 .context-outline__item--level-4 > a {
-	font-size: 0.84rem;
+	font-size: 0.76rem;
+	color: color-mix(in srgb, var(--site-muted) 88%, var(--site-ink));
+}
+
+.context-outline__item--level-4 > a {
+	font-size: 0.72rem;
+	opacity: 0.92;
 }
 
 .context-outline__nav a:hover,
@@ -887,8 +920,8 @@ table {
 
 @media (min-width: 1200px) {
 	body.has-context-outline #quarto-content {
-		max-width: min(calc(var(--site-wide-reading-width) + 22rem), calc(100vw - 48px));
-		padding-right: clamp(15rem, 22vw, 20rem);
+		max-width: min(calc(var(--site-wide-reading-width) + 16.5rem), calc(100vw - 48px));
+		padding-right: clamp(11.5rem, 17vw, 15rem);
 	}
 
 	body.has-context-outline .context-outline {
@@ -896,7 +929,7 @@ table {
 		position: fixed;
 		top: 8rem;
 		right: max(1.25rem, calc((100vw - var(--site-max-width)) / 2 + 1.25rem));
-		width: clamp(15rem, 21vw, 19rem);
+		width: clamp(10.5rem, 15vw, 13.5rem);
 		max-height: calc(100vh - 10rem);
 		overflow: auto;
 		padding-bottom: 1rem;

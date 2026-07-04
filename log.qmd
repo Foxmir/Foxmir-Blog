@@ -5,6 +5,7 @@ page-layout: full
 
 <!-- AUTO-GENERATED-ROOT-PAGE: edit root Markdown pages in Obsidian, not this file. -->
 
+::: {.log-timeline}
 
 * **2026-06-29**: PPO vs SAC benchmark debugging + rerun planning
 	* [ ] Review first formal PPO/SAC training results
@@ -66,3 +67,4 @@ page-layout: full
 	- **Handling**: Continue with the original mainline.
 
 
+:::
