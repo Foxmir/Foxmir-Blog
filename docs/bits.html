@@ -390,7 +390,7 @@ window.Quarto = {
 <!-- AUTO-GENERATED-CATEGORY-PAGE: edit folders/posts in Obsidian, not this file. -->
 <div id="listing-category-listing" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1783131568415" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1779724800000" data-listing-file-modified-sort="1783144587899" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1206">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods.html" class="no-external">When Should You Normalize or Scale Rewards in Reinforcement Learning：Criteria and Common Methods</a>
@@ -404,7 +404,7 @@ May 26, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1783131568332" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="776">
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1779120000000" data-listing-file-modified-sort="1783144587840" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="776">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/What Does the Reward Function Depend On：$R(s)$、$R(s')$、$R(s,a)$ 与 $R(s,a,s')$？.html" class="no-external">What Does the Reward Function Depend On：<span class="math inline">\(R(s)\)</span>、<span class="math inline">\(R(s')\)</span>、<span class="math inline">\(R(s,a)\)</span> 与 <span class="math inline">\(R(s,a,s')\)</span>？</a>
@@ -418,7 +418,7 @@ May 19, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1783131568242" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1778342400000" data-listing-file-modified-sort="1783144587777" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1966">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./publish/Bits/Deconstructing Reward in RL.html" class="no-external">Deconstructing Reward in RL</a>
@@ -740,7 +740,6 @@ May 10, 2026
 
 
   const initBackToTop = () => {
-
     const button = document.createElement('button');
 
     button.type = 'button';
@@ -784,13 +783,81 @@ May 10, 2026
     window.addEventListener('resize', updateVisibility);
 
     updateVisibility();
-
   };
 
+  const getDirectTextAfter = (node) => {
+    const parts = [];
+    let current = node?.nextSibling || null;
+    while (current) {
+      if (current.nodeType === Node.ELEMENT_NODE && ['UL', 'OL'].includes(current.tagName)) {
+        break;
+      }
+      if (current.nodeType === Node.TEXT_NODE) {
+        parts.push(current.textContent || '');
+      }
+      current = current.nextSibling;
+    }
+    return parts.join(' ').replace(/^\s*:\s*/, '').trim();
+  };
 
+  const removeDirectTextAfter = (node) => {
+    const toRemove = [];
+    let current = node?.nextSibling || null;
+    while (current) {
+      if (current.nodeType === Node.ELEMENT_NODE && ['UL', 'OL'].includes(current.tagName)) {
+        break;
+      }
+      const next = current.nextSibling;
+      if (current.nodeType === Node.TEXT_NODE) {
+        toRemove.push(current);
+      }
+      current = next;
+    }
+    toRemove.forEach((item) => item.remove());
+  };
+
+  const initLogTimeline = () => {
+    const timeline = document.querySelector('.log-timeline');
+    if (!timeline || timeline.dataset.enhanced === 'true') return;
+
+    Array.from(timeline.children).forEach((child) => {
+      if (child.tagName !== 'UL') return;
+      const entry = child.children.length === 1 ? child.firstElementChild : null;
+      if (!entry || entry.classList.contains('log-entry')) return;
+
+      const dateNode = entry.querySelector(':scope > strong');
+      const title = getDirectTextAfter(dateNode);
+      if (!dateNode || title.length === 0) return;
+
+      const meta = document.createElement('header');
+      meta.className = 'log-meta';
+
+      const date = document.createElement('p');
+      date.className = 'log-date';
+      date.textContent = (dateNode.textContent || '').trim();
+
+      const heading = document.createElement('h2');
+      heading.className = 'log-title';
+      heading.textContent = title;
+
+      meta.append(date, heading);
+      removeDirectTextAfter(dateNode);
+      dateNode.remove();
+
+      const body = document.createElement('div');
+      body.className = 'log-body';
+      while (entry.firstChild) {
+        body.appendChild(entry.firstChild);
+      }
+
+      entry.classList.add('log-entry');
+      entry.append(meta, body);
+    });
+
+    timeline.dataset.enhanced = 'true';
+  };
 
   const initOutline = () => {
-
     if (!articlePathPattern.test(window.location.pathname)) return;
 
     const contentRoot = document.querySelector('#quarto-document-content');
@@ -920,23 +987,16 @@ May 10, 2026
   if (document.readyState === 'loading') {
 
     document.addEventListener('DOMContentLoaded', () => {
-
+      initLogTimeline();
       initOutline();
-
       initBackToTop();
-
     }, { once: true });
-
   } else {
-
+    initLogTimeline();
     initOutline();
-
     initBackToTop();
-
   }
-
 })();
-
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

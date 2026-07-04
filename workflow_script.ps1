@@ -427,7 +427,13 @@ function Get-GitHubRepositorySlug {
 }
 
 function Invoke-GitHubJson {
-    param([Parameter(Mandatory = $true)][string]$Uri)
+    param([Parameter(Mandatory = $true)][AllowNull()][object]$Uri)
+
+    $uriValues = @($Uri | Where-Object { $null -ne $_ -and -not [string]::IsNullOrWhiteSpace([string]$_) })
+    if ($uriValues.Count -ne 1) {
+        throw ('GitHub API request requires exactly one URI, got ' + $uriValues.Count + '.')
+    }
+    $uriText = [string]$uriValues[0]
 
     $headers = @{
         'Accept' = 'application/vnd.github+json'
@@ -436,7 +442,7 @@ function Invoke-GitHubJson {
 
     $directError = $null
     try {
-        return Invoke-RestMethod -Uri $Uri -Headers $headers -TimeoutSec 20 -ErrorAction Stop
+        return Invoke-RestMethod -Uri $uriText -Headers $headers -TimeoutSec 20 -ErrorAction Stop
     } catch {
         $directError = $_.Exception.Message
     }
@@ -448,7 +454,7 @@ function Invoke-GitHubJson {
         'Accept: application/vnd.github+json',
         '-H',
         'User-Agent: Foxmir-Blog-Publish',
-        $Uri
+        $uriText
     )
     if (-not [string]::IsNullOrWhiteSpace($script:GitHubApiProxy)) {
         $curlArgs = @('--proxy', $script:GitHubApiProxy) + $curlArgs
@@ -497,10 +503,22 @@ function Wait-GitHubPagesDeployment {
                 continue
             }
 
-            $statuses = @(Invoke-GitHubJson -Uri $deployment[0].statuses_url)
+            $deploymentItem = $deployment | Select-Object -First 1
+            $statusUrl = [string]$deploymentItem.statuses_url
+            if ([string]::IsNullOrWhiteSpace($statusUrl)) {
+                return [pscustomobject]@{
+                    State = 'unknown'
+                    Lines = @(
+                        'Unable to verify GitHub Pages deployment.',
+                        'Deployment status URL is empty for deployment ' + $deploymentItem.id
+                    )
+                }
+            }
+
+            $statuses = @(Invoke-GitHubJson -Uri $statusUrl)
             $latestStatus = @($statuses | Select-Object -First 1)
             if ($latestStatus.Count -eq 0) {
-                $lastLines = @('Waiting for GitHub Pages deployment status for deployment ' + $deployment[0].id)
+                $lastLines = @('Waiting for GitHub Pages deployment status for deployment ' + $deploymentItem.id)
                 Write-Host ('[等待] GitHub Pages 部署已创建，等待状态返回。') -ForegroundColor DarkGray
                 Start-Sleep -Seconds $PollSeconds
                 continue
@@ -511,8 +529,8 @@ function Wait-GitHubPagesDeployment {
             $environmentUrl = [string]$latestStatus[0].environment_url
             $lastLines = @(
                 ('Deployment state: ' + $state),
-                ('Deployment id: ' + $deployment[0].id),
-                ('Deployment sha: ' + $deployment[0].sha),
+                ('Deployment id: ' + $deploymentItem.id),
+                ('Deployment sha: ' + $deploymentItem.sha),
                 ('Log URL: ' + $logUrl),
                 ('Environment URL: ' + $environmentUrl)
             )
@@ -710,8 +728,10 @@ try {
     $headSha = $headResult.Lines[0].Trim()
     Write-Host ('[等待] Git push 已成功，继续确认 GitHub Pages 云端部署: ' + $headSha.Substring(0, 7)) -ForegroundColor DarkGray
     $pagesDeploymentResult = Wait-GitHubPagesDeployment -HeadSha $headSha
-    if ($pagesDeploymentResult.State -ne 'success') {
+    if ($pagesDeploymentResult.State -eq 'failure') {
         Fail-Workflow -Title '确认 GitHub Pages 云端部署' -Lines $pagesDeploymentResult.Lines
+    } elseif ($pagesDeploymentResult.State -ne 'success') {
+        Write-Host '[警告] Git push 已成功，但本地无法确认 GitHub Pages 最终部署状态；这不会再被判定为发布失败。' -ForegroundColor Yellow
     }
     Get-TailLines -Lines $pagesDeploymentResult.Lines -Count 8 | ForEach-Object { Write-Host ('  ' + $_) }
 

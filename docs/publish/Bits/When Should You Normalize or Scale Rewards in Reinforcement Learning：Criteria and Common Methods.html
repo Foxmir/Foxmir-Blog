@@ -772,7 +772,6 @@ r_t^{\text{scaled}} = \frac{r_t}{\sqrt{\operatorname{Var}(\tilde R)+\epsilon}}
 
 
   const initBackToTop = () => {
-
     const button = document.createElement('button');
 
     button.type = 'button';
@@ -816,13 +815,81 @@ r_t^{\text{scaled}} = \frac{r_t}{\sqrt{\operatorname{Var}(\tilde R)+\epsilon}}
     window.addEventListener('resize', updateVisibility);
 
     updateVisibility();
-
   };
 
+  const getDirectTextAfter = (node) => {
+    const parts = [];
+    let current = node?.nextSibling || null;
+    while (current) {
+      if (current.nodeType === Node.ELEMENT_NODE && ['UL', 'OL'].includes(current.tagName)) {
+        break;
+      }
+      if (current.nodeType === Node.TEXT_NODE) {
+        parts.push(current.textContent || '');
+      }
+      current = current.nextSibling;
+    }
+    return parts.join(' ').replace(/^\s*:\s*/, '').trim();
+  };
 
+  const removeDirectTextAfter = (node) => {
+    const toRemove = [];
+    let current = node?.nextSibling || null;
+    while (current) {
+      if (current.nodeType === Node.ELEMENT_NODE && ['UL', 'OL'].includes(current.tagName)) {
+        break;
+      }
+      const next = current.nextSibling;
+      if (current.nodeType === Node.TEXT_NODE) {
+        toRemove.push(current);
+      }
+      current = next;
+    }
+    toRemove.forEach((item) => item.remove());
+  };
+
+  const initLogTimeline = () => {
+    const timeline = document.querySelector('.log-timeline');
+    if (!timeline || timeline.dataset.enhanced === 'true') return;
+
+    Array.from(timeline.children).forEach((child) => {
+      if (child.tagName !== 'UL') return;
+      const entry = child.children.length === 1 ? child.firstElementChild : null;
+      if (!entry || entry.classList.contains('log-entry')) return;
+
+      const dateNode = entry.querySelector(':scope > strong');
+      const title = getDirectTextAfter(dateNode);
+      if (!dateNode || title.length === 0) return;
+
+      const meta = document.createElement('header');
+      meta.className = 'log-meta';
+
+      const date = document.createElement('p');
+      date.className = 'log-date';
+      date.textContent = (dateNode.textContent || '').trim();
+
+      const heading = document.createElement('h2');
+      heading.className = 'log-title';
+      heading.textContent = title;
+
+      meta.append(date, heading);
+      removeDirectTextAfter(dateNode);
+      dateNode.remove();
+
+      const body = document.createElement('div');
+      body.className = 'log-body';
+      while (entry.firstChild) {
+        body.appendChild(entry.firstChild);
+      }
+
+      entry.classList.add('log-entry');
+      entry.append(meta, body);
+    });
+
+    timeline.dataset.enhanced = 'true';
+  };
 
   const initOutline = () => {
-
     if (!articlePathPattern.test(window.location.pathname)) return;
 
     const contentRoot = document.querySelector('#quarto-document-content');
@@ -952,23 +1019,16 @@ r_t^{\text{scaled}} = \frac{r_t}{\sqrt{\operatorname{Var}(\tilde R)+\epsilon}}
   if (document.readyState === 'loading') {
 
     document.addEventListener('DOMContentLoaded', () => {
-
+      initLogTimeline();
       initOutline();
-
       initBackToTop();
-
     }, { once: true });
-
   } else {
-
+    initLogTimeline();
     initOutline();
-
     initBackToTop();
-
   }
-
 })();
-
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
