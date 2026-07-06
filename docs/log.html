@@ -330,10 +330,13 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 <!-- AUTO-GENERATED-ROOT-PAGE: edit root Markdown pages in Obsidian, not this file. -->
 <div class="log-timeline">
 <ul>
-<li><strong>2026-06-29</strong>: PPO vs SAC benchmark debugging + rerun planning
+<li><strong>2026-07-06</strong>: PPO vs SAC benchmark debugging + rerun planning
 <ul class="task-list">
-<li><label><input type="checkbox">Review first formal PPO/SAC training results</label></li>
-<li><label><input type="checkbox">Diagnose PPO failure mode</label></li>
+<li><label><input type="checkbox">Diagnose PPO failure mode</label>
+<ul class="task-list">
+<li><label><input type="checkbox">L4 optimizer/gradient layer diagnosis</label></li>
+<li><label><input type="checkbox">L5 PPO update-stability layer diagnosis</label></li>
+</ul></li>
 <li><label><input type="checkbox">Design and run minimal diagnostic experiments</label></li>
 <li><label><input type="checkbox">Fix or adjust the identified issue</label></li>
 <li><label><input type="checkbox">Training-run2</label></li>
@@ -342,6 +345,38 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 <li><label><input type="checkbox">Valid/stable results → Report V0</label></li>
 <li><label><input type="checkbox">Invalid/unstable results → continue debugging pass</label></li>
 </ul></li>
+</ul></li>
+</ul>
+<hr>
+<ul>
+<li><strong>2026-06-29</strong>: PPO vs SAC benchmark debugging + rerun planning
+<ul>
+<li><label><input type="checkbox" checked="">Review first formal PPO/SAC training results and generate diagnostic plots</label></li>
+<li><label><input type="checkbox">Diagnose PPO failure mode</label>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="">L1 result layer diagnosis</label></li>
+<li><label><input type="checkbox" checked="">L2 critic/value layer diagnosis</label></li>
+<li><label><input type="checkbox" checked="">L3 actor/policy-distribution layer diagnosis</label></li>
+<li><label><input type="checkbox">L4 optimizer/gradient layer diagnosis</label></li>
+<li><label><input type="checkbox">L5 PPO update-stability layer diagnosis</label></li>
+</ul></li>
+<li><label><input type="checkbox">Design and run minimal diagnostic experiments</label></li>
+<li><label><input type="checkbox">Fix or adjust the identified issue</label></li>
+<li><label><input type="checkbox">Training-run2</label></li>
+<li><label><input type="checkbox">Decision gate:</label>
+<ul class="task-list">
+<li><label><input type="checkbox">Valid/stable results → Report V0</label></li>
+<li><label><input type="checkbox">Invalid/unstable results → continue debugging pass</label></li>
+</ul></li>
+<li><strong>Plan Variance</strong>:
+<ul>
+<li>Execution underfill ✔</li>
+<li>Mainline overrun</li>
+<li>Mainline change</li>
+<li>Non-mainline tasks ✔</li>
+<li>Uncontrollable factors</li>
+</ul></li>
+<li><strong>Handling</strong>: Continue with PPO debugging and rerun the training after the issue is fixed or controlled. If the rerun produces valid and stable results, proceed to Report V0.</li>
 </ul></li>
 </ul>
 <hr>
@@ -358,9 +393,9 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 </ul></li>
 <li><strong>Plan Variance</strong>:
 <ul>
-<li>Execution underfill: ✔</li>
-<li>Mainline overrun:</li>
-<li>Mainline change: ✔After the formal training run, PPO produced invalid results across three seeds, suggesting that an unresolved issue still needs to be diagnosed.</li>
+<li>Execution underfill ✔</li>
+<li>Mainline overrun</li>
+<li>Mainline change: ✔ After the formal training run, PPO produced invalid results across three seeds, suggesting that an unresolved issue still needs to be diagnosed.</li>
 <li>Non-mainline tasks</li>
 <li>Uncontrollable factors</li>
 </ul></li>
@@ -377,7 +412,7 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 <li><label><input type="checkbox">Report V0</label></li>
 <li><strong>Plan Variance</strong>:
 <ul>
-<li>Execution underfill: ✔</li>
+<li>Execution underfill ✔</li>
 <li>Mainline overrun:</li>
 <li>Mainline change: ✔ Add and finished the new task: transition from the old project to the new one + initialize the new project + optimize the workflow.</li>
 <li>Non-mainline tasks:</li>
@@ -399,9 +434,9 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 <li><strong>Plan Variance</strong>:
 <ul>
 <li>Execution underfill</li>
-<li>Mainline overrun: ✔</li>
+<li>Mainline overrun ✔</li>
 <li>Mainline change</li>
-<li>Non-mainline tasks: ✔</li>
+<li>Non-mainline tasks ✔</li>
 <li>Uncontrollable factors</li>
 </ul></li>
 <li><strong>Handling</strong>: Continue with the original mainline.</li>

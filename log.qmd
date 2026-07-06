@@ -7,15 +7,40 @@ page-layout: full
 
 ::: {.log-timeline}
 
-* **2026-06-29**: PPO vs SAC benchmark debugging + rerun planning
-	* [ ] Review first formal PPO/SAC training results
+* **2026-07-06**: PPO vs SAC benchmark debugging + rerun planning
 	* [ ] Diagnose PPO failure mode
+		* [ ] L4 optimizer/gradient layer diagnosis
+		* [ ] L5 PPO update-stability layer diagnosis
 	* [ ] Design and run minimal diagnostic experiments
 	* [ ] Fix or adjust the identified issue
 	* [ ] Training-run2
 	* [ ] Decision gate:
 		* [ ] Valid/stable results → Report V0
 		* [ ] Invalid/unstable results → continue debugging pass
+
+---
+
+* **2026-06-29**: PPO vs SAC benchmark debugging + rerun planning
+	* [x] Review first formal PPO/SAC training results and generate diagnostic plots
+	* [ ] Diagnose PPO failure mode
+		* [x] L1 result layer diagnosis
+		* [x] L2 critic/value layer diagnosis
+		* [x] L3 actor/policy-distribution layer diagnosis
+		* [ ] L4 optimizer/gradient layer diagnosis
+		* [ ] L5 PPO update-stability layer diagnosis
+	* [ ] Design and run minimal diagnostic experiments
+	* [ ] Fix or adjust the identified issue
+	* [ ] Training-run2
+	* [ ] Decision gate:
+		* [ ] Valid/stable results → Report V0
+		* [ ] Invalid/unstable results → continue debugging pass
+	- **Plan Variance**:
+		* Execution underfill ✔
+		* Mainline overrun 
+		* Mainline change
+		* Non-mainline tasks ✔
+		* Uncontrollable factors
+	- **Handling**:  Continue with PPO debugging and rerun the training after the issue is fixed or controlled. If the rerun produces valid and stable results, proceed to Report V0.
 
 ---
 
@@ -27,9 +52,9 @@ page-layout: full
 		* Valid results → Report V0
 		* Invalid/unstable results → debugging pass + rerun plan 🎯
 	- **Plan Variance**:
-		* Execution underfill: ✔
-		* Mainline overrun: 
-		* Mainline change: ✔After the formal training run, PPO produced invalid results  across three seeds, suggesting that an unresolved issue still needs to be diagnosed.
+		* Execution underfill ✔
+		* Mainline overrun
+		* Mainline change: ✔ After the formal training run, PPO produced invalid results  across three seeds, suggesting that an unresolved issue still needs to be diagnosed.
 		* Non-mainline tasks
 		* Uncontrollable factors
 	- **Handling**:  Continue with PPO debugging and rerun the training after the issue is fixed or controlled. If the rerun produces valid and stable results, proceed to Report V0.
@@ -42,7 +67,7 @@ page-layout: full
 	* [ ] Training
 	* [ ] Report V0
 	- **Plan Variance**:
-		* Execution underfill: ✔
+		* Execution underfill ✔
 		* Mainline overrun: 
 		* Mainline change: ✔ Add and finished the new task: transition from the old project to the new one + initialize the new project + optimize the workflow.
 		* Non-mainline tasks:
@@ -60,9 +85,9 @@ page-layout: full
 	* [ ] Report V0
 	- **Plan Variance**:
 		* Execution underfill
-		* Mainline overrun: ✔
+		* Mainline overrun ✔
 		* Mainline change
-		* Non-mainline tasks: ✔
+		* Non-mainline tasks ✔
 		* Uncontrollable factors
 	- **Handling**: Continue with the original mainline.
 
