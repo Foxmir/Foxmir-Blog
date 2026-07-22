@@ -7,6 +7,18 @@ page-layout: full
 
 ::: {.log-timeline}
 
+* **2026-07-20**: PPO vs SAC benchmark debugging + rerun planning
+	* [ ] Diagnose PPO failure mode
+		* [ ] L5 PPO update-stability layer diagnosis
+	* [ ] Design and run minimal diagnostic experiments
+	* [ ] Fix or adjust the identified issue
+	* [ ] Training-run2
+	* [ ] Decision gate:
+		* [ ] Valid/stable results → Report V0
+		* [ ] Invalid/unstable results → continue debugging pass
+
+---
+
 * **2026-07-13**: PPO vs SAC benchmark debugging + rerun planning
 	* [ ] Diagnose PPO failure mode
 		* [ ] L5 PPO update-stability layer diagnosis
@@ -16,6 +28,13 @@ page-layout: full
 	* [ ] Decision gate:
 		* [ ] Valid/stable results → Report V0
 		* [ ] Invalid/unstable results → continue debugging pass
+	- **Plan Variance**:
+		* Execution underfill ✔
+		* Mainline overrun 
+		* Mainline change
+		* Non-mainline tasks ✔
+		* Uncontrollable factors
+	- **Handling**: Go on
 
 ---
 
