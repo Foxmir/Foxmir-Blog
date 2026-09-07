@@ -7,165 +7,77 @@ page-layout: full
 
 ::: {.log-timeline}
 
-* **2026-08-03**: PPO vs SAC benchmark debugging + rerun planning
-	* [ ] Diagnose PPO failure mode
-		* [ ] L5 PPO update-stability layer diagnosis
-	* [ ] Design and run minimal diagnostic experiments
-	* [ ] Fix or adjust the identified issue
-	* [ ] Training-run2
-	* [ ] Decision gate:
-		* [ ] Valid/stable results → Report V0
-		* [ ] Invalid/unstable results → continue debugging pass
+
+* **2026-09-07**: PPO vs SAC Benchmark
+	* **a**: Resume the benchmark after the pause, rebuild context from the earlier PPO result analysis, and restart the cross-layer diagnosis into critic/value behavior.
+	* **s'**: The PPO analysis has been reactivated; the result-level findings have been recovered, and cross-layer synthesis has resumed but remains at an early stage.
+	* **a'**: Continue rebuilding the PPO diagnostic chain through the critic/value analysis.
 
 ---
 
-* **2026-07-27**: PPO vs SAC benchmark debugging + rerun planning
-	* [ ] Diagnose PPO failure mode
-		* [ ] L5 PPO update-stability layer diagnosis
-	* [ ] Design and run minimal diagnostic experiments
-	* [ ] Fix or adjust the identified issue
-	* [ ] Training-run2
-	* [ ] Decision gate:
-		* [ ] Valid/stable results → Report V0
-		* [ ] Invalid/unstable results → continue debugging pass
-	- **Plan Variance**:
-		* Execution underfill ✔
-		* Mainline overrun 
-		* Mainline change
-		* Non-mainline tasks ✔
-		* Uncontrollable factors
-	- **Handling**: Go on
+* **2026-08-10 — 2026-09-01**: Research paused while focus shifted to public-facing work.
 
 ---
 
-* **2026-07-20**: PPO vs SAC benchmark debugging + rerun planning
-	* [ ] Diagnose PPO failure mode
-		* [ ] L5 PPO update-stability layer diagnosis
-	* [ ] Design and run minimal diagnostic experiments
-	* [ ] Fix or adjust the identified issue
-	* [ ] Training-run2
-	* [ ] Decision gate:
-		* [ ] Valid/stable results → Report V0
-		* [ ] Invalid/unstable results → continue debugging pass
-	- **Plan Variance**:
-		* Execution underfill ✔
-		* Mainline overrun 
-		* Mainline change
-		* Non-mainline tasks ✔
-		* Uncontrollable factors
-	- **Handling**: Go on
+* **2026-08-10**: PPO vs SAC Benchmark
+	* **a**: Complete the PPO update-stability analysis, refine the diagnostic framework, and prepare the findings for integrated analysis.
+	* **s'**: The independent diagnostic analyses are complete; the benchmark has moved into cross-layer synthesis and final diagnosis.
+	* **a'**: Integrate the PPO diagnostic findings across layers and converge on the final diagnosis.
 
 ---
 
-* **2026-07-13**: PPO vs SAC benchmark debugging + rerun planning
-	* [ ] Diagnose PPO failure mode
-		* [ ] L5 PPO update-stability layer diagnosis
-	* [ ] Design and run minimal diagnostic experiments
-	* [ ] Fix or adjust the identified issue
-	* [ ] Training-run2
-	* [ ] Decision gate:
-		* [ ] Valid/stable results → Report V0
-		* [ ] Invalid/unstable results → continue debugging pass
-	- **Plan Variance**:
-		* Execution underfill ✔
-		* Mainline overrun 
-		* Mainline change
-		* Non-mainline tasks ✔
-		* Uncontrollable factors
-	- **Handling**: Go on
+* **2026-08-03**: PPO vs SAC Benchmark
+	* **a**: Continue the PPO update-stability analysis.
+	* **s'**: The analysis is still incomplete, and the diagnosis has not yet converged to a stable conclusion.
+	* **a'**: Complete the update-stability analysis and consolidate its findings.
 
 ---
 
-* **2026-07-06**: PPO vs SAC benchmark debugging + rerun planning
-	* [ ] Diagnose PPO failure mode
-		* [x] L4 optimizer/gradient layer diagnosis 
-		* [ ] L5 PPO update-stability layer diagnosis
-	* [ ] Design and run minimal diagnostic experiments
-	* [ ] Fix or adjust the identified issue
-	* [ ] Training-run2
-	* [ ] Decision gate:
-		* [ ] Valid/stable results → Report V0
-		* [ ] Invalid/unstable results → continue debugging pass
-	- **Plan Variance**:
-		* Execution underfill ✔
-		* Mainline overrun 
-		* Mainline change
-		* Non-mainline tasks ✔
-		* Uncontrollable factors
-	- **Handling**: Go on
+* **2026-07-27**: PPO vs SAC Benchmark
+	* **a**: Continue the PPO update-stability analysis.
+	* **s'**: The update-stability diagnosis remains unresolved and continues to require deeper analysis.
+	* **a'**: Continue the update-stability analysis.
 
 ---
 
-* **2026-06-29**: PPO vs SAC benchmark debugging + rerun planning
-	* [x] Review first formal PPO/SAC training results and generate diagnostic plots
-	* [ ] Diagnose PPO failure mode
-		* [x] L1 result layer diagnosis
-		* [x] L2 critic/value layer diagnosis
-		* [x] L3 actor/policy-distribution layer diagnosis
-		* [ ] L4 optimizer/gradient layer diagnosis
-		* [ ] L5 PPO update-stability layer diagnosis
-	* [ ] Design and run minimal diagnostic experiments
-	* [ ] Fix or adjust the identified issue
-	* [ ] Training-run2
-	* [ ] Decision gate:
-		* [ ] Valid/stable results → Report V0
-		* [ ] Invalid/unstable results → continue debugging pass
-	- **Plan Variance**:
-		* Execution underfill ✔
-		* Mainline overrun 
-		* Mainline change
-		* Non-mainline tasks ✔
-		* Uncontrollable factors
-	- **Handling**:  Continue with PPO debugging and rerun the training after the issue is fixed or controlled. If the rerun produces valid and stable results, proceed to Report V0.
+* **2026-07-20**: PPO vs SAC Benchmark
+	* **a**: Continue the PPO update-stability analysis.
+	* **s'**: The update-stability diagnosis remains in progress, with no stable failure mechanism established yet.
+	* **a'**: Continue the update-stability analysis.
 
 ---
 
-* **2026-06-22**: PPO vs SAC benchmark
-	* [x] PPO code review + benchmark-based code optimization
-	* [x] SAC code review + benchmark-based code optimization
-	* [x] Training-run1
-	* [x] Decision gate outcome:
-		* Valid results → Report V0
-		* Invalid/unstable results → debugging pass + rerun plan 🎯
-	- **Plan Variance**:
-		* Execution underfill ✔
-		* Mainline overrun
-		* Mainline change: ✔ After the formal training run, PPO produced invalid results  across three seeds, suggesting that an unresolved issue still needs to be diagnosed.
-		* Non-mainline tasks
-		* Uncontrollable factors
-	- **Handling**:  Continue with PPO debugging and rerun the training after the issue is fixed or controlled. If the rerun produces valid and stable results, proceed to Report V0.
+* **2026-07-13**: PPO vs SAC Benchmark
+	* **a**: Complete the PPO optimizer/gradient analysis and the remaining critic/value checks.
+	* **s'**: The preceding result-, critic-, actor-, and optimization-level analyses are complete, while the PPO failure mechanism remains unresolved.
+	* **a'**: Analyze PPO update stability.
 
 ---
 
-* **2026-06-15**: PPO vs SAC benchmark
-	* [ ] PPO code review + benchmark-based code optimization
-	* [ ] SAC code review + benchmark-based code optimization
-	* [ ] Training
-	* [ ] Report V0
-	- **Plan Variance**:
-		* Execution underfill ✔
-		* Mainline overrun: 
-		* Mainline change: ✔ Add and finished the new task: transition from the old project to the new one + initialize the new project + optimize the workflow.
-		* Non-mainline tasks:
-		* Uncontrollable factors
-	- **Handling**: Continue with the original mainline.
+* **2026-07-06**: PPO vs SAC Benchmark
+	* **a**: Review the first formal training results and analyze the PPO failure across training outcomes, critic/value behavior, and actor/policy behavior.
+	* **s'**: The initial result-, critic-, and actor-level analyses are complete, while the PPO failure mechanism remains unresolved.
+	* **a'**: Continue the diagnosis into optimization and update dynamics.
 
 ---
 
-* **2026-06-08**: PPO vs SAC benchmark
-	* [x] Completed benchmark protocol
-	* [x] Structural description of method instances
-	* [ ] PPO code review + benchmark-based code optimization
-	* [ ] SAC code review + benchmark-based code optimization
-	* [ ] Training
-	* [ ] Report V0
-	- **Plan Variance**:
-		* Execution underfill
-		* Mainline overrun ✔
-		* Mainline change
-		* Non-mainline tasks ✔
-		* Uncontrollable factors
-	- **Handling**: Continue with the original mainline.
+* **2026-06-29**: PPO vs SAC Benchmark
+	* **a**: Complete the PPO/SAC implementation review and alignment, then run the first formal benchmark training.
+	* **s'**: PPO produced invalid results across three seeds, so the benchmark cannot yet proceed to reporting.
+	* **a'**: Diagnose the PPO failure mode before rerunning the benchmark.
 
+---
+
+* **2026-06-22**: PPO vs SAC Benchmark
+	* **a**: Transition into the new benchmark project and begin implementation alignment, including code cleanup and environment/configuration alignment.
+	* **s'**: The benchmark project is operational, and the first implementation mismatches have been removed.
+	* **a'**: Continue the PPO and SAC implementation review and benchmark-based optimization.
+
+---
+
+* **2026-06-15**: PPO vs SAC Benchmark
+	* **a**: Finalize the benchmark protocol and structural descriptions of the PPO and SAC method instances.
+	* **s'**: The comparison criteria and method-instance boundaries for PPO and SAC are now fixed.
+	* **a'**: Review and align the PPO and SAC implementations with the benchmark protocol.
 
 :::
