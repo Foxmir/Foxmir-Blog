@@ -7,6 +7,9 @@ page-layout: full
 
 ::: {.log-timeline}
 
+- **2026-09-07 — 2026-10-04**: Research paused while focus shifted to troubleshooting tool issues, setting up fallback options, and adjusting the workflow.
+
+---
 
 * **2026-09-07**: PPO vs SAC Benchmark
 	* **a**: Resume the benchmark after the pause, rebuild context from the earlier PPO result analysis, and restart the cross-layer diagnosis into critic/value behavior.
