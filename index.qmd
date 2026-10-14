@@ -16,6 +16,9 @@ listing:
     sort-ui: false
     filter-ui: false
     max-items: 5
+    feed:
+      type: partial
+      items: 20
   - id: bits-listing
     contents: publish/Bits
     sort: "date desc"

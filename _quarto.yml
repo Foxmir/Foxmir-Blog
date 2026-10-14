@@ -33,5 +33,7 @@ format:
       dark: darkly
     respect-user-color-scheme: true
     css: styles.css
-    include-after-body: outline-sidebar.html
+    include-after-body:
+      - outline-sidebar.html
+      - rss-footer.html
     toc: false

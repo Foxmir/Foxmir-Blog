@@ -662,6 +662,9 @@ $homePage += @(
     '    sort-ui: false'
     '    filter-ui: false'
     '    max-items: 5'
+    '    feed:'
+    '      type: partial'
+    '      items: 20'
 )
 
 foreach ($item in $items) {
@@ -817,9 +820,20 @@ $config += @(
     '      dark: darkly'
     '    respect-user-color-scheme: true'
     '    css: styles.css'
-    '    include-after-body: outline-sidebar.html'
+    '    include-after-body:'
+    '      - outline-sidebar.html'
+    '      - rss-footer.html'
     '    toc: false'
 )
 
 Write-Utf8File -Path (Join-Path $project '_quarto.yml') -Lines $config | Out-Null
+
+$rssFooter = @(
+    '<div class="rss-footer">'
+    '  <hr>'
+    '  <hr>'
+    ('  <a class="rss-footer__link" href="' + ($siteUrl.TrimEnd('/') + '/index.xml') + '" title="RSS feed" aria-label="RSS feed"><i class="bi bi-rss"></i></a>')
+    '</div>'
+)
+Write-Utf8File -Path (Join-Path $project 'rss-footer.html') -Lines $rssFooter | Out-Null
 Write-Host ('Generated categories: ' + (($items | ForEach-Object { $_.Name }) -join ', '))
