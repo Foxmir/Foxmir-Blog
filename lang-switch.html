@@ -1,0 +1,30 @@
+<script>
+  (function () {
+    var target = document.querySelector('meta[name="lang-target"]');
+    var label = document.querySelector('meta[name="lang-label"]');
+    if (!target || !label) {
+      return;
+    }
+    var href = target.getAttribute('content');
+    var text = label.getAttribute('content');
+    if (!href || !text) {
+      return;
+    }
+    var nav = document.querySelector('.navbar-nav.ms-auto');
+    if (!nav) {
+      return;
+    }
+    var code = document.querySelector('meta[name="lang-hreflang"]');
+    var item = document.createElement('li');
+    item.className = 'nav-item lang-switch-item';
+    var link = document.createElement('a');
+    link.className = 'nav-link lang-switch';
+    link.href = href;
+    link.textContent = text;
+    if (code && code.getAttribute('content')) {
+      link.setAttribute('hreflang', code.getAttribute('content'));
+    }
+    item.appendChild(link);
+    nav.appendChild(item);
+  })();
+</script>

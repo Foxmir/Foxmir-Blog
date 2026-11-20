@@ -65,6 +65,9 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 </script>
+<meta name="lang-target" content="zh/about.html">
+<meta name="lang-label" content="中文">
+<meta name="lang-hreflang" content="zh-Hans">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -265,10 +268,6 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
     <a class="nav-link active" href="./about.html" aria-current="page"> 
 <span class="menu-text">About</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./log.html"> 
-<span class="menu-text">LOG</span></a>
-  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
@@ -332,7 +331,6 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 <p>This is my personal blog. I write about RL-related theory, implementation, and reflections, including basic concepts, algorithm reproduction, training stability, experiment evaluation, result interpretation, as well as tools and side topics.</p>
 <p>At this stage, I’ll also use this space to document my path from RL fundamentals and practice toward MARL (Multi-Agent Reinforcement Learning); over time, MARL-related topics will become a core focus.</p>
 <p>Occasionally, I may also share other unrelated but interesting things.</p>
-<p>I also keep a <strong>Weekly Log</strong> ( usually on Monday ) as a public progress record of my ongoing RL-related work. Each entry may include what I worked on, what was completed, what failed or changed, and what I plan to do next. It is not limited to finished results; it is meant to make the process, iterations, and direction of my work visible over time.</p>
 <section id="collaboration-contact" class="level2">
 <h2 class="anchored" data-anchor-id="collaboration-contact">Collaboration &amp; Contact</h2>
 <p>I am currently open to a small number of RL-related collaboration inquiries, especially:</p>
@@ -356,425 +354,185 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
 
 </main> <!-- /main -->
 <script>
-
 (() => {
-
   const articlePathPattern = /\/publish\/[^/]+\/[^/]+\.html$/i;
   const desktopMedia = window.matchMedia('(min-width: 1200px)');
   const maxDepth = 2;
   const backToTopThreshold = 0.65;
 
-
-
   const slugify = (value) => value
-
     .toLowerCase()
-
     .trim()
-
     .replace(/[^a-z0-9\u4e00-\u9fff]+/g, '-')
-
     .replace(/^-+|-+$/g, '') || 'section';
 
-
-
   const ensureHeadingIds = (headings) => {
-
     const used = new Set();
-
     headings.forEach((heading, index) => {
-
       let id = heading.id || slugify(heading.textContent || heading.innerText || `section-${index + 1}`);
-
       while (used.has(id)) {
-
         id = `${id}-${index + 1}`;
-
       }
-
       used.add(id);
-
       heading.id = id;
-
     });
-
   };
-
-
 
   const buildTree = (headings, rootLevel) => {
-
     const items = [];
-
     const stack = [];
 
-
-
     const createItem = (heading) => ({
-
       id: heading.id,
-
       level: Number(heading.tagName.slice(1)),
-
       normalizedLevel: Number(heading.tagName.slice(1)) - rootLevel,
-
       label: (heading.textContent || '').trim(),
-
       heading,
-
       children: [],
-
       parent: null
-
     });
-
-
 
     headings.forEach((heading) => {
-
       const item = createItem(heading);
-
       if (item.normalizedLevel > maxDepth) {
-
         return;
-
       }
-
-
 
       while (stack.length > 0 && stack[stack.length - 1].level >= item.level) {
-
         stack.pop();
-
       }
-
-
 
       if (stack.length === 0) {
-
         items.push(item);
-
       } else {
-
         item.parent = stack[stack.length - 1];
-
         item.parent.children.push(item);
-
       }
-
-
 
       stack.push(item);
-
     });
-
-
 
     return items;
-
   };
-
-
 
   const getRootAncestor = (item) => {
-
     let current = item || null;
-
     while (current?.parent) {
-
       current = current.parent;
-
     }
-
     return current;
-
   };
-
-
 
   const getDepthOneAncestor = (item) => {
-
     let current = item || null;
-
     while (current && current.normalizedLevel > 1) {
-
       current = current.parent;
-
     }
-
     return current;
-
   };
-
-
 
   const getAncestors = (item) => {
-
     const ancestors = new Set();
-
     let current = item?.parent || null;
-
     while (current) {
-
       ancestors.add(current.id);
-
       current = current.parent;
-
     }
-
     return ancestors;
-
   };
-
-
 
   const flatten = (items) => {
-
     const all = [];
-
     const walk = (node) => {
-
       all.push(node);
-
       node.children.forEach(walk);
-
     };
-
     items.forEach(walk);
-
     return all;
-
   };
-
-
 
   const getActiveItem = (allItems) => {
-
     const offset = 160;
-
     const currentY = window.scrollY + offset;
-
     let active = allItems[0] || null;
-
     allItems.forEach((item) => {
-
       if (item.heading.offsetTop <= currentY) {
-
         active = item;
-
       }
-
     });
-
     return active;
-
   };
-
-
 
   const createLink = (item) => {
-
     const li = document.createElement('li');
-
     li.className = `context-outline__item context-outline__item--level-${item.normalizedLevel}`;
-
     li.dataset.outlineId = item.id;
-
     const link = document.createElement('a');
-
     link.href = `#${item.id}`;
-
     link.textContent = item.label;
-
     li.appendChild(link);
-
     return li;
-
   };
-
-
 
   const renderBranch = (items, activeItem, ancestors, activeDepthOneAncestor) => {
-
     const list = document.createElement('ul');
-
     items.forEach((item) => {
-
       const entry = createLink(item);
-
       if (activeItem?.id === item.id) entry.classList.add('is-active');
-
       if (ancestors.has(item.id)) entry.classList.add('is-ancestor');
 
-
-
       if (item.children.length > 0) {
-
         const shouldRenderChildren = item.normalizedLevel === 0
-
           ? item.id === getRootAncestor(activeItem)?.id
-
           : item.normalizedLevel === 1
-
             ? item.id === activeDepthOneAncestor?.id
-
             : false;
 
-
-
         if (shouldRenderChildren) {
-
           entry.appendChild(renderBranch(item.children, activeItem, ancestors, activeDepthOneAncestor));
-
         }
-
       }
 
-
-
       list.appendChild(entry);
-
     });
-
     return list;
-
   };
-
-
 
   const renderNav = (nav, items, activeItem) => {
-
     const ancestors = getAncestors(activeItem);
-
     const activeDepthOneAncestor = getDepthOneAncestor(activeItem);
-
     nav.replaceChildren(renderBranch(items, activeItem, ancestors, activeDepthOneAncestor));
-
   };
-
-
 
   const initBackToTop = () => {
     const button = document.createElement('button');
-
     button.type = 'button';
-
     button.className = 'back-to-top';
-
     button.setAttribute('aria-label', 'Back to top');
-
     button.setAttribute('title', 'Back to top');
-
     button.textContent = '↑';
-
     document.body.appendChild(button);
 
-
-
     const updateVisibility = () => {
-
       const root = document.documentElement;
-
       const scrollableHeight = root.scrollHeight - window.innerHeight;
-
       const shouldShow = scrollableHeight > 48 && window.scrollY > (window.innerHeight * backToTopThreshold);
-
       button.classList.toggle('is-visible', shouldShow);
-
     };
 
-
-
     button.addEventListener('click', () => {
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
-
     });
 
-
-
     window.addEventListener('scroll', updateVisibility, { passive: true });
-
     window.addEventListener('resize', updateVisibility);
-
     updateVisibility();
   };
 
-  const getDirectTextAfter = (node) => {
-    const parts = [];
-    let current = node?.nextSibling || null;
-    while (current) {
-      if (current.nodeType === Node.ELEMENT_NODE && ['UL', 'OL'].includes(current.tagName)) {
-        break;
-      }
-      if (current.nodeType === Node.TEXT_NODE) {
-        parts.push(current.textContent || '');
-      }
-      current = current.nextSibling;
-    }
-    return parts.join(' ').replace(/^\s*:\s*/, '').trim();
-  };
 
-  const removeDirectTextAfter = (node) => {
-    const toRemove = [];
-    let current = node?.nextSibling || null;
-    while (current) {
-      if (current.nodeType === Node.ELEMENT_NODE && ['UL', 'OL'].includes(current.tagName)) {
-        break;
-      }
-      const next = current.nextSibling;
-      if (current.nodeType === Node.TEXT_NODE) {
-        toRemove.push(current);
-      }
-      current = next;
-    }
-    toRemove.forEach((item) => item.remove());
-  };
-
-  const initLogTimeline = () => {
-    const timeline = document.querySelector('.log-timeline');
-    if (!timeline || timeline.dataset.enhanced === 'true') return;
-
-    Array.from(timeline.children).forEach((child) => {
-      if (child.tagName !== 'UL') return;
-      const entry = child.children.length === 1 ? child.firstElementChild : null;
-      if (!entry || entry.classList.contains('log-entry')) return;
-
-      const dateNode = entry.querySelector(':scope > strong');
-      const title = getDirectTextAfter(dateNode);
-      if (!dateNode || title.length === 0) return;
-
-      const meta = document.createElement('header');
-      meta.className = 'log-meta';
-
-      const date = document.createElement('p');
-      date.className = 'log-date';
-      date.textContent = (dateNode.textContent || '').trim();
-
-      const heading = document.createElement('h2');
-      heading.className = 'log-title';
-      heading.textContent = title;
-
-      meta.append(date, heading);
-      removeDirectTextAfter(dateNode);
-      dateNode.remove();
-
-      const body = document.createElement('div');
-      body.className = 'log-body';
-      while (entry.firstChild) {
-        body.appendChild(entry.firstChild);
-      }
-
-      entry.classList.add('log-entry');
-      entry.append(meta, body);
-    });
-
-    timeline.dataset.enhanced = 'true';
-  };
 
   const initOutline = () => {
     if (!articlePathPattern.test(window.location.pathname)) return;
-
     const contentRoot = document.querySelector('#quarto-document-content');
     if (!contentRoot) return;
     const pageTitle = (document.querySelector('.quarto-title .title')?.textContent || '').trim();
@@ -785,133 +543,102 @@ gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
     });
     if (headings.length < 2) return;
 
-
-
     ensureHeadingIds(headings);
-
     const rootLevel = headings.reduce((minLevel, heading) => {
-
       const level = Number(heading.tagName.slice(1));
-
       return Math.min(minLevel, level);
-
     }, 6);
-
     const items = buildTree(headings, rootLevel);
-
     const allItems = flatten(items);
-
     if (allItems.length === 0) return;
 
-
-
     const aside = document.createElement('aside');
-
     aside.className = 'context-outline';
-
     aside.setAttribute('aria-label', 'On this page');
 
-
-
     const inner = document.createElement('div');
-
     inner.className = 'context-outline__inner';
-
     const label = document.createElement('div');
-
     label.className = 'context-outline__label';
-
     label.textContent = 'On this page';
-
     const nav = document.createElement('nav');
-
     nav.className = 'context-outline__nav';
 
-
-
     inner.append(label, nav);
-
     aside.appendChild(inner);
-
     document.body.appendChild(aside);
-
     document.body.classList.add('has-context-outline');
 
-
-
     let activeId = '';
-
     let ticking = false;
-
     const update = () => {
-
       ticking = false;
-
       const nextActive = getActiveItem(allItems);
-
       if (!nextActive || nextActive.id === activeId) return;
-
       activeId = nextActive.id;
-
       renderNav(nav, items, nextActive);
-
     };
-
-
 
     const requestUpdate = () => {
-
       if (!desktopMedia.matches) return;
-
       if (!ticking) {
-
         ticking = true;
-
         window.requestAnimationFrame(update);
-
       }
-
     };
 
-
-
     desktopMedia.addEventListener('change', () => {
-
       if (desktopMedia.matches) {
-
         requestUpdate();
-
       }
-
     });
 
-
-
     window.addEventListener('scroll', requestUpdate, { passive: true });
-
     window.addEventListener('resize', requestUpdate);
-
     renderNav(nav, items, allItems[0]);
-
     requestUpdate();
-
   };
 
-
-
   if (document.readyState === 'loading') {
-
     document.addEventListener('DOMContentLoaded', () => {
-      initLogTimeline();
       initOutline();
       initBackToTop();
     }, { once: true });
   } else {
-    initLogTimeline();
     initOutline();
     initBackToTop();
   }
 })();
+</script>
+<script>
+  (function () {
+    var target = document.querySelector('meta[name="lang-target"]');
+    var label = document.querySelector('meta[name="lang-label"]');
+    if (!target || !label) {
+      return;
+    }
+    var href = target.getAttribute('content');
+    var text = label.getAttribute('content');
+    if (!href || !text) {
+      return;
+    }
+    var nav = document.querySelector('.navbar-nav.ms-auto');
+    if (!nav) {
+      return;
+    }
+    var code = document.querySelector('meta[name="lang-hreflang"]');
+    var item = document.createElement('li');
+    item.className = 'nav-item lang-switch-item';
+    var link = document.createElement('a');
+    link.className = 'nav-link lang-switch';
+    link.href = href;
+    link.textContent = text;
+    if (code && code.getAttribute('content')) {
+      link.setAttribute('hreflang', code.getAttribute('content'));
+    }
+    item.appendChild(link);
+    nav.appendChild(item);
+  })();
 </script>
 <div class="rss-footer">
 

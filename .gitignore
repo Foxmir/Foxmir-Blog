@@ -1,3 +1,6 @@
 /.quarto/
+/.chrome-headless*/
+/build/
+/.quarto-build-temp/
 /_tmp/
 **/*.quarto_ipynb

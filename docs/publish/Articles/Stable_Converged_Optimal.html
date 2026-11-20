@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-11-20">
+
+<title>RL Chart Reading: Stable = Converged = Optimal? – Foxmir Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-24772959a0e306aba8d7698078628ce7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-ffa9a6279353761231ec249df0a7fdd3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-VQW94RHSBY"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-VQW94RHSBY', { 'anonymize_ip': true});
+</script>
+<meta name="lang-target" content="../../zh/publish/Articles/Stable_Converged_Optimal_zh.html">
+<meta name="lang-label" content="中文">
+<meta name="lang-hreflang" content="zh-Hans">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../assets/foxmir-avatar.png" alt="" class="navbar-logo light-content">
+    <img src="../../assets/foxmir-avatar.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Foxmir Blog</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../articles.html"> 
+<span class="menu-text">Articles</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../bits.html"> 
+<span class="menu-text">Bits</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../learn.html"> 
+<span class="menu-text">Learn</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../notes.html"> 
+<span class="menu-text">Notes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../reports.html"> 
+<span class="menu-text">Reports</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">RL Chart Reading: Stable = Converged = Optimal?</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 20, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr>
+<section id="intro" class="level2">
+<h2 class="anchored" data-anchor-id="intro">Intro</h2>
+<blockquote class="blockquote">
+<p>In model training: 1. If variable values stabilize, is this always good news? 2. If the curve is stable, does it count as converged? 3. If it has converged, can I say it’s optimal? 4. If it’s optimal, does it perform well?</p>
+<ol start="5" type="1">
+<li>My reward fluctuates wildly, but final performance is near-perfect; is it a global optimum?</li>
+<li>If gradient norm is near-zero for long, am I at the global optimum, or stuck in a local one?</li>
+<li>If performance stops increasing, is it the global optimum, or stuck in a local one?</li>
+<li>High reward finally appears; should I stop training immediately? What if it drops again?</li>
+</ol>
+</blockquote>
+<p>In reinforcement learning, we often encounter a specific scenario—and you might even do this yourself: you throw a chart into the group chat and ask, “Has this converged?” Everyone’s chart is different, too. Some show training results, others show evaluation results or loss functions; it’s a mix of everything.</p>
+<p>Randomness is a key characteristic of reinforcement learning, which makes diagnosis difficult. At the same time, when it comes to concluding what state a metric is in, it’s hard to be definitive.</p>
+<p>Moreover, in theory, in engineering, and in daily discussions, even when everyone is using the same term, they might be referring to different things.</p>
+<p>That’s why I prepared this video. Let’s talk about how to understand and handle these real-world engineering frictions that rarely get discussed.</p>
+<p>I’ll present the conclusions directly on each page, accompanied by simple explanations.</p>
+<p>Without a doubt, stability, convergence, optimality, and performance quality are four distinct concepts. But under what circumstances do these concepts hold true? If one of them holds, can the others? And why?</p>
+<hr>
+</section>
+<section id="what-are-we-discussing" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-we-discussing">1. What Are We Discussing?</h2>
+<blockquote class="blockquote">
+<ul>
+<li>Model parameters? Training metrics? Evaluation results? → Variables on the chart</li>
+<li>Goal: (Input) Optimal parameters → (Output) Best performance</li>
+</ul>
+<ol type="1">
+<li><strong>Stable &amp; Converged</strong>: Applies to any variable, regardless of what it is.</li>
+<li><strong>Optimal &amp; Performance</strong>: Refers to Model Parameters &amp; Evaluation Performance.</li>
+<li>Optimality generally doesn’t apply to other variables.</li>
+<li>Performance quality depends on evaluation performance, not training performance.</li>
+</ol>
+</blockquote>
+<p>The terms “stable” and “converged” essentially describe changes in the object itself. It doesn’t matter which variable you’re tracking—whether it’s model parameters, training metrics, or evaluation results—you can talk about whether they are stable or converged.</p>
+<p>However, “optimality” and “performance quality” are generally discussed in relation to your target variable. Our goal is usually to reach the best possible performance under a certain standard. The best performance corresponds to the best model parameters. If performance is optimal, the parameters must be optimal; the reverse is also true. They correspond to each other. Strictly speaking, performance refers to expected return, which we can’t actually measure in reality, so we use evaluation performance to approximate it.</p>
+<p>Note that we are using evaluation results, not training results, to measure model performance. This is the same principle as using a test set, rather than a training set, to measure performance in supervised learning.</p>
+<hr>
+</section>
+<section id="dynamics-stable-converged-concepts-relations" class="level2">
+<h2 class="anchored" data-anchor-id="dynamics-stable-converged-concepts-relations">2.1 Dynamics: Stable &amp; Converged | Concepts &amp; Relations</h2>
+<blockquote class="blockquote">
+<ol type="1">
+<li><p><strong>Concept</strong>—Are they trending toward a fixed value?</p></li>
+<li><p><strong>Stable</strong>: In a specific observation window/scale, the fluctuation amplitude stays small enough.</p></li>
+<li><p><strong>Converged</strong>: In the long term, trends toward a fixed value, with fluctuation amplitude continuously trending toward 0.</p></li>
+<li><p><strong>Relation</strong>:</p></li>
+<li><p><strong>Stable can be short/long-term; Converged always implies a final state</strong>: Stability depends on the observation window; convergence does not. Even with wild, non-monotonic fluctuations in the middle, it is considered converged if it trends toward a fixed value in the long term.</p></li>
+<li><p><strong>Converged implies stable; Stable does not imply converged</strong>:</p>
+<ol type="1">
+<li>Example: Results fluctuate between 9.99 and 10.01 but never trend to a single value.</li>
+<li>Interpretation:
+<ol type="1">
+<li>Stable but not converged: Fluctuation is small but not negligible (0.02).</li>
+<li>Engineering perspective: “Approximate convergence” if the 0.02 fluctuation can be ignored.</li>
+</ol></li>
+</ol></li>
+</ol>
+</blockquote>
+<p>The key to distinguishing stability from convergence is to see if the variable is trending toward a fixed value. This value could be one you pre-defined, or one you were completely unaware of beforehand.</p>
+<p>If a variable has converged, it means it is infinitely approaching a fixed value in the long term, and its fluctuation amplitude is continuously shrinking toward zero. This holds true regardless of how much longer you train, or whether you zoom in or out on the chart.</p>
+<p>Convergence points to the final state. How you get there doesn’t invalidate the final state. Whether you reached it smoothly or through massive, painful fluctuations doesn’t matter. As long as you satisfy the condition that the variable finally converges to a fixed value, you can confidently declare it converged.</p>
+<p>If the variable is not trending toward a fixed value but exhibits small fluctuations—small enough to be noticed, but not small enough to be ignored—you cannot claim it has converged, but you can claim it is stable.</p>
+<p>And this stability is explicitly related to your observation window and scale.</p>
+<p>From the moment it becomes stable, if you continue training, it might remain stable, or it might become unstable. The entire process might have involved variance gradually decreasing, or perhaps the variance remained high and it just coincidentally arrived at a stable point.</p>
+<p>Also, if you scale your chart, the perceived fluctuation amplitude will change. Scaling doesn’t change the values, but it changes the visual effect. So, even if it is numerically stable, it might look very unstable.</p>
+<p>Therefore, we usually look at a finalized chart, check if the numerical variation is small enough, and then declare it stable, either overall or during a specific phase.</p>
+<p>From this, you can naturally derive the relationship: convergence implies stability, but stability doesn’t imply convergence. Don’t try to memorize this as a rule—it’s too convoluted. Just understand what stability and convergence <em>are</em>, and the relationship becomes intuitive.</p>
+<p>Take a typical curve: a variable goes through ups and downs, eventually shrinking to fluctuate between 9.99 and 10.01, but doesn’t shrink further. The final change amplitude is 0.02. This is small enough to claim it has stabilized. Furthermore, if, in practical terms, this fluctuation is negligible, we can even directly claim it has “approximate convergence” at a value of 10.</p>
+<hr>
+</section>
+<section id="dynamics-stable-converged-practice" class="level2">
+<h2 class="anchored" data-anchor-id="dynamics-stable-converged-practice">2.2 Dynamics: Stable &amp; Converged | Practice</h2>
+<blockquote class="blockquote">
+<ol type="1">
+<li><strong>Without mathematical proof, we can call it “Approximate Convergence” in engineering</strong>:</li>
+<li>When observing that a variable is basically stable with minor fluctuations, if we deem the <strong>observation window is long enough + fluctuations are meaningless</strong> and can be ignored, it can be called “Approximate Convergence”.</li>
+<li><strong>Conversely</strong>:</li>
+<li>If stable, but the observation window is too short: <strong>Temporarily stable; ultimate convergence unknown</strong>.</li>
+<li>If stable around a value, but the error range, while small, is not negligible in significance: <strong>Stable, but not converged; ultimate convergence unknown</strong>.</li>
+</ol>
+</blockquote>
+<p>Following this example, let’s summarize: when a curve looks pretty stable, when are you qualified to declare it converged?</p>
+<p>Undoubtedly, strict convergence is the realm of mathematical proof. We are talking about “engineering approximate convergence” here.</p>
+<p>It must satisfy two conditions: one, “the observation window is long enough,” and two, “the remaining fluctuations have no practical significance.” Missing either condition won’t work. These are easy to understand.</p>
+<p>However, in reality, people’s descriptions are rougher; they often mix up “stable,” “converged,” and “approximate convergence.” If it doesn’t affect the logic of the discussion, that’s fine. But in scenarios where you need to be precise, you must distinguish them.</p>
+<p>Let’s briefly mention why, when you see a loss function curve trending toward stability or even zero, you might find it harder to trust stability in reinforcement learning compared to supervised learning—and why you might be more worried that further training could increase the variance.</p>
+<p>This is because, in reinforcement learning, the collected data distribution changes the current policy, and the policy change in turn affects the next data collection. They are mutually dependent, making training less stable. Even if a variable looks stable in a certain window now, as training continues, the mutual dependency between data and policy can amplify fluctuations or suppress them, making results difficult to predict.</p>
+<hr>
+</section>
+<section id="optimality-local-global-underlying-presumptions" class="level2">
+<h2 class="anchored" data-anchor-id="optimality-local-global-underlying-presumptions">3.1 Optimality: Local &amp; Global | Underlying Presumptions</h2>
+<blockquote class="blockquote">
+<ul>
+<li><strong>Optimal &amp; Performance</strong>: Model Parameters &amp; Evaluation Performance
+<ol type="1">
+<li>Optimality generally doesn’t apply to other variables.</li>
+<li>Performance quality depends on evaluation performance, not training performance.</li>
+<li>There can be multiple optimal parameters.</li>
+</ol></li>
+<li>Concepts &amp; Relations → How to judge the optimality of the current solution? → Practical Application</li>
+</ul>
+</blockquote>
+<p>We mentioned this at the beginning of the video, and we emphasize it again here. When we talk about “optimality,” we are often discussing that unique variable: model parameters. The best model performance must correspond to the best model parameters.</p>
+<p>But “the best” does not mean “unique.” There can be multiple sets of optimal model parameters. As long as they all produce the best performance, they are all optimal.</p>
+<p>We will start with their concepts and relationships, discuss methods for determining optimality, and finally land on practical applications.</p>
+<hr>
+</section>
+<section id="optimality-local-global-concepts-relations" class="level2">
+<h2 class="anchored" data-anchor-id="optimality-local-global-concepts-relations">3.2 Optimality: Local &amp; Global | Concepts &amp; Relations</h2>
+<blockquote class="blockquote">
+<ol type="1">
+<li><p><strong>Concept</strong>—It’s all about the <strong>range</strong></p></li>
+<li><p><strong>Local Optimum</strong>: No better feasible solution in the vicinity, but there could be one further away.</p></li>
+<li><p><strong>Global Optimum</strong>: No better solution anywhere in the entire allowed solution space.</p></li>
+<li><p><strong>Relation</strong>: A global optimum is definitely a local optimum; a local optimum is not necessarily a global optimum.</p></li>
+</ol>
+</blockquote>
+<p>The concepts themselves are quite straightforward.</p>
+<p>“Optimality” is a comparative concept. It means “I am better than other model parameters.” Of the two concepts, one emphasizes the local, the other the global, corresponding to the scope in which “excellence” occurs.</p>
+<p>The relationship is simple: the world champion is definitely the national champion, but the national champion is not necessarily the world champion.</p>
+<hr>
+</section>
+<section id="optimality-local-global-how-to-judge-optimality" class="level2">
+<h2 class="anchored" data-anchor-id="optimality-local-global-how-to-judge-optimality">3.3.1 Optimality: Local &amp; Global | How to Judge Optimality?</h2>
+<blockquote class="blockquote">
+<ol type="1">
+<li>Existence: <strong>Mathematically</strong>, does a global optimum exist?</li>
+<li>Solvability: <strong>Model/Algorithm</strong>, can we find/approximate the mathematical optimum?</li>
+<li>Judging current solution: <strong>Engineering</strong>, is our current solution the optimum? / How far are we? ⛳</li>
+<li><strong>Exhaustive comparison</strong></li>
+<li><strong>Structural optimality check</strong>: Use the mathematical properties of the objective to certify the current solution.
+<ol type="1">
+<li>e.g., Unconstrained, differentiable, convex function, optimization finds gradient at 0 → Global Optimum.</li>
+</ol></li>
+<li><strong>Approximating target boundaries</strong>: Does the target have <strong>upper/lower bounds</strong>, or a structure that guarantees them?</li>
+</ol>
+</blockquote>
+<p>To determine optimality, three different levels of questions are mixed here, and we must separate them.</p>
+<p>Since our goal is to learn how to read charts and diagnose, we care most about the third question. We’ll skip the theoretical questions of whether a global optimum exists, whether the model has enough capacity, or whether the algorithm can approximate it.</p>
+<p>We just want to know: is the parameter I painstakingly trained the optimal solution, or an approximate one?</p>
+<p>There are three approaches. The names are a bit abstract, but easy to understand.</p>
+<p>First, exhaustive comparison—brute force. Obviously, not realistic.</p>
+<p>Second, using the mathematical properties of the optimization problem to determine optimality. Let’s take minimizing a loss function as a classic example. When minimizing a loss function without constraints, if the calculated gradient is zero, it means you have reached the lowest point of the entire function, so the current parameters are naturally the global optimum.</p>
+<p>But note: not all loss functions satisfy this, nor does gradient zero always mean a global optimum. We just gave an example of an unconstrained, differentiable, convex function. If there are constraints, you must check if the point satisfies them. If it does, and the gradient is zero for a differentiable convex function, then it’s a global optimum; if it doesn’t satisfy constraints, the solution is excluded, so it’s not optimal. Alternatively, if the optimum is not differentiable, you can’t use gradients to judge optimality. Or, if your objective function is non-convex, a point with gradient zero is not necessarily a global optimum.</p>
+<p>In summary, to use this criterion, the “optimization objective itself” must possess special mathematical structures. However, in deep neural networks—for example, in deep reinforcement learning—optimization objectives are usually highly complex and lack these nice properties of simple convex or concave functions, so this criterion is rarely useful.</p>
+<p>Third, approximating the target boundaries. You will likely use this criterion often, so we need to explain it in detail.</p>
+<p>There are two keywords here: “target” and “boundaries.” And it must be the boundaries <em>of the target</em>.</p>
+<hr>
+</section>
+<section id="optimality-local-global-how-to-judge-optimality-1" class="level2">
+<h2 class="anchored" data-anchor-id="optimality-local-global-how-to-judge-optimality-1">3.3.2 Optimality: Local &amp; Global | How to Judge Optimality?</h2>
+<blockquote class="blockquote">
+<ul>
+<li><p><strong>Approximating target boundaries</strong>: <strong>When the goal is to maximize expected return, reaching the maximum return is optimal</strong>: 1. We usually use evaluation performance to approximate expected return. 2. When evaluation performance approaches the target’s maximum limit, it can be considered “approximate global optimum.” 3. Example: The single-round maximum score for Cartpole-v1 with a 500-step limit is 500. If evaluation return is 495, and the 5-point gap is considered negligible, performance is approximately globally optimal. 4. Note: Not all RL environments have return boundaries, and even if they do, the environment might not support us reaching them; in these cases, optimality cannot be judged this way.</p></li>
+<li><p>Must clarify: what is the target?</p>
+<ul>
+<li><strong>Supervised Learning</strong>: Target is “minimizing loss function (in evaluation/test set).” We seek optimality by pursuing the boundary of the loss function.</li>
+<li><strong>Reinforcement Learning</strong>: Target is “expected return.” Not loss function, or gradient norm. (In rare special cases, if loss function is negative expected return, <span class="math inline">\(L(\theta)=-J(\theta)\)</span>, then it can be used to judge optimality.)</li>
+</ul></li>
+</ul>
+</blockquote>
+<p>In RL, we usually aim to maximize expected return. If we know this target cannot exceed a certain bound, reaching this bound means we have reached a global optimum; no other solution is better. Getting close enough to this bound means we have reached an approximate global optimum, and the remaining room for improvement is negligible.</p>
+<p>True expected return is a theoretical concept; we can’t actually measure it. In reality, we use evaluation performance to approximate it.</p>
+<p>In games like Cartpole, where the max score is 500 per round, if you achieve 500 points with sufficient evaluation, you have reached a global optimum. Getting near 500 means you have reached an approximate global optimum.</p>
+<p>I can give an extreme example. Suppose in the same game, conditions remain the same, but I arbitrarily define a maximum of 2 points per round, and my training goal is to get the full score—which is 2 points. Then, obviously, you can reach 2 points with a little training. So, you can claim your parameters are globally optimal every time.</p>
+<p>But not all RL environments have return boundaries, and even if they do, environmental randomness might not allow us to reach them. So, your expected return must have a clear boundary, <em>and</em> your algorithm or environment must support reaching or approaching it for you to use this method to judge optimality.</p>
+<p>In supervised learning, we can also aim to “minimize the loss function on the evaluation or test set.” For example, with Mean Squared Error (MSE), the theoretical lower bound is 0. If you reach this theoretical lower bound, your parameters are necessarily globally optimal.</p>
+<p>We just emphasized that we care about the boundaries <em>of the target</em>. Therefore, when “non-target” objects reach their own boundaries, it is often of no help in judging optimality. For example, in RL algorithms, although our goal is expected return, we also collect loss function and gradient norm values. The theoretical lower bound of the gradient norm is 0, and some loss functions, like MSE, have a theoretical lower bound of 0.</p>
+<p>In RL, the loss function is usually used at different stages of the algorithm, in different logical chains, acting as an intermediate tool to fit local samples, and it often reflects the loss value of a single batch during the “training process.” Minimizing the loss function of a single batch during training and our goal—maximizing expected return during evaluation—are not mathematically coordinated.</p>
+<p>A gradient norm reaching a boundary of 0 may indeed be a local or global optimum, but it could also be a saddle point or a plateau. So, if it reaches a boundary, the loss function may not have reached its boundary, and the expected return is not necessarily optimal.</p>
+<p>But of course, a gradient reaching 0 has value. As we mentioned above, when the “optimization target itself” has a specific mathematical structure, such as the unconstrained differentiable convex function mentioned earlier, a gradient of 0 can directly represent having attained a global optimum.</p>
+<p>Now, we return to the core conclusion: in reinforcement learning, the goal is usually to maximize expected return, and reaching the maximum return constitutes a global optimum. Non-target objects don’t get that treatment.</p>
+<p>Let’s refocus on the question we care about: how to judge the optimality of the current solution? We mentioned three methods: first, brute force; second, structural optimality judgment using the mathematical properties of the objective; and third, the one we just mentioned, approximating target boundaries.</p>
+<p>Finally, when none of this evidence is sufficient—when methods one, two, and three don’t apply—we cannot simply deny it’s an optimal solution; we can only say it’s currently undetermined.</p>
+<hr>
+</section>
+<section id="optimality-local-global-practice" class="level2">
+<h2 class="anchored" data-anchor-id="optimality-local-global-practice">3.4 Optimality: Local &amp; Global | Practice</h2>
+<blockquote class="blockquote">
+<ol type="1">
+<li>Common communication scenario: Model performance looks like <strong>training is stuck</strong>/<strong>performance is stagnant</strong> → <strong>Local Optimum hypothesis</strong>.</li>
+<li>Practical goal requirement: <strong>Pursue “Good Enough,”</strong> use “Good Enough” as the acceptable result/stopping criterion.</li>
+</ol>
+</blockquote>
+<p>In practical applications, you’ll often hear others explain a chart with stagnant performance by saying, “It might be stuck in a local optimum, preventing the model from improving, and the parameters can’t jump out.” What do they actually mean when they say this?</p>
+<p>First, the phenomenon is clear, and the inference that the model is in a local optimum is indeed possible, but evidence is insufficient.</p>
+<p>A stagnant curve indicates that the training effect of current parameters has not improved further; it does not mean that there are no better parameters in the vicinity of the current parameters. It is entirely possible that there is a better parameter combination in the neighborhood—right nearby—but if we are currently at a saddle point or on a plateau, causing parameter updates to be almost non-existent, performance can also be stagnant.</p>
+<p>Training curves only provide information about the parameters along their own path; we don’t have enough information about the surrounding parameter space, so this expression is usually just a convenient mechanistic speculation.</p>
+<p>In practical engineering, even without knowing the mechanism, you can perform speculative diagnosis: roughly guess a few of the most likely directions, then make experimental modifications, and run it again to see. We <em>do</em> hope that training can yield better results again and again. But optimality is not a necessary condition for a training result to be acceptable.</p>
+<p>In practical engineering, we generally pursue a “good enough” result, not an optimal one. Of course, your “good enough” result could <em>also</em> be optimal, but that’s beside the point.</p>
+<p>What is “good enough”? Simply put, it’s whatever satisfies you. If, given the resources you can provide, you’ve reached your established standard, that’s good enough, and you can stop training. Even if there exists a set of parameters with even better performance than your defined standard, it doesn’t matter, because that belongs to a different project.</p>
+<hr>
+</section>
+<section id="three-concept-sets-stableconverged-optimal-performance-essence" class="level2">
+<h2 class="anchored" data-anchor-id="three-concept-sets-stableconverged-optimal-performance-essence">4.1 Three Concept Sets: Stable/Converged, Optimal, Performance | Essence</h2>
+<blockquote class="blockquote">
+<ul>
+<li>Essentially, they care about <strong>three different questions</strong>:
+<ol type="1">
+<li><strong>Stable &amp; Converged</strong>: Trend of a variable over time → <strong>How is it changing?</strong>
+<ul>
+<li>Converged implies stable; stable does not imply converged.</li>
+</ul></li>
+<li><strong>Optimality</strong>: Comparability between different solutions → <strong>Is it the best?</strong>
+<ul>
+<li>Global optimum implies local optimum; local optimum does not imply global optimum.</li>
+</ul></li>
+<li><strong>Performance</strong>: Is expected return meeting human-set standards → <strong>Is it up to standard?</strong></li>
+</ol></li>
+</ul>
+</blockquote>
+<p>We know more concepts now; we’ve grouped them into three pairs. Can these concept groups be inferred from one another? If I hold true, does that mean you must hold true? This section is very practical.</p>
+<p>Although the concept of “performance quality” wasn’t explained separately above, it’s worth including here. It means exactly what it says literally: in our given scenario and under our given standards, meeting or approaching the standard is good performance; conversely, it’s bad performance.</p>
+<p>These three sets of concepts care about three different questions.</p>
+<p>Stability and convergence care about the trend of variables over time. Optimality cares about the comparability between different solutions. Performance quality cares about whether expected return has reached a human-set standard.</p>
+<p>When you want to know the dependency between concepts, you are actually checking whether you can answer the corresponding question based on the information you have. We’ll derive this by starting with some common intuitive errors.</p>
+<hr>
+</section>
+<section id="three-concept-sets-stableconverged-optimal-performance-common-false-intuitions" class="level2">
+<h2 class="anchored" data-anchor-id="three-concept-sets-stableconverged-optimal-performance-common-false-intuitions">4.2 Three Concept Sets: Stable/Converged, Optimal, Performance | Common False Intuitions</h2>
+<blockquote class="blockquote">
+<ol type="1">
+<li>❌ Stable / Converged, Optimal → Must be “Good Performance.”</li>
+<li>❌ Stable, Converged, Training Stagnant → Must be at least a Local Optimum.</li>
+<li>❌ Global Optimum, No Room to Improve → Continuing training will maintain optimal performance.</li>
+</ol>
+</blockquote>
+<p>The most common intuitive error is when you hear someone report that their training results are stable or converged, or even say they have reached a local optimum or a global optimum; this doesn’t necessarily mean good news—their training might be far from over. There is no information here to answer whether the set standard has been met, so it’s not necessarily good performance.</p>
+<p>If the model’s capacity is insufficient, even if we reach the model’s capability limit, the solution might still be terrible.</p>
+<p>The second common intuitive misunderstanding, which we mentioned when discussing the application of optimality, is that a local optimum is one possible mechanism for this stability or stagnation, but not the only one.</p>
+<p>Now, let’s look at it from another angle. If training has lasted a long time, it enables you to answer the question, “How does training return change over time?” But it hasn’t compared the current parameters with other parameters in the surrounding space, so you cannot answer, “Is the current parameter the best in the surrounding space?” So the second statement is also wrong.</p>
+<p>Now, assume you really have reached a global optimum—you’ve found the best solution in the solution space, and there is absolutely no room for improvement. If you continue training, will the model performance remain excellent?</p>
+<p>Global optimality answers the question of what is best in the current solution space. Whether it can be maintained in subsequent training depends on how other factors related to it change over time, such as environmental information, sample distribution, sampling error, noise level, and we just don’t have that info. Subsequent training itself does not automatically provide performance guarantees; the expected return might remain globally optimal, or performance might decline. So, this statement is obviously wrong, too.</p>
+<hr>
+</section>
+<section id="review-questions" class="level2">
+<h2 class="anchored" data-anchor-id="review-questions">5.1 Review | Questions</h2>
+<blockquote class="blockquote">
+<p>In model training: 1. If variable values stabilize, is this always good news? 2. If the curve is stable, does it count as converged? 3. If it has converged, can I say it’s optimal? 4. If it’s optimal, does it perform well?</p>
+<ol start="5" type="1">
+<li>My reward fluctuates wildly, but final performance is near-perfect; is it a global optimum?</li>
+<li>If gradient norm is near-zero for long, am I at the global optimum, or stuck in a local one?</li>
+<li>If performance stops increasing, is it the global optimum, or stuck in a local one?</li>
+<li>High reward finally appears; should I stop training immediately? What if it drops again?</li>
+</ol>
+</blockquote>
+<p>At this point, the main text is over. For fun, let’s look at the questions from the intro. You should feel they are very clear and easy to judge now.</p>
+<p>Feel free to pause for a few seconds and think about them. The final two pages will present the answers as text.</p>
+<hr>
+</section>
+<section id="review-questions-answers-12" class="level2">
+<h2 class="anchored" data-anchor-id="review-questions-answers-12">5.2 Review | Questions &amp; Answers 1/2</h2>
+<blockquote class="blockquote">
+<ol type="1">
+<li><p>If variable values stabilize, is this always good news? — Not necessarily; it could be stable at poor performance.</p></li>
+<li><p>If the curve is stable, does it count as converged? — Not necessarily; it depends on whether it converged to a fixed value / or if the fluctuation is negligible.</p></li>
+<li><p>If it has converged, can I say it’s optimal? — Not necessarily; it no longer changes over time, but that doesn’t mean there aren’t better solutions around it.</p></li>
+<li><p>If it’s optimal, does it perform well? — Not necessarily; it could be a bad model, where the maximum score of a bad model is still bad performance.</p></li>
+<li><p>My reward fluctuates wildly, but final performance is near-perfect; is it a global optimum? — Yes, but more accurately, an “approximate global optimum.” It is currently the best solution, which is independent of the intermediate process.</p></li>
+<li><p>If the gradient norm remains near zero for a long time, am I at a local or global optimum?&nbsp;— Not necessarily. For a non-convex function, having a zero (or near-zero) gradient may simply mean you are at a saddle point or on a plateau—not even at a local optimum. Even if you are genuinely at a local optimum, without information about the landscape farther away, you cannot infer global optimality. However, for an unconstrained, differentiable convex loss function, a gradient of zero&nbsp;does&nbsp;certify a global optimum for the loss.</p></li>
+<li><p>If performance stops increasing, is it the global optimum, or stuck in a local one? — <strong>Not necessarily either one.</strong>&nbsp;Just because performance is stagnant doesn’t mean your solution is better than surrounding ones.</p></li>
+</ol>
+</blockquote>
+<hr>
+</section>
+<section id="review-questions-answers-22" class="level2">
+<h2 class="anchored" data-anchor-id="review-questions-answers-22">5.3 Review | Questions &amp; Answers 2/2</h2>
+<blockquote class="blockquote">
+<ol start="8" type="1">
+<li>High reward finally appears; should I stop training immediately? What if it drops again?</li>
+<li>As long as the goal is achieved, you are qualified to stop. The key isn’t whether the curve looks pretty or stable, but whether your goal is met. (Whether your goal setting is reasonable is a different matter.)</li>
+<li>If you don’t just care about a single high reward, but expect training to yield more high rewards, or more stable high rewards, your goal itself should include requirements such as average round return, high-score ratio, standard deviation/variance, etc. It depends on your specific needs.</li>
+<li>Whatever your goal, continuing training may lead to performance decline, but that doesn’t necessarily threaten the current goal.
+<ol type="1">
+<li>If you keep the current model and its usage fixed, if the environment and evaluation conditions also remain the same, then the expected return naturally remains the same (though single-evaluation results may still fluctuate).</li>
+<li>If you guarantee using the current version of model parameters, but the environment or evaluation criteria keep changing, maintaining good performance is difficult. If you have such stability requirements, you can pursue a robustness goal across multiple environments and conditions from the start.</li>
+</ol></li>
+</ol>
+</blockquote>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+(() => {
+  const articlePathPattern = /\/publish\/[^/]+\/[^/]+\.html$/i;
+  const desktopMedia = window.matchMedia('(min-width: 1200px)');
+  const maxDepth = 2;
+  const backToTopThreshold = 0.65;
+
+  const slugify = (value) => value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\u4e00-\u9fff]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'section';
+
+  const ensureHeadingIds = (headings) => {
+    const used = new Set();
+    headings.forEach((heading, index) => {
+      let id = heading.id || slugify(heading.textContent || heading.innerText || `section-${index + 1}`);
+      while (used.has(id)) {
+        id = `${id}-${index + 1}`;
+      }
+      used.add(id);
+      heading.id = id;
+    });
+  };
+
+  const buildTree = (headings, rootLevel) => {
+    const items = [];
+    const stack = [];
+
+    const createItem = (heading) => ({
+      id: heading.id,
+      level: Number(heading.tagName.slice(1)),
+      normalizedLevel: Number(heading.tagName.slice(1)) - rootLevel,
+      label: (heading.textContent || '').trim(),
+      heading,
+      children: [],
+      parent: null
+    });
+
+    headings.forEach((heading) => {
+      const item = createItem(heading);
+      if (item.normalizedLevel > maxDepth) {
+        return;
+      }
+
+      while (stack.length > 0 && stack[stack.length - 1].level >= item.level) {
+        stack.pop();
+      }
+
+      if (stack.length === 0) {
+        items.push(item);
+      } else {
+        item.parent = stack[stack.length - 1];
+        item.parent.children.push(item);
+      }
+
+      stack.push(item);
+    });
+
+    return items;
+  };
+
+  const getRootAncestor = (item) => {
+    let current = item || null;
+    while (current?.parent) {
+      current = current.parent;
+    }
+    return current;
+  };
+
+  const getDepthOneAncestor = (item) => {
+    let current = item || null;
+    while (current && current.normalizedLevel > 1) {
+      current = current.parent;
+    }
+    return current;
+  };
+
+  const getAncestors = (item) => {
+    const ancestors = new Set();
+    let current = item?.parent || null;
+    while (current) {
+      ancestors.add(current.id);
+      current = current.parent;
+    }
+    return ancestors;
+  };
+
+  const flatten = (items) => {
+    const all = [];
+    const walk = (node) => {
+      all.push(node);
+      node.children.forEach(walk);
+    };
+    items.forEach(walk);
+    return all;
+  };
+
+  const getActiveItem = (allItems) => {
+    const offset = 160;
+    const currentY = window.scrollY + offset;
+    let active = allItems[0] || null;
+    allItems.forEach((item) => {
+      if (item.heading.offsetTop <= currentY) {
+        active = item;
+      }
+    });
+    return active;
+  };
+
+  const createLink = (item) => {
+    const li = document.createElement('li');
+    li.className = `context-outline__item context-outline__item--level-${item.normalizedLevel}`;
+    li.dataset.outlineId = item.id;
+    const link = document.createElement('a');
+    link.href = `#${item.id}`;
+    link.textContent = item.label;
+    li.appendChild(link);
+    return li;
+  };
+
+  const renderBranch = (items, activeItem, ancestors, activeDepthOneAncestor) => {
+    const list = document.createElement('ul');
+    items.forEach((item) => {
+      const entry = createLink(item);
+      if (activeItem?.id === item.id) entry.classList.add('is-active');
+      if (ancestors.has(item.id)) entry.classList.add('is-ancestor');
+
+      if (item.children.length > 0) {
+        const shouldRenderChildren = item.normalizedLevel === 0
+          ? item.id === getRootAncestor(activeItem)?.id
+          : item.normalizedLevel === 1
+            ? item.id === activeDepthOneAncestor?.id
+            : false;
+
+        if (shouldRenderChildren) {
+          entry.appendChild(renderBranch(item.children, activeItem, ancestors, activeDepthOneAncestor));
+        }
+      }
+
+      list.appendChild(entry);
+    });
+    return list;
+  };
+
+  const renderNav = (nav, items, activeItem) => {
+    const ancestors = getAncestors(activeItem);
+    const activeDepthOneAncestor = getDepthOneAncestor(activeItem);
+    nav.replaceChildren(renderBranch(items, activeItem, ancestors, activeDepthOneAncestor));
+  };
+
+  const initBackToTop = () => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'back-to-top';
+    button.setAttribute('aria-label', 'Back to top');
+    button.setAttribute('title', 'Back to top');
+    button.textContent = '↑';
+    document.body.appendChild(button);
+
+    const updateVisibility = () => {
+      const root = document.documentElement;
+      const scrollableHeight = root.scrollHeight - window.innerHeight;
+      const shouldShow = scrollableHeight > 48 && window.scrollY > (window.innerHeight * backToTopThreshold);
+      button.classList.toggle('is-visible', shouldShow);
+    };
+
+    button.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+    window.addEventListener('resize', updateVisibility);
+    updateVisibility();
+  };
+
+
+
+  const initOutline = () => {
+    if (!articlePathPattern.test(window.location.pathname)) return;
+    const contentRoot = document.querySelector('#quarto-document-content');
+    if (!contentRoot) return;
+    const pageTitle = (document.querySelector('.quarto-title .title')?.textContent || '').trim();
+
+    const headings = Array.from(contentRoot.querySelectorAll('h1, h2, h3, h4')).filter((heading) => {
+      const text = (heading.textContent || '').trim();
+      return text.length > 0 && text !== pageTitle;
+    });
+    if (headings.length < 2) return;
+
+    ensureHeadingIds(headings);
+    const rootLevel = headings.reduce((minLevel, heading) => {
+      const level = Number(heading.tagName.slice(1));
+      return Math.min(minLevel, level);
+    }, 6);
+    const items = buildTree(headings, rootLevel);
+    const allItems = flatten(items);
+    if (allItems.length === 0) return;
+
+    const aside = document.createElement('aside');
+    aside.className = 'context-outline';
+    aside.setAttribute('aria-label', 'On this page');
+
+    const inner = document.createElement('div');
+    inner.className = 'context-outline__inner';
+    const label = document.createElement('div');
+    label.className = 'context-outline__label';
+    label.textContent = 'On this page';
+    const nav = document.createElement('nav');
+    nav.className = 'context-outline__nav';
+
+    inner.append(label, nav);
+    aside.appendChild(inner);
+    document.body.appendChild(aside);
+    document.body.classList.add('has-context-outline');
+
+    let activeId = '';
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const nextActive = getActiveItem(allItems);
+      if (!nextActive || nextActive.id === activeId) return;
+      activeId = nextActive.id;
+      renderNav(nav, items, nextActive);
+    };
+
+    const requestUpdate = () => {
+      if (!desktopMedia.matches) return;
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(update);
+      }
+    };
+
+    desktopMedia.addEventListener('change', () => {
+      if (desktopMedia.matches) {
+        requestUpdate();
+      }
+    });
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    renderNav(nav, items, allItems[0]);
+    requestUpdate();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initOutline();
+      initBackToTop();
+    }, { once: true });
+  } else {
+    initOutline();
+    initBackToTop();
+  }
+})();
+</script>
+<script>
+  (function () {
+    var target = document.querySelector('meta[name="lang-target"]');
+    var label = document.querySelector('meta[name="lang-label"]');
+    if (!target || !label) {
+      return;
+    }
+    var href = target.getAttribute('content');
+    var text = label.getAttribute('content');
+    if (!href || !text) {
+      return;
+    }
+    var nav = document.querySelector('.navbar-nav.ms-auto');
+    if (!nav) {
+      return;
+    }
+    var code = document.querySelector('meta[name="lang-hreflang"]');
+    var item = document.createElement('li');
+    item.className = 'nav-item lang-switch-item';
+    var link = document.createElement('a');
+    link.className = 'nav-link lang-switch';
+    link.href = href;
+    link.textContent = text;
+    if (code && code.getAttribute('content')) {
+      link.setAttribute('hreflang', code.getAttribute('content'));
+    }
+    item.appendChild(link);
+    nav.appendChild(item);
+  })();
+</script>
+<div class="rss-footer">
+
+  <hr>
+
+  <hr>
+
+  <a class="rss-footer__link" href="https://foxmir.github.io/Foxmir-Blog/index.xml" title="RSS feed" aria-label="RSS feed"><i class="bi bi-rss"></i></a>
+
+</div>
+
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/foxmir\.github\.io\/Foxmir-Blog\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

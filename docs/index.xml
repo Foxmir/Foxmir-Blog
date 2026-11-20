@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Foxmir Blog</title>
+<link>https://foxmir.github.io/Foxmir-Blog/</link>
+<atom:link href="https://foxmir.github.io/Foxmir-Blog/index.xml" rel="self" type="application/rss+xml"/>
+<description></description>
+<generator>quarto-1.8.27</generator>
+<lastBuildDate>Fri, 20 Nov 2026 08:33:44 GMT</lastBuildDate>
+<item>
+  <title>Statistical Analysis of DQN on CartPole v1</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/publish/Reports/Statistical_Analysis_of_DQN_on_CartPole_v1.html</link>
+  <description><![CDATA[ （Written on January 2, 2026 and completed on January 15, 2026） ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/publish/Reports/Statistical_Analysis_of_DQN_on_CartPole_v1.html</guid>
+  <pubDate>Fri, 20 Nov 2026 08:33:44 GMT</pubDate>
+</item>
+<item>
+  <title>Early Reflections on Benchmark Design</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/publish/Learn/Early_Reflections_on_Benchmark_Design.html</link>
+  <description><![CDATA[ Before I started learning PPO and SAC, I had already set myself the task of writing a final “comparison report.” I didn’t think too much about it at the time; I simply followed my previous project habit and continued pushing forward with a new algorithm on a new environment. After I finally manually completed the code implementation and full training for Walker2D-v4 on PPO and Ant-v5 on SAC, I began working on this report. ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/publish/Learn/Early_Reflections_on_Benchmark_Design.html</guid>
+  <pubDate>Fri, 20 Nov 2026 05:18:34 GMT</pubDate>
+</item>
+<item>
+  <title>When Should You Normalize or Scale Rewards in Reinforcement Learning: Criteria and Common Methods</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/publish/Bits/Reward_Normalization_and_Scaling.html</link>
+  <description><![CDATA[ <strong>The reward scale directly affects the numerical scale of returns, V/Q targets, TD errors, or policy update signals, and therefore affects the stability of loss functions and gradient updates.</strong> If the reward scale is too large or fluctuates too violently, it is more likely to cause issues such as overly large value losses, unstable gradients, and training oscillations. ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/publish/Bits/Reward_Normalization_and_Scaling.html</guid>
+  <pubDate>Fri, 20 Nov 2026 05:15:59 GMT</pubDate>
+</item>
+<item>
+  <title>What Does the Reward Function Depend On: \(R(s)\)、\(R(s&#39;)\)、\(R(s,a)\) and \(R(s,a,s&#39;)\)?</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/publish/Bits/Dependencies_of_the_Reward_Function.html</link>
+  <description><![CDATA[ The immediate reward <img src="https://latex.codecogs.com/png.latex?r"> returned by the environment during a transition can depend on different pieces of information: the current state <img src="https://latex.codecogs.com/png.latex?s">, the next state <img src="https://latex.codecogs.com/png.latex?s'">, the state-action pair <img src="https://latex.codecogs.com/png.latex?(s,a)">, or the full transition <img src="https://latex.codecogs.com/png.latex?(s,a,s')">. ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/publish/Bits/Dependencies_of_the_Reward_Function.html</guid>
+  <pubDate>Fri, 20 Nov 2026 05:14:22 GMT</pubDate>
+</item>
+<item>
+  <title>Deconstructing Reward in RL</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/publish/Bits/Deconstructing_Reward.html</link>
+  <description><![CDATA[ In Reinforcement Learning (RL), “Reward” is a core concept that seems simple but is extremely prone to confusion in both theory and practice. ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/publish/Bits/Deconstructing_Reward.html</guid>
+  <pubDate>Fri, 20 Nov 2026 05:10:42 GMT</pubDate>
+</item>
+<item>
+  <title>RL Chart Reading: Stable = Converged = Optimal?</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/publish/Articles/Stable_Converged_Optimal.html</link>
+  <description><![CDATA[ In model training: 1. If variable values stabilize, is this always good news? 2. If the curve is stable, does it count as converged? 3. If it has converged, can I say it’s optimal? 4. If it’s optimal, does it perform well? ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/publish/Articles/Stable_Converged_Optimal.html</guid>
+  <pubDate>Fri, 20 Nov 2026 05:05:13 GMT</pubDate>
+</item>
+</channel>
+</rss>

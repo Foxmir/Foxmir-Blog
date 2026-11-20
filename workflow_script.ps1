@@ -11,7 +11,8 @@ $OutputEncoding = [Console]::OutputEncoding
 $script:FailureLogged = $false
 $script:GitHubApiProxy = $null
 
-if ([System.IO.Path]::GetFileName($LogPath).Equals('LOG.md', [System.StringComparison]::OrdinalIgnoreCase)) {
+# 报错一律写进 ERROR.md。外面若传了别的文件名过来，改回同目录的 ERROR.md。
+if (-not [System.IO.Path]::GetFileName($LogPath).Equals('ERROR.md', [System.StringComparison]::OrdinalIgnoreCase)) {
     $logDirectory = if (-not [string]::IsNullOrWhiteSpace($env:BLOG_SOURCE) -and (Test-Path -LiteralPath $env:BLOG_SOURCE)) {
         $env:BLOG_SOURCE
     } else {
@@ -140,7 +141,8 @@ function Add-LogEntry {
 function Invoke-RobocopyCapture {
     param(
         [Parameter(Mandatory = $true)][string]$Source,
-        [Parameter(Mandatory = $true)][string]$Destination
+        [Parameter(Mandatory = $true)][string]$Destination,
+        [AllowEmptyCollection()][string[]]$ExtraArguments = @()
     )
 
     $output = @()
@@ -152,7 +154,7 @@ function Invoke-RobocopyCapture {
     }
 
     try {
-        $output = & robocopy $Source $Destination /MIR /NFL /NDL /NJH /NJS /NP 2>&1
+        $output = & robocopy $Source $Destination /MIR /NFL /NDL /NJH /NJS /NP @ExtraArguments 2>&1
         $exitCode = $LASTEXITCODE
         if ($null -eq $exitCode) {
             $exitCode = 0
@@ -177,15 +179,8 @@ function Invoke-SourceSyncCapture {
         [Parameter(Mandatory = $true)][string]$Destination
     )
 
-    $excludedFiles = @('publish.bat', 'ERROR.md')
-    $sourceErrorLogPath = Join-Path $Source 'ERROR.md'
-    $sourceLegacyErrorLogPath = Join-Path $Source 'LOG.md'
-    $sourceLegacyWeeklyLogPath = Join-Path $Source 'WEEKLYLOG.md'
-    if ((-not (Test-Path -LiteralPath $sourceErrorLogPath)) -and
-        (Test-Path -LiteralPath $sourceLegacyErrorLogPath) -and
-        (Test-Path -LiteralPath $sourceLegacyWeeklyLogPath)) {
-        $excludedFiles += 'LOG.md'
-    }
+    # LOG 页已经停用，不再同步 LOG.md / WEEKLYLOG.md
+    $excludedFiles = @('publish.bat', 'ERROR.md', 'LOG.md', 'WEEKLYLOG.md')
 
     $arguments = @(
         $Source,
@@ -631,27 +626,47 @@ try {
     if (Test-Path -LiteralPath $tempOutputDir) {
         Remove-Item -LiteralPath $tempOutputDir -Recurse -Force -ErrorAction SilentlyContinue
     }
-    $renderResult = Invoke-ProcessCapture -FilePath 'D:\Quarto\bin\quarto.exe' -ArgumentList @(
-        'render',
-        '.',
-        '--output-dir',
-        '.quarto-build-temp'
+    $buildRoot = Join-Path $ProjectPath 'build'
+    $languageBuilds = @(
+        [pscustomobject]@{ Name = '英文'; Project = (Join-Path $buildRoot 'en'); Output = (Join-Path $tempOutputDir 'en'); Target = $docsDir },
+        [pscustomobject]@{ Name = '中文'; Project = (Join-Path $buildRoot 'zh'); Output = (Join-Path $tempOutputDir 'zh'); Target = (Join-Path $docsDir 'zh') }
     )
-    Get-TailLines -Lines $renderResult.Lines -Count 12 | ForEach-Object { Write-Host ('  ' + $_) }
-    if ($renderResult.Failed) {
-        Fail-Workflow -Title '渲染 Quarto 站点' -Lines $renderResult.Lines
+    foreach ($languageBuild in $languageBuilds) {
+        if (-not (Test-Path -LiteralPath $languageBuild.Project)) {
+            Fail-Workflow -Title '渲染 Quarto 站点' -Lines @('找不到 ' + $languageBuild.Name + ' 站点目录：' + $languageBuild.Project)
+        }
+        $renderResult = Invoke-ProcessCapture -FilePath 'D:\Quarto\bin\quarto.exe' -ArgumentList @(
+            'render',
+            $languageBuild.Project
+        )
+        Get-TailLines -Lines $renderResult.Lines -Count 12 | ForEach-Object { Write-Host ('  ' + $_) }
+        if ($renderResult.Failed) {
+            Fail-Workflow -Title ('渲染 Quarto 站点（' + $languageBuild.Name + '）') -Lines $renderResult.Lines
+        }
     }
-    $syncDocsResult = Invoke-RobocopyCapture -Source $tempOutputDir -Destination $docsDir
-    Get-TailLines -Lines $syncDocsResult.Lines -Count 12 | ForEach-Object { Write-Host ('  ' + $_) }
-    if ($syncDocsResult.Failed) {
-        Fail-Workflow -Title '同步渲染产物到 docs' -Lines $syncDocsResult.Lines
+
+    # 英文站铺到 docs 根，中文站铺到 docs\zh，两边互不覆盖
+    $englishSyncResult = Invoke-RobocopyCapture -Source (Join-Path $tempOutputDir 'en') -Destination $docsDir -ExtraArguments @('/XD', 'zh', '/XF', '.nojekyll')
+    Get-TailLines -Lines $englishSyncResult.Lines -Count 12 | ForEach-Object { Write-Host ('  ' + $_) }
+    if ($englishSyncResult.Failed) {
+        Fail-Workflow -Title '同步英文渲染产物到 docs' -Lines $englishSyncResult.Lines
     }
+    $chineseSyncResult = Invoke-RobocopyCapture -Source (Join-Path $tempOutputDir 'zh') -Destination (Join-Path $docsDir 'zh')
+    Get-TailLines -Lines $chineseSyncResult.Lines -Count 12 | ForEach-Object { Write-Host ('  ' + $_) }
+    if ($chineseSyncResult.Failed) {
+        Fail-Workflow -Title '同步中文渲染产物到 docs\zh' -Lines $chineseSyncResult.Lines
+    }
+
     if (-not (Test-Path -LiteralPath $docsIndexPath)) {
         Fail-Workflow -Title '检查渲染结果' -Lines @('index.html 未生成。')
     }
+    $docsChineseIndexPath = Join-Path $docsDir 'zh\index.html'
+    if (-not (Test-Path -LiteralPath $docsChineseIndexPath)) {
+        Fail-Workflow -Title '检查渲染结果' -Lines @('zh\index.html 未生成。')
+    }
     Write-Utf8Text -Path $docsNoJekyllPath -Content ''
     $indexSize = (Get-Item $docsIndexPath).Length
-    Write-Host ('[完成] docs\index.html 已生成，大小: ' + $indexSize + ' 字节；docs\.nojekyll 已恢复。') -ForegroundColor DarkGray
+    Write-Host ('[完成] docs\index.html 已生成，大小: ' + $indexSize + ' 字节；docs\zh\index.html 已生成；docs\.nojekyll 已恢复。') -ForegroundColor DarkGray
     if (Test-Path -LiteralPath $tempOutputDir) {
         Remove-Item -LiteralPath $tempOutputDir -Recurse -Force -ErrorAction SilentlyContinue
     }

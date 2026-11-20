@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Foxmir 博客</title>
+<link>https://foxmir.github.io/Foxmir-Blog/zh/</link>
+<atom:link href="https://foxmir.github.io/Foxmir-Blog/zh/index.xml" rel="self" type="application/rss+xml"/>
+<description></description>
+<generator>quarto-1.8.27</generator>
+<lastBuildDate>Fri, 20 Nov 2026 05:18:34 GMT</lastBuildDate>
+<item>
+  <title>初涉benchmark时的设计反思</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/zh/publish/Learn/Early_Reflections_on_Benchmark_Design_zh.html</link>
+  <description><![CDATA[ 在开始学习PPO和SAC之前，我就定下了最后要写一篇“对比报告”的任务。我当时没想太多，只是按照以前的项目习惯，继续在新环境上推进新算法。当我终于手动完成了 Walker2D-v4 on PPO 和 Ant-v5 on SAC 的代码编写和正式训练后，我开始着手这篇报告。 ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/zh/publish/Learn/Early_Reflections_on_Benchmark_Design_zh.html</guid>
+  <pubDate>Fri, 20 Nov 2026 05:18:34 GMT</pubDate>
+</item>
+<item>
+  <title>什么时候进行RL奖励归一化或缩放处理：判据与常用方法</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/zh/publish/Bits/Reward_Normalization_and_Scaling_zh.html</link>
+  <description><![CDATA[ <strong>奖励尺度会直接影响 return、V/Q target、TD error 或策略更新信号的数值尺度，进而影响损失函数和梯度更新的稳定性。</strong> 如果奖励尺度过大或波动过剧烈，就更容易带来 value loss 过大、梯度不稳定、训练震荡等问题。 ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/zh/publish/Bits/Reward_Normalization_and_Scaling_zh.html</guid>
+  <pubDate>Fri, 20 Nov 2026 05:15:59 GMT</pubDate>
+</item>
+<item>
+  <title>奖励函数到底依赖什么：\(R(s)\)、\(R(s&#39;)\)、\(R(s,a)\) 与 \(R(s,a,s&#39;)\)？</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/zh/publish/Bits/Dependencies_of_the_Reward_Function_zh.html</link>
+  <description><![CDATA[ 环境在一次转移中返回的即时奖励 <code>r</code>，到底是由哪些信息决定的：当前状态 <code>s</code>、到达状态 <code>s'</code>、状态-动作 <code>(s,a)</code>，还是完整转移 <code>(s,a,s')</code>？ ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/zh/publish/Bits/Dependencies_of_the_Reward_Function_zh.html</guid>
+  <pubDate>Fri, 20 Nov 2026 05:14:22 GMT</pubDate>
+</item>
+<item>
+  <title>概念解构：RL中的奖励</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/zh/publish/Bits/Deconstructing_Reward_zh.html</link>
+  <description><![CDATA[ 在强化学习中，“奖励” 是一个看似简单，却极易在理论与实践中引起混淆的核心概念。 ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/zh/publish/Bits/Deconstructing_Reward_zh.html</guid>
+  <pubDate>Fri, 20 Nov 2026 05:10:42 GMT</pubDate>
+</item>
+<item>
+  <title>RL读图：稳定=收敛=最优？</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/zh/publish/Articles/Stable_Converged_Optimal_zh.html</link>
+  <description><![CDATA[ 在模型训练过程中： 1. 如果变量数值稳定了，这一定是好消息吗？ 2. 曲线稳了，算收敛吗？ 3. 如果它收敛了，我能说它是最优吗？ 4. 如果它是最优了，它一定表现好吗？ ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/zh/publish/Articles/Stable_Converged_Optimal_zh.html</guid>
+  <pubDate>Fri, 20 Nov 2026 05:05:13 GMT</pubDate>
+</item>
+</channel>
+</rss>
