@@ -1,4 +1,14 @@
+/* 英文字体：只有 <html lang="en"> 的页面会用到，中文站不引用、不下载 */
+@font-face {
+	font-family: "Inter Web";
+	src: url("assets/fonts/InterVariable.woff2") format("woff2");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
 :root {
+	--site-ui-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 	--site-bg: #fbfaf7;
 	--site-paper: #fffefb;
 	--site-ink: #161513;
@@ -16,6 +26,10 @@
 	--site-wide-reading-width: 1040px;
 	--site-radius-sm: 10px;
 	--site-color-rule-height: 0.28rem;
+}
+
+html[lang="en"] {
+	--site-ui-font: "Inter Web", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 body.quarto-dark {
@@ -42,7 +56,7 @@ body {
 	min-height: 100vh;
 	background: var(--site-bg);
 	color: var(--site-ink);
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-family: var(--site-ui-font);
 	font-size: 17px;
 	line-height: 1.65;
 	text-rendering: optimizeLegibility;
@@ -171,7 +185,7 @@ main.content,
 
 .navbar-title {
 	color: var(--site-ink);
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-family: var(--site-ui-font);
 	font-size: 1rem;
 	font-weight: 720;
 }
@@ -182,7 +196,7 @@ main.content,
 
 .navbar-nav .nav-link {
 	color: var(--site-muted) !important;
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-family: var(--site-ui-font);
 	font-size: 0.78rem;
 	font-weight: 650;
 	text-transform: uppercase;
@@ -270,7 +284,7 @@ h4,
 h5,
 h6 {
 	color: var(--site-ink);
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-family: var(--site-ui-font);
 	font-weight: 720;
 	border-bottom: 0;
 	padding-bottom: 0;
@@ -429,7 +443,7 @@ body:has(.home-page) #quarto-document-content {
 .home-section-label p {
 	margin: 0;
 	color: var(--site-muted);
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-family: var(--site-ui-font);
 	font-size: 0.78rem;
 	font-weight: 760;
 	text-transform: uppercase;
@@ -475,7 +489,7 @@ body:has(.home-page) #quarto-document-content {
 .home-lines {
 	display: grid;
 	gap: 0.08rem;
-	max-width: 30rem;
+	max-width: min(100%, var(--site-reading-width));
 	margin-top: 3.65rem;
 	color: var(--site-muted);
 }
@@ -541,7 +555,7 @@ body:has(.home-page) #quarto-document-content {
 .map-item-head,
 .map-item-head p {
 	margin: 0;
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-family: var(--site-ui-font);
 	font-size: clamp(1.35rem, 2.4vw, 1.85rem);
 	font-weight: 760;
 	letter-spacing: 0;
@@ -639,7 +653,7 @@ body:has(.home-page) #quarto-document-content {
 
 .quarto-listing .listing-date {
 	color: var(--site-muted);
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-family: var(--site-ui-font);
 	font-size: 0.78rem;
 	font-weight: 690;
 	text-transform: uppercase;
@@ -754,7 +768,7 @@ table {
 .context-outline__nav a {
 	display: block;
 	color: var(--site-muted);
-	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-family: var(--site-ui-font);
 	text-decoration: none;
 	line-height: 1.34;
 	overflow-wrap: normal;

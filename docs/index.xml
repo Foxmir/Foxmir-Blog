@@ -10,13 +10,13 @@
 <atom:link href="https://foxmir.github.io/Foxmir-Blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Fri, 20 Nov 2026 09:25:12 GMT</lastBuildDate>
+<lastBuildDate>Fri, 20 Nov 2026 09:45:48 GMT</lastBuildDate>
 <item>
   <title>Statistical Analysis of DQN on CartPole v1</title>
   <link>https://foxmir.github.io/Foxmir-Blog/publish/Reports/Statistical_Analysis_of_DQN_on_CartPole_v1.html</link>
   <description><![CDATA[ （Written on January 2, 2026 and completed on January 15, 2026） ]]></description>
   <guid>https://foxmir.github.io/Foxmir-Blog/publish/Reports/Statistical_Analysis_of_DQN_on_CartPole_v1.html</guid>
-  <pubDate>Fri, 20 Nov 2026 09:25:12 GMT</pubDate>
+  <pubDate>Fri, 20 Nov 2026 09:45:48 GMT</pubDate>
 </item>
 <item>
   <title>Early Reflections on Benchmark Design</title>

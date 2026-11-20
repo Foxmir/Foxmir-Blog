@@ -654,6 +654,15 @@ function New-LanguageSite {
         }
         Copy-Item -LiteralPath $avatarPath -Destination (Join-Path $avatarTargetDirectory 'foxmir-avatar.png') -Force
     }
+    # 英文字体：只复制到英文站点，中文站不带这个文件
+    if ($Language -eq 'en') {
+        $fontSource = Join-Path $project 'assets\fonts\InterVariable.woff2'
+        if (Test-Path -LiteralPath $fontSource) {
+            $fontTargetDirectory = Join-Path $SiteRoot 'assets\fonts'
+            New-Item -ItemType Directory -Path $fontTargetDirectory -Force | Out-Null
+            Copy-Item -LiteralPath $fontSource -Destination (Join-Path $fontTargetDirectory 'InterVariable.woff2') -Force
+        }
+    }
     $attachmentSource = Join-Path $publish '_attachments'
     if (Test-Path -LiteralPath $attachmentSource) {
         $attachmentTarget = Join-Path $SiteRoot 'publish\_attachments'
