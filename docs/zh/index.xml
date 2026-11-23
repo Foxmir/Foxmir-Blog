@@ -10,7 +10,14 @@
 <atom:link href="https://foxmir.github.io/Foxmir-Blog/zh/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Fri, 20 Nov 2026 05:18:34 GMT</lastBuildDate>
+<lastBuildDate>Mon, 23 Nov 2026 04:43:31 GMT</lastBuildDate>
+<item>
+  <title>RL读图：稳定=收敛=最优？</title>
+  <link>https://foxmir.github.io/Foxmir-Blog/zh/publish/Articles/Stable_Converged_Optimal_zh.html</link>
+  <description><![CDATA[ 在模型训练过程中： 1. 如果变量数值稳定了，这一定是好消息吗？ 2. 曲线稳了，算收敛吗？ 3. 如果它收敛了，我能说它是最优吗？ 4. 如果它是最优了，它一定表现好吗？ ]]></description>
+  <guid>https://foxmir.github.io/Foxmir-Blog/zh/publish/Articles/Stable_Converged_Optimal_zh.html</guid>
+  <pubDate>Mon, 23 Nov 2026 04:43:31 GMT</pubDate>
+</item>
 <item>
   <title>初涉benchmark时的设计反思</title>
   <link>https://foxmir.github.io/Foxmir-Blog/zh/publish/Learn/Early_Reflections_on_Benchmark_Design_zh.html</link>
@@ -38,13 +45,6 @@
   <description><![CDATA[ 在强化学习中，“奖励” 是一个看似简单，却极易在理论与实践中引起混淆的核心概念。 ]]></description>
   <guid>https://foxmir.github.io/Foxmir-Blog/zh/publish/Bits/Deconstructing_Reward_zh.html</guid>
   <pubDate>Fri, 20 Nov 2026 05:10:42 GMT</pubDate>
-</item>
-<item>
-  <title>RL读图：稳定=收敛=最优？</title>
-  <link>https://foxmir.github.io/Foxmir-Blog/zh/publish/Articles/Stable_Converged_Optimal_zh.html</link>
-  <description><![CDATA[ 在模型训练过程中： 1. 如果变量数值稳定了，这一定是好消息吗？ 2. 曲线稳了，算收敛吗？ 3. 如果它收敛了，我能说它是最优吗？ 4. 如果它是最优了，它一定表现好吗？ ]]></description>
-  <guid>https://foxmir.github.io/Foxmir-Blog/zh/publish/Articles/Stable_Converged_Optimal_zh.html</guid>
-  <pubDate>Fri, 20 Nov 2026 05:05:13 GMT</pubDate>
 </item>
 </channel>
 </rss>

@@ -21,11 +21,11 @@
     "listing": "/index.html",
     "items": [
       "/publish/Reports/Statistical_Analysis_of_DQN_on_CartPole_v1.html",
+      "/publish/Articles/Stable_Converged_Optimal.html",
       "/publish/Learn/Early_Reflections_on_Benchmark_Design.html",
       "/publish/Bits/Reward_Normalization_and_Scaling.html",
       "/publish/Bits/Dependencies_of_the_Reward_Function.html",
-      "/publish/Bits/Deconstructing_Reward.html",
-      "/publish/Articles/Stable_Converged_Optimal.html"
+      "/publish/Bits/Deconstructing_Reward.html"
     ]
   },
   {

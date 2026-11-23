@@ -10,11 +10,11 @@
   {
     "listing": "/index.html",
     "items": [
+      "/publish/Articles/Stable_Converged_Optimal_zh.html",
       "/publish/Learn/Early_Reflections_on_Benchmark_Design_zh.html",
       "/publish/Bits/Reward_Normalization_and_Scaling_zh.html",
       "/publish/Bits/Dependencies_of_the_Reward_Function_zh.html",
-      "/publish/Bits/Deconstructing_Reward_zh.html",
-      "/publish/Articles/Stable_Converged_Optimal_zh.html"
+      "/publish/Bits/Deconstructing_Reward_zh.html"
     ]
   },
   {

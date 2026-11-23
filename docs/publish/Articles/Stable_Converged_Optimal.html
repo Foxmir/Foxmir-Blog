@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-11-20">
+<meta name="dcterms.date" content="2026-11-23">
 
 <title>RL Chart Reading: Stable = Converged = Optimal? – Foxmir Blog</title>
 <style>
@@ -350,7 +350,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 20, 2026</p>
+      <p class="date">November 23, 2026</p>
     </div>
   </div>
   
@@ -382,8 +382,8 @@ window.Quarto = {
 <p>Without a doubt, stability, convergence, optimality, and performance quality are four distinct concepts. But under what circumstances do these concepts hold true? If one of them holds, can the others? And why?</p>
 <hr>
 </section>
-<section id="what-are-we-discussing" class="level2">
-<h2 class="anchored" data-anchor-id="what-are-we-discussing">1. What Are We Discussing?</h2>
+<section id="targets-of-each-concept" class="level2">
+<h2 class="anchored" data-anchor-id="targets-of-each-concept">1. Targets of Each Concept</h2>
 <blockquote class="blockquote">
 <ul>
 <li>Model parameters? Training metrics? Evaluation results? → Variables on the chart</li>
@@ -429,7 +429,7 @@ window.Quarto = {
 <p>From the moment it becomes stable, if you continue training, it might remain stable, or it might become unstable. The entire process might have involved variance gradually decreasing, or perhaps the variance remained high and it just coincidentally arrived at a stable point.</p>
 <p>Also, if you scale your chart, the perceived fluctuation amplitude will change. Scaling doesn’t change the values, but it changes the visual effect. So, even if it is numerically stable, it might look very unstable.</p>
 <p>Therefore, we usually look at a finalized chart, check if the numerical variation is small enough, and then declare it stable, either overall or during a specific phase.</p>
-<p>From this, you can naturally derive the relationship: convergence implies stability, but stability doesn’t imply convergence. Don’t try to memorize this as a rule—it’s too convoluted. Just understand what stability and convergence <em>are</em>, and the relationship becomes intuitive.</p>
+<p>From this, you can naturally derive the relationship: convergence implies stability, but stability doesn’t imply convergence. Don’t try to memorize this as a rule—it’s too convoluted. Just understand what stability and convergence are, and the relationship becomes intuitive.</p>
 <p>Take a typical curve: a variable goes through ups and downs, eventually shrinking to fluctuate between 9.99 and 10.01, but doesn’t shrink further. The final change amplitude is 0.02. This is small enough to claim it has stabilized. Furthermore, if, in practical terms, this fluctuation is negligible, we can even directly claim it has “approximate convergence” at a value of 10.</p>
 <hr>
 </section>
@@ -485,8 +485,8 @@ window.Quarto = {
 <p>The relationship is simple: the world champion is definitely the national champion, but the national champion is not necessarily the world champion.</p>
 <hr>
 </section>
-<section id="optimality-local-global-how-to-judge-optimality" class="level2">
-<h2 class="anchored" data-anchor-id="optimality-local-global-how-to-judge-optimality">3.3.1 Optimality: Local &amp; Global | How to Judge Optimality?</h2>
+<section id="optimality-local-global-how-to-judge-optimality-12" class="level2">
+<h2 class="anchored" data-anchor-id="optimality-local-global-how-to-judge-optimality-12">3.3 Optimality: Local &amp; Global | How to Judge Optimality? (1/2)</h2>
 <blockquote class="blockquote">
 <ol type="1">
 <li>Existence: <strong>Mathematically</strong>, does a global optimum exist?</li>
@@ -509,15 +509,21 @@ window.Quarto = {
 <p>But note: not all loss functions satisfy this, nor does gradient zero always mean a global optimum. We just gave an example of an unconstrained, differentiable, convex function. If there are constraints, you must check if the point satisfies them. If it does, and the gradient is zero for a differentiable convex function, then it’s a global optimum; if it doesn’t satisfy constraints, the solution is excluded, so it’s not optimal. Alternatively, if the optimum is not differentiable, you can’t use gradients to judge optimality. Or, if your objective function is non-convex, a point with gradient zero is not necessarily a global optimum.</p>
 <p>In summary, to use this criterion, the “optimization objective itself” must possess special mathematical structures. However, in deep neural networks—for example, in deep reinforcement learning—optimization objectives are usually highly complex and lack these nice properties of simple convex or concave functions, so this criterion is rarely useful.</p>
 <p>Third, approximating the target boundaries. You will likely use this criterion often, so we need to explain it in detail.</p>
-<p>There are two keywords here: “target” and “boundaries.” And it must be the boundaries <em>of the target</em>.</p>
+<p>There are two keywords here: “target” and “boundaries.” And it must be the boundaries of the target.</p>
 <hr>
 </section>
-<section id="optimality-local-global-how-to-judge-optimality-1" class="level2">
-<h2 class="anchored" data-anchor-id="optimality-local-global-how-to-judge-optimality-1">3.3.2 Optimality: Local &amp; Global | How to Judge Optimality?</h2>
+<section id="optimality-local-global-how-to-judge-optimality-22" class="level2">
+<h2 class="anchored" data-anchor-id="optimality-local-global-how-to-judge-optimality-22">3.3 Optimality: Local &amp; Global | How to Judge Optimality? （2/2）</h2>
 <blockquote class="blockquote">
 <ul>
-<li><p><strong>Approximating target boundaries</strong>: <strong>When the goal is to maximize expected return, reaching the maximum return is optimal</strong>: 1. We usually use evaluation performance to approximate expected return. 2. When evaluation performance approaches the target’s maximum limit, it can be considered “approximate global optimum.” 3. Example: The single-round maximum score for Cartpole-v1 with a 500-step limit is 500. If evaluation return is 495, and the 5-point gap is considered negligible, performance is approximately globally optimal. 4. Note: Not all RL environments have return boundaries, and even if they do, the environment might not support us reaching them; in these cases, optimality cannot be judged this way.</p></li>
-<li><p>Must clarify: what is the target?</p>
+<li><strong>Approximating target boundaries</strong>: <strong>When the goal is to maximize expected return, reaching the maximum return is optimal</strong>:
+<ol type="1">
+<li>We usually use <strong>evaluation performance</strong> to approximate expected return.</li>
+<li>When evaluation performance approaches the target’s maximum limit, it can be considered “approximate global optimum.”</li>
+<li>Example: The single-round maximum score for Cartpole-v1 with a 500-step limit is 500. If evaluation return is 495, and the 5-point gap is considered negligible, performance is approximately globally optimal.</li>
+<li><strong>Note</strong>: Not all RL environments have return boundaries, and even if they do, the environment might not support us reaching them; in these cases, optimality cannot be judged this way.</li>
+</ol></li>
+<li>Must clarify: what is the target?
 <ul>
 <li><strong>Supervised Learning</strong>: Target is “minimizing loss function (in evaluation/test set).” We seek optimality by pursuing the boundary of the loss function.</li>
 <li><strong>Reinforcement Learning</strong>: Target is “expected return.” Not loss function, or gradient norm. (In rare special cases, if loss function is negative expected return, <span class="math inline">\(L(\theta)=-J(\theta)\)</span>, then it can be used to judge optimality.)</li>
@@ -528,9 +534,9 @@ window.Quarto = {
 <p>True expected return is a theoretical concept; we can’t actually measure it. In reality, we use evaluation performance to approximate it.</p>
 <p>In games like Cartpole, where the max score is 500 per round, if you achieve 500 points with sufficient evaluation, you have reached a global optimum. Getting near 500 means you have reached an approximate global optimum.</p>
 <p>I can give an extreme example. Suppose in the same game, conditions remain the same, but I arbitrarily define a maximum of 2 points per round, and my training goal is to get the full score—which is 2 points. Then, obviously, you can reach 2 points with a little training. So, you can claim your parameters are globally optimal every time.</p>
-<p>But not all RL environments have return boundaries, and even if they do, environmental randomness might not allow us to reach them. So, your expected return must have a clear boundary, <em>and</em> your algorithm or environment must support reaching or approaching it for you to use this method to judge optimality.</p>
+<p>But not all RL environments have return boundaries, and even if they do, environmental randomness might not allow us to reach them. So, your expected return must have a clear boundary, and your algorithm or environment must support reaching or approaching it for you to use this method to judge optimality.</p>
 <p>In supervised learning, we can also aim to “minimize the loss function on the evaluation or test set.” For example, with Mean Squared Error (MSE), the theoretical lower bound is 0. If you reach this theoretical lower bound, your parameters are necessarily globally optimal.</p>
-<p>We just emphasized that we care about the boundaries <em>of the target</em>. Therefore, when “non-target” objects reach their own boundaries, it is often of no help in judging optimality. For example, in RL algorithms, although our goal is expected return, we also collect loss function and gradient norm values. The theoretical lower bound of the gradient norm is 0, and some loss functions, like MSE, have a theoretical lower bound of 0.</p>
+<p>We just emphasized that we care about the boundaries of the target. Therefore, when “non-target” objects reach their own boundaries, it is often of no help in judging optimality. For example, in RL algorithms, although our goal is expected return, we also collect loss function and gradient norm values. The theoretical lower bound of the gradient norm is 0, and some loss functions, like MSE, have a theoretical lower bound of 0.</p>
 <p>In RL, the loss function is usually used at different stages of the algorithm, in different logical chains, acting as an intermediate tool to fit local samples, and it often reflects the loss value of a single batch during the “training process.” Minimizing the loss function of a single batch during training and our goal—maximizing expected return during evaluation—are not mathematically coordinated.</p>
 <p>A gradient norm reaching a boundary of 0 may indeed be a local or global optimum, but it could also be a saddle point or a plateau. So, if it reaches a boundary, the loss function may not have reached its boundary, and the expected return is not necessarily optimal.</p>
 <p>But of course, a gradient reaching 0 has value. As we mentioned above, when the “optimization target itself” has a specific mathematical structure, such as the unconstrained differentiable convex function mentioned earlier, a gradient of 0 can directly represent having attained a global optimum.</p>
@@ -551,8 +557,8 @@ window.Quarto = {
 <p>First, the phenomenon is clear, and the inference that the model is in a local optimum is indeed possible, but evidence is insufficient.</p>
 <p>A stagnant curve indicates that the training effect of current parameters has not improved further; it does not mean that there are no better parameters in the vicinity of the current parameters. It is entirely possible that there is a better parameter combination in the neighborhood—right nearby—but if we are currently at a saddle point or on a plateau, causing parameter updates to be almost non-existent, performance can also be stagnant.</p>
 <p>Training curves only provide information about the parameters along their own path; we don’t have enough information about the surrounding parameter space, so this expression is usually just a convenient mechanistic speculation.</p>
-<p>In practical engineering, even without knowing the mechanism, you can perform speculative diagnosis: roughly guess a few of the most likely directions, then make experimental modifications, and run it again to see. We <em>do</em> hope that training can yield better results again and again. But optimality is not a necessary condition for a training result to be acceptable.</p>
-<p>In practical engineering, we generally pursue a “good enough” result, not an optimal one. Of course, your “good enough” result could <em>also</em> be optimal, but that’s beside the point.</p>
+<p>In practical engineering, even without knowing the mechanism, you can perform speculative diagnosis: roughly guess a few of the most likely directions, then make experimental modifications, and run it again to see. We do hope that training can yield better results again and again. But optimality is not a necessary condition for a training result to be acceptable.</p>
+<p>In practical engineering, we generally pursue a “good enough” result, not an optimal one. Of course, your “good enough” result could also be optimal, but that’s beside the point.</p>
 <p>What is “good enough”? Simply put, it’s whatever satisfies you. If, given the resources you can provide, you’ve reached your established standard, that’s good enough, and you can stop training. Even if there exists a set of parameters with even better performance than your defined standard, it doesn’t matter, because that belongs to a different project.</p>
 <hr>
 </section>
@@ -614,30 +620,31 @@ window.Quarto = {
 <hr>
 </section>
 <section id="review-questions-answers-12" class="level2">
-<h2 class="anchored" data-anchor-id="review-questions-answers-12">5.2 Review | Questions &amp; Answers 1/2</h2>
+<h2 class="anchored" data-anchor-id="review-questions-answers-12">5.2 Review | Questions &amp; Answers (1/2)</h2>
 <blockquote class="blockquote">
 <ol type="1">
-<li><p>If variable values stabilize, is this always good news? — Not necessarily; it could be stable at poor performance.</p></li>
-<li><p>If the curve is stable, does it count as converged? — Not necessarily; it depends on whether it converged to a fixed value / or if the fluctuation is negligible.</p></li>
-<li><p>If it has converged, can I say it’s optimal? — Not necessarily; it no longer changes over time, but that doesn’t mean there aren’t better solutions around it.</p></li>
-<li><p>If it’s optimal, does it perform well? — Not necessarily; it could be a bad model, where the maximum score of a bad model is still bad performance.</p></li>
-<li><p>My reward fluctuates wildly, but final performance is near-perfect; is it a global optimum? — Yes, but more accurately, an “approximate global optimum.” It is currently the best solution, which is independent of the intermediate process.</p></li>
-<li><p>If the gradient norm remains near zero for a long time, am I at a local or global optimum?&nbsp;— Not necessarily. For a non-convex function, having a zero (or near-zero) gradient may simply mean you are at a saddle point or on a plateau—not even at a local optimum. Even if you are genuinely at a local optimum, without information about the landscape farther away, you cannot infer global optimality. However, for an unconstrained, differentiable convex loss function, a gradient of zero&nbsp;does&nbsp;certify a global optimum for the loss.</p></li>
-<li><p>If performance stops increasing, is it the global optimum, or stuck in a local one? — <strong>Not necessarily either one.</strong>&nbsp;Just because performance is stagnant doesn’t mean your solution is better than surrounding ones.</p></li>
+<li><p><strong>If variable values stabilize, is this always good news</strong>? — Not necessarily; it could be stable at poor performance.</p></li>
+<li><p><strong>If the curve is stable, does it count as converged</strong>? — Not necessarily; it depends on whether it converged to a fixed value / or if the fluctuation is negligible.</p></li>
+<li><p><strong>If it has converged, can I say it’s optimal</strong>? — Not necessarily; it no longer changes over time, but that doesn’t mean there aren’t better solutions around it.</p></li>
+<li><p><strong>If it’s optimal, does it perform well</strong>? — Not necessarily; it could be a bad model, where the maximum score of a bad model is still bad performance.</p></li>
+<li><p><strong>My reward fluctuates wildly, but final performance is near-perfect; is it a global optimum</strong>? — Yes, but more accurately, an “approximate global optimum.” It is currently the best solution, which is independent of the intermediate process.</p></li>
+<li><p><strong>If the gradient norm remains near zero for a long time, am I at a local or global optimum</strong>?&nbsp;— Not necessarily. For a non-convex function, having a zero (or near-zero) gradient may simply mean you are at a saddle point or on a plateau—not even at a local optimum. Even if you are genuinely at a local optimum, without information about the landscape farther away, you cannot infer global optimality. However, for an unconstrained, differentiable convex loss function, a gradient of zero&nbsp;does&nbsp;certify a global optimum for the loss.</p></li>
+<li><p><strong>If performance stops increasing, is it the global optimum, or stuck in a local one</strong>? — Not necessarily either one.&nbsp;Just because performance is stagnant doesn’t mean your solution is better than surrounding ones.</p></li>
 </ol>
 </blockquote>
 <hr>
 </section>
 <section id="review-questions-answers-22" class="level2">
-<h2 class="anchored" data-anchor-id="review-questions-answers-22">5.3 Review | Questions &amp; Answers 2/2</h2>
+<h2 class="anchored" data-anchor-id="review-questions-answers-22">5.3 Review | Questions &amp; Answers (2/2)</h2>
 <blockquote class="blockquote">
 <ol start="8" type="1">
-<li>High reward finally appears; should I stop training immediately? What if it drops again?</li>
-<li>As long as the goal is achieved, you are qualified to stop. The key isn’t whether the curve looks pretty or stable, but whether your goal is met. (Whether your goal setting is reasonable is a different matter.)</li>
-<li>If you don’t just care about a single high reward, but expect training to yield more high rewards, or more stable high rewards, your goal itself should include requirements such as average round return, high-score ratio, standard deviation/variance, etc. It depends on your specific needs.</li>
-<li>Whatever your goal, continuing training may lead to performance decline, but that doesn’t necessarily threaten the current goal.
+<li><strong>High reward finally appears; should I stop training immediately? What if it drops again</strong>?</li>
+<li><strong>As long as the goal is achieved, you are qualified to stop</strong>. The key isn’t whether the curve looks pretty or stable, but whether your goal is met. (Whether your goal setting is reasonable is a different matter.)</li>
+<li>If you don’t just care about a single high reward, but <strong>expect training to yield more high rewards, or more stable high rewards</strong>, your goal itself should include requirements such as average round return, high-score ratio, standard deviation/variance, etc. It depends on your specific needs.</li>
+<li><strong>Whatever your goal, continuing training may lead to performance decline, but that doesn’t necessarily threaten the current goal</strong>.
 <ol type="1">
-<li>If you keep the current model and its usage fixed, if the environment and evaluation conditions also remain the same, then the expected return naturally remains the same (though single-evaluation results may still fluctuate).</li>
+<li>If you don’t want the model parameters degraded in subsequent training, save them immediately—you can revert to this parameter version anytime during later training.</li>
+<li>If you keep the current model and its usage fixed, and the environment and evaluation conditions also remain the same, then the expected return naturally remains the same (though single-evaluation results may still fluctuate).</li>
 <li>If you guarantee using the current version of model parameters, but the environment or evaluation criteria keep changing, maintaining good performance is difficult. If you have such stability requirements, you can pursue a robustness goal across multiple environments and conditions from the start.</li>
 </ol></li>
 </ol>
