@@ -10,20 +10,20 @@
 <atom:link href="https://foxmir.github.io/Foxmir-Blog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Mon, 23 Nov 2026 04:44:10 GMT</lastBuildDate>
+<lastBuildDate>Tue, 24 Nov 2026 06:42:14 GMT</lastBuildDate>
 <item>
   <title>Statistical Analysis of DQN on CartPole v1</title>
   <link>https://foxmir.github.io/Foxmir-Blog/publish/Reports/Statistical_Analysis_of_DQN_on_CartPole_v1.html</link>
   <description><![CDATA[ （Written on January 2, 2026 and completed on January 15, 2026） ]]></description>
   <guid>https://foxmir.github.io/Foxmir-Blog/publish/Reports/Statistical_Analysis_of_DQN_on_CartPole_v1.html</guid>
-  <pubDate>Mon, 23 Nov 2026 04:44:10 GMT</pubDate>
+  <pubDate>Tue, 24 Nov 2026 06:42:14 GMT</pubDate>
 </item>
 <item>
   <title>RL Chart Reading: Stable = Converged = Optimal?</title>
   <link>https://foxmir.github.io/Foxmir-Blog/publish/Articles/Stable_Converged_Optimal.html</link>
-  <description><![CDATA[ In model training: 1. If variable values stabilize, is this always good news? 2. If the curve is stable, does it count as converged? 3. If it has converged, can I say it’s optimal? 4. If it’s optimal, does it perform well? ]]></description>
+  <description><![CDATA[ In model training: 1. If variable values stabilize, is this always good news? 2. If the curve is stable, does it count as converged? 3. If it has converged, can I say it’s optimal? 4. If it’s optimal, does it necessarily perform well? ]]></description>
   <guid>https://foxmir.github.io/Foxmir-Blog/publish/Articles/Stable_Converged_Optimal.html</guid>
-  <pubDate>Mon, 23 Nov 2026 04:43:31 GMT</pubDate>
+  <pubDate>Tue, 24 Nov 2026 06:41:49 GMT</pubDate>
 </item>
 <item>
   <title>Early Reflections on Benchmark Design</title>
